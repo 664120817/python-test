@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>415</width>
+    <height>567</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="4">
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>27</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="CaculatorBtn" name="pushButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>AC</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>lightgray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>clear</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="CaculatorBtn" name="pushButton_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>+/-</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>lightgray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="CaculatorBtn" name="pushButton_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>%</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>lightgray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="CaculatorBtn" name="pushButton_4">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>/</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>orange</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>operator</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="CaculatorBtn" name="pushButton_6">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>7</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="CaculatorBtn" name="pushButton_8">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>8</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="CaculatorBtn" name="pushButton_7">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>9</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="CaculatorBtn" name="pushButton_5">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>*</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>orange</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>operator</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="CaculatorBtn" name="pushButton_10">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>4</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="CaculatorBtn" name="pushButton_12">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>5</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="CaculatorBtn" name="pushButton_11">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>6</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="CaculatorBtn" name="pushButton_9">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>-</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>orange</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>operator</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="CaculatorBtn" name="pushButton_14">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="CaculatorBtn" name="pushButton_16">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>2</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="CaculatorBtn" name="pushButton_15">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>3</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="CaculatorBtn" name="pushButton_13">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>+</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>orange</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>operator</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="CaculatorBtn" name="pushButton_18">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="CaculatorBtn" name="pushButton_19">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>.</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>gray</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>num</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="CaculatorBtn" name="pushButton_17">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>=</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+     <property name="bg" stdset="0">
+      <string>equal</string>
+     </property>
+     <property name="role" stdset="0">
+      <string>caculate</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CaculatorBtn</class>
+   <extends>QPushButton</extends>
+   <header>Caculator_Btn</header>
+   <slots>
+    <signal>key_pressed()</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-86</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>483</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>273</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>506</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>585</x>
+     <y>94</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_9</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>371</x>
+     <y>311</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>522</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_13</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>396</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>568</x>
+     <y>400</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_17</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>364</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>575</x>
+     <y>495</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_7</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>254</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>573</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_11</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>260</x>
+     <y>294</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>612</x>
+     <y>307</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_15</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>393</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>627</x>
+     <y>387</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_19</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>252</x>
+     <y>483</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>610</x>
+     <y>461</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>65</x>
+     <y>205</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-84</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_8</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-69</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_10</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-152</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_12</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-29</x>
+     <y>318</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_14</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-48</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_16</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>409</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-77</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_18</sender>
+   <signal>key_pressed()</signal>
+   <receiver>Form</receiver>
+   <slot>get_key()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-62</x>
+     <y>482</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>get_key()</slot>
+ </slots>
+</ui>

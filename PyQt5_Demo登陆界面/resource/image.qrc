@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="reqister">
+    <file>images/register_background.jpg.jpg</file>
+  </qresource>
+  <qresource prefix="login">
+    <file>images/logni_top_bg1.gif</file>
+    <file>images/9.gif</file>
+    <file>images/QQ图片20190227192534.png</file>
+    <file>images/logni_btn_icon.jpg</file>
+    <file>images/logni_combobox_icon.jpg</file>
+    <file>images/logni_item_icon1.jpg</file>
+    <file>images/logni_item_icon2.jpg</file>
+    <file>images/logni_top_bg.gif</file>
+  </qresource>
+</RCC>

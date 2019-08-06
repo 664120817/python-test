@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>771</width>
+    <height>203</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>449</width>
+    <height>203</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(175, 175, 175);</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" rowstretch="1,2,2,1,1,1">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>座位席别</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QRadioButton" name="radioButton">
+     <property name="text">
+      <string>无座</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>WZ</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QRadioButton" name="radioButton_2">
+     <property name="text">
+      <string>一等座</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>M</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QRadioButton" name="radioButton_3">
+     <property name="text">
+      <string>二等座</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>O</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QRadioButton" name="radioButton_4">
+     <property name="text">
+      <string>动卧</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>M</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QRadioButton" name="radioButton_9">
+     <property name="text">
+      <string>硬卧</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>3</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QRadioButton" name="radioButton_5">
+     <property name="text">
+      <string>软卧</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>4</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QRadioButton" name="radioButton_7">
+     <property name="text">
+      <string>高级软卧</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>6</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QRadioButton" name="radioButton_6">
+     <property name="text">
+      <string>商务座</string>
+     </property>
+     <property name="val" stdset="0">
+      <string>9</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QRadioButton" name="radioButton_8">
+     <property name="text">
+      <string>硬座</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <property name="val" stdset="0">
+      <string>1</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroup</string>
+     </attribute>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>请输入你的手机号码</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="5">
+    <widget class="QLineEdit" name="phone_num_le">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>确认</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="text">
+      <string>取消</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>confirm()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>759</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>893</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>cancel_query()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>570</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>803</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>confirm()</slot>
+  <slot>cancel_query()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>
