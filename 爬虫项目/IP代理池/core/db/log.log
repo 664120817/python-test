@@ -1,0 +1,31 @@
+2019-08-12 18:37:36---35----root: 插入新的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': [], '_id': '117.80.86.239'}
+2019-08-12 18:49:34---37----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 18:54:48---37----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 18:55:06---37----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 18:56:18---37----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 18:57:49---37----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:27:05---37----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:34:06---38----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:35:11---38----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:36:04---38----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:36:14---38----root: 已存在的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:39:26---46----root: 删除代理IP：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': []}
+2019-08-12 20:45:13---36----root: 插入新的代理：{'ip': '117.80.86.239', 'port': '3128', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': [], '_id': '117.80.86.239'}
+2019-08-12 20:45:37---36----root: 插入新的代理：{'ip': '39.137.69.7', 'port': '80', 'portocol': -1, 'nick_type': -1, 'speed': -1, 'area': None, 'score': 50, 'disable_domains': [], '_id': '39.137.69.7'}
+2019-08-12 21:24:52---41----root: 插入新的代理：{'ip': '117.80.86.222', 'port': '8060', 'portocol': 0, 'nick_type': 0, 'speed': 8.2, 'area': None, 'score': 50, 'disable_domains': ['jd.com'], '_id': '117.80.86.222'}
+2019-08-12 21:25:04---41----root: 插入新的代理：{'ip': '117.80.86.282', 'port': '8080', 'portocol': 1, 'nick_type': 0, 'speed': 2.2, 'area': None, 'score': 50, 'disable_domains': ['taobao.com'], '_id': '117.80.86.282'}
+2019-08-12 21:25:13---41----root: 插入新的代理：{'ip': '117.80.86.452', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 1, 'area': None, 'score': 50, 'disable_domains': ['jd.com'], '_id': '117.80.86.452'}
+2019-08-12 21:25:25---41----root: 插入新的代理：{'ip': '117.80.87.232', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 2, 'area': None, 'score': 45, 'disable_domains': [], '_id': '117.80.87.232'}
+2019-08-12 21:26:32---43----root: 已存在的代理：{'ip': '117.80.87.232', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 2, 'area': None, 'score': 45, 'disable_domains': []}
+2019-08-12 21:27:21---41----root: 插入新的代理：{'ip': '117.80.87.333', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 4, 'area': None, 'score': 35, 'disable_domains': ['taobao'], '_id': '117.80.87.333'}
+2019-08-12 22:18:21---44----root: 已存在的代理：{'ip': '117.80.86.222', 'port': '8060', 'portocol': 0, 'nick_type': 0, 'speed': 8.2, 'area': None, 'score': 50, 'disable_domains': ['jd.com']}
+2019-08-12 22:18:38---42----root: 插入新的代理：{'ip': '117.80.86.221', 'port': '8060', 'portocol': 0, 'nick_type': 0, 'speed': 8.2, 'area': None, 'score': 50, 'disable_domains': ['jd.com'], '_id': '117.80.86.221'}
+2019-08-12 22:18:54---42----root: 插入新的代理：{'ip': '117.80.86.283', 'port': '8080', 'portocol': 1, 'nick_type': 0, 'speed': 2.2, 'area': None, 'score': 50, 'disable_domains': ['taobao.com'], '_id': '117.80.86.283'}
+2019-08-12 22:19:07---42----root: 插入新的代理：{'ip': '117.80.86.454', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 1, 'area': None, 'score': 50, 'disable_domains': ['jd.com'], '_id': '117.80.86.454'}
+2019-08-12 22:19:17---42----root: 插入新的代理：{'ip': '117.80.87.235', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 2, 'area': None, 'score': 45, 'disable_domains': [], '_id': '117.80.87.235'}
+2019-08-12 22:19:26---42----root: 插入新的代理：{'ip': '117.80.87.336', 'port': '8060', 'portocol': 2, 'nick_type': 0, 'speed': 4, 'area': None, 'score': 35, 'disable_domains': ['taobao'], '_id': '117.80.87.336'}
+2019-08-12 22:23:12---42----root: 插入新的代理：{'ip': '117.80.87.888', 'port': '8060', 'protocol': 2, 'nick_type': 0, 'speed': 4, 'area': None, 'score': 35, 'disable_domains': ['taobao'], '_id': '117.80.87.888'}
+2019-08-12 22:26:44---42----root: 插入新的代理：{'ip': '117.80.87.999', 'port': '8060', 'protocol': 1, 'nick_type': 0, 'speed': 2.9, 'area': None, 'score': 48, 'disable_domains': ['taobao.com'], '_id': '117.80.87.999'}
+2019-08-12 22:27:11---42----root: 插入新的代理：{'ip': '117.80.87.295', 'port': '8060', 'protocol': 2, 'nick_type': 0, 'speed': 2, 'area': None, 'score': 45, 'disable_domains': [], '_id': '117.80.87.295'}
+2019-08-12 22:27:27---42----root: 插入新的代理：{'ip': '117.80.86.876', 'port': '8060', 'protocol': 2, 'nick_type': 0, 'speed': 1, 'area': None, 'score': 50, 'disable_domains': ['jd.com'], '_id': '117.80.86.876'}
+2019-08-12 22:27:40---42----root: 插入新的代理：{'ip': '117.80.86.983', 'port': '8080', 'protocol': 1, 'nick_type': 0, 'speed': 2.2, 'area': None, 'score': 50, 'disable_domains': ['taobao.com'], '_id': '117.80.86.983'}
