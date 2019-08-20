@@ -12,9 +12,9 @@
 
 """
 from multiprocessing import Process
-from 我爱自学.IP代理池.core.proxy_spider.run_spiders import RunSpider
-from 我爱自学.IP代理池.core.proxy_test import ProxyTester
-from 我爱自学.IP代理池.core.proxy_api import ProxyApi
+from core.proxy_spider.run_spiders import RunSpider
+from core.proxy_test import ProxyTester
+from core.proxy_api import ProxyApi
 def run():
     # 2，定义一个列表，用于存储要启动的进程
     process_list=[]

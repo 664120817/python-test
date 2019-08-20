@@ -16,10 +16,10 @@
 import time
 import json
 import requests
-from 我爱自学.IP代理池.utils.http import get_request_headers
-from 我爱自学.IP代理池.settings import TEST_TIMEOUT
-from 我爱自学.IP代理池.utils.log import logger
-from 我爱自学.IP代理池.domain import Proxy
+from utils.http import get_request_headers
+from settings import TEST_TIMEOUT
+from utils.log import logger
+from domain import Proxy
 def check_proxy(proxy):
     """
     用于检查指定 代理IP 响应速度，匿名程度，支持协议类型

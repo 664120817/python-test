@@ -1,7 +1,7 @@
 import sys
 import logging
 #导入settings配置信息
-from 我爱自学.IP代理池.settings import LOG_FMT,LOG_DATEFMT,LOG_FILENAME,LOG_LEVEL
+from settings import LOG_FMT,LOG_DATEFMT,LOG_FILENAME,LOG_LEVEL
 
 class Logger(object):
     def __init__(self):

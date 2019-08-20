@@ -29,10 +29,10 @@ monkey.patch_all()
 #导入协程池
 from gevent.pool import Pool
 import importlib,schedule,time
-from 我爱自学.IP代理池.utils.log import logger
-from 我爱自学.IP代理池.settings import PROXIES_SPIDERS,RUN_SPIDERS_INTERVAL
-from 我爱自学.IP代理池.core.db.mongo_pool import MongoPool
-from 我爱自学.IP代理池.core.proxy_vaildate.httpbin_validator import check_proxy
+from utils.log import logger
+from settings import PROXIES_SPIDERS,RUN_SPIDERS_INTERVAL
+from core.db.mongo_pool import MongoPool
+from core.proxy_vaildate.httpbin_validator import check_proxy
 class RunSpider(object):
     def __init__(self):
         #在init中，建立数据连接，获取要操作的集合
@@ -44,7 +44,7 @@ class RunSpider(object):
         #根据配置文件信息，获取爬虫对象列表
         #遍历配置文件中爬虫信息，获取每个爬虫全类名
         for full_class_name in PROXIES_SPIDERS:
-            #我爱自学.IP代理池.core.proxy_spider.proxy_spiders.XiciSpider
+            #core.proxy_spider.proxy_spiders.XiciSpider
             #获取模块名 和 类名
             module_name, class_name = full_class_name.rsplit('.', maxsplit=1)
             # 根据模块名，导入模块

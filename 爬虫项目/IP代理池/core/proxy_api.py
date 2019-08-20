@@ -22,8 +22,8 @@
 """
 import json
 from flask import Flask,request
-from 我爱自学.IP代理池.core.db.mongo_pool import MongoPool
-from 我爱自学.IP代理池.settings import PROXIES_MAX_COUNT
+from core.db.mongo_pool import MongoPool
+from settings import PROXIES_MAX_COUNT
 class ProxyApi():
     def __init__(self):
         #初始一个Flask的web服务

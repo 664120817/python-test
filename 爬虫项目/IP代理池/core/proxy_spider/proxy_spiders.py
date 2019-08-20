@@ -3,9 +3,9 @@
 定义一个类，继承通用爬虫类（BasicSpider）
 提供urls,group_xpath 和 detail_xpath
 """
-from 我爱自学.IP代理池.core.proxy_spider.base_spider import BaseSpider
+from core.proxy_spider.base_spider import BaseSpider
 import time,random,requests,re
-from 我爱自学.IP代理池.utils.http import get_request_headers
+from utils.http import get_request_headers
 class XiciSpider(BaseSpider):
     #准备URL列表
     urls = ['http://www.xicidaili.com/nn/{}'.format(i) for i in range(1,10)]

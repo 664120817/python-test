@@ -1,4 +1,4 @@
-from 我爱自学.IP代理池.settings import MAX_SCORE
+from settings import MAX_SCORE
 
 class Proxy(object):
     def __init__(self,ip,port,protocol=-1,nick_type=-1,speed=-1,area=None,score=MAX_SCORE,disable_domains=[]):

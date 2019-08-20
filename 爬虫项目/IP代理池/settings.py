@@ -16,11 +16,11 @@ MONGO_URL='mongodb://localhost:27017/'
 
 #爬虫全类名，路径：模块.类名
 PROXIES_SPIDERS=[
-'我爱自学.IP代理池.core.proxy_spider.proxy_spiders.XiciSpider',
-'我爱自学.IP代理池.core.proxy_spider.proxy_spiders.IP3366Spider',
-'我爱自学.IP代理池.core.proxy_spider.proxy_spiders.KDLSpider',
-'我爱自学.IP代理池.core.proxy_spider.proxy_spiders.PLLSpider',
-# '我爱自学.IP代理池.core.proxy_spider.proxy_spiders.Ip66Spider',
+'core.proxy_spider.proxy_spiders.XiciSpider',
+'core.proxy_spider.proxy_spiders.IP3366Spider',
+'core.proxy_spider.proxy_spiders.KDLSpider',
+'core.proxy_spider.proxy_spiders.PLLSpider',
+# 'core.proxy_spider.proxy_spiders.Ip66Spider',
 ]
 
 # 修改配置文件，增加爬虫运行时间间隔的配置，单位为小时

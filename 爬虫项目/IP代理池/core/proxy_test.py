@@ -24,9 +24,9 @@ monkey.patch_all()
 from gevent.pool import Pool
 import schedule,time
 from queue import Queue
-from 我爱自学.IP代理池.core.db.mongo_pool import MongoPool
-from 我爱自学.IP代理池.settings import MAX_SCORE,TEST_PROXIES_ASYNC_COUNT,TEST_PROXIES_INTERVAL
-from 我爱自学.IP代理池.core.proxy_vaildate.httpbin_validator import check_proxy
+from core.db.mongo_pool import MongoPool
+from settings import MAX_SCORE,TEST_PROXIES_ASYNC_COUNT,TEST_PROXIES_INTERVAL
+from core.proxy_vaildate.httpbin_validator import check_proxy
 class ProxyTester():
     def __init__(self):
         #创建操作数据库的MonggoPool对象

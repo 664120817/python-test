@@ -15,8 +15,8 @@
 import time
 import requests
 from lxml import etree
-from 我爱自学.IP代理池.domain import Proxy
-from 我爱自学.IP代理池.utils.http import get_request_headers
+from domain import Proxy
+from utils.http import get_request_headers
 
 # 定义一个BaseSpider类，继承objet
 class  BaseSpider(object):

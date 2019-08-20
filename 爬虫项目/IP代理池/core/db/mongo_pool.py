@@ -17,9 +17,9 @@
 """
 import pymongo,random
 from pymongo import MongoClient
-from 我爱自学.IP代理池.settings import MONGO_URL
-from 我爱自学.IP代理池.utils.log import logger
-from 我爱自学.IP代理池.domain import Proxy
+from settings import MONGO_URL
+from utils.log import logger
+from domain import Proxy
 class MongoPool(object):
     def __init__(self):
         #在init中，建立数据连接，获取要操作的集合
