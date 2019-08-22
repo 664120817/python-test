@@ -91,7 +91,7 @@ class Datapacket():
         data+=self.type.to_bytes(2,byteorder='little',signed=False) #处理消息类型 signed=False设置无符号
         data += self.encrypt_flag.to_bytes(1,byteorder='little',signed=False)#处理加密字段
         data += self.preserve_flag.to_bytes(1,byteorder='little',signed=False)# 处理保留字段
-        data += self.content.encode('utf-8') #处理数据内容
+        data += self.content.encode('GBK') #处理数据内容
         #数据结束要添加 \0 数据
         data+=b'\0'
         return data
@@ -237,23 +237,26 @@ def data_callback(client,dp):
     """
     resp_data =decode_to_dict(dp.content)
     # print(resp_data)
-    if resp_data["type"] =="loginres":
-        #调用加入分组请求
-        client.join_room_group()
-        # print("登陆成功",resp_data)
-        # print("data_callback:", resp_data)
-    elif resp_data["type"]=="chatmsg":
-        print("{}:{}".format(resp_data["nn"],resp_data["txt"]))
+    try:
+        if resp_data["type"] =="loginres":
+            #调用加入分组请求
+            client.join_room_group()
+            # print("登陆成功",resp_data)
+            # print("data_callback:", resp_data)
+        elif resp_data["type"]=="chatmsg":
+            print("{}:{}".format(resp_data["nn"],resp_data["txt"]))
+            pass
+        elif resp_data["type"]=="onlinegift":#暴击鱼丸
+            print("暴击鱼丸")
+        elif resp_data["type"] == "uenter":
+            print("{} 进入房间".format(resp_data["nn"]))
+    except Exception:
         pass
-    elif resp_data["type"]=="onlinegift":#暴击鱼丸
-        print("暴击鱼丸")
-    elif resp_data["type"] == "uenter":
-        print("{} 进入房间".format(resp_data["nn"]))
 
 if __name__ == "__main__":
     client=DouyuClient('openbarrage.douyutv.com',8601,callback=data_callback)
     #开始启动运行循环
-    client.login_room_id('1360423')
+    client.login_room_id('4403598')
     asyncore.loop(timeout=10)
     # data={
     #     "a":"b@d",
