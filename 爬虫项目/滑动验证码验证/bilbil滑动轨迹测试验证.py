@@ -16,8 +16,8 @@ class Bilibili(object):
         self.driver=webdriver.Chrome()#创建浏览器对象
         self.driver.implicitly_wait(3)#隐士等待时间
         self.url ='https://passport.bilibili.com/login'
-        self.user="13349851825"
-        self.pwd="4786874"
+        self.user="664120817"
+        self.pwd="*******"
         self.wait=WebDriverWait(self.driver,5)
     def input_user_pwd(self):
         #来登陆页面
