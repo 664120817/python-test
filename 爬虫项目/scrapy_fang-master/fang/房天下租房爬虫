@@ -1,0 +1,39 @@
+房天下二手房爬虫
+表结构字段：
+id。   
+cityid   440100
+cityname 广州。 
+distid   区域id  例如BY
+distname  distname 白云区
+publishtime 发布时间
+rentarea 出租面积
+roomcnt 几室房 
+totalprice  总价 
+unitprice 单价
+commname  小区名 
+
+----------------------------------------------------------------------
+页面分析
+
+
+起始url：https://gz.zu.fang.com/
+https://gz.zu.fang.com/house/i32/
+https://gz.zu.fang.com/house/i33/
+…………
+https://gz.zu.fang.com/house/i399/
+https://gz.zu.fang.com/house/i3100/
+
+Xpath 解析。https://gz.zu.fang.com/ 房天下广州租房网站
+
+
+
+
+————————————————————————————————————————————————————————————————————————————————————
+
+安居客租房网站
+https://gz.zu.anjuke.com/
+
+https://gz.zu.anjuke.com/fangyuan/p1/
+https://gz.zu.anjuke.com/fangyuan/p2/
+https://gz.zu.anjuke.com/fangyuan/p3/
+
