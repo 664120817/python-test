@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 
 # Scrapy settings for zhihuuser project
 #
@@ -56,7 +56,7 @@ DEFAULT_REQUEST_HEADERS = {
 DOWNLOADER_MIDDLEWARES = {
   # 'zhihuuser.middlewares.ZhihuuserSpiderMiddleware': 543,
 'zhihuuser.middlewares.UserAgentDownloadMiddleware': 541,
-'zhihuuser.middlewares.ProxyMiddleware': 512,
+#'zhihuuser.middlewares.ProxyMiddleware': 512,
 
 
 }
@@ -109,6 +109,6 @@ SCHEDULER_PERSIST=True #实现断点续爬
 # REDIS_URL='redis://[password]@host:port'
 
 #设置连接redis的信息  和上面是同一种写法
-REDIS_HOST='192.168.2.110' #服务器IP地址
+REDIS_HOST='192.168.2.111' #服务器IP地址
 REDIS_PORT=6379
 # REDIS_PASSWORD ='foobared'

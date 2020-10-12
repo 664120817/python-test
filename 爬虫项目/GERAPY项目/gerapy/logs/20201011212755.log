@@ -1,0 +1,2 @@
+INFO - 2020-10-11 21:27:56,778 - process: 12472 - scheduler.py - gerapy.server.core.scheduler - 102 - scheduler - successfully synced task with jobs with force
+INFO - 2020-10-11 21:40:54,922 - process: 12472 - build.py - gerapy.server.core.build - 24 - build - successfully build project tech to egg file C:\Users\Administrator\Desktop\爬虫\我爱自学\爬虫项目\GERAPY项目\gerapy\projects\tech\project-1.0-py3.7.egg
