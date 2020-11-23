@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>表格登记</title>
+</head>
+<style type="text/css">
+    .hao_nav{margin: 1rem 30% ;font-size: 1rem}
+    body{background-color: #a8fff3;}
+    /*div{padding-left: 1rem}*/
+    input{font-size: 1.1rem}
+
+
+</style>
+
+<body>
+<div class="hao_nav"> <a href=http://www.hao321.co>www.hao321.co  </a></div>
+<div>
+<form action="./xqdj.py" target="_blank" method="get" id ="myform1">
+     小区名称：<input type ="text"  name="xq" value="小区名称"> <br><br>
+     人员登记：<input type="text"  name="user" placeholder="请输入姓名" size="" autofocus><br><br>
+     联系电话：<input type="text" name="tel" maxlength="11"><br><br>
+     家庭住址：<input type="text"  name="address" placeholder="请填写详细的地址" size="" ><br><br>
+     备注 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp：<input type="text"  name="bz" value="武汉加油"><br><br>
+    <!--提示：<input type="text" disabled="disabled" value="提示框 仅供提示 不起任何作用">-->
+    <!--<input type="submit"> <input type="reset"> <input type="button" style="" value="自定义按钮">-->
+    <label>性别：</label>
+    <select name = "sex">
+        <option value="男">男</option>
+        <option value="女">女</option>
+    </select>
+    &nbsp&nbsp&nbsp&nbsp<input type="submit" > &nbsp&nbsp&nbsp&nbsp<input type="reset">
+</form>
+</div>
+</body>
+</html>

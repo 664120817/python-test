@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物数据</title>
+    <style type="text/css">
+		body：{width: 100%}
+
+		.hao_nav{width: 30%;margin: 1rem auto ;font-size: 1.5rem; }
+		.hao_nav p{font-size: 0.2rem;}
+		a{text-decoration:none}
+        table{margin:1rem auto;width: 100%}
+        table th{padding:0 0.9rem}
+        table tr td {
+			border: 2px solid #e0e0e0 ;
+			/*margin-left:5%;*/
+            margin: 0 auto;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<div class="hao_nav" >
+	<a href=http://www.hao321.co><h1>武汉加油</h1> </a>
+
+
+
+</div>
+
+<body>
+<table>
+			<th>房号</th>
+			<th>电话</th>
+			<th>套餐1</th>
+            <th>套餐2</th>
+			<th>套餐3</th>
+            <th>套餐4</th>
+			<th>套餐5</th>
+            <th>合计</th>
+            <th>日期</th>
+            <th>备注</th>
+			<tr align="middle">
+				{%content%}
+			</tr>
+
+
+		</table>
+
+</body>
+</html>

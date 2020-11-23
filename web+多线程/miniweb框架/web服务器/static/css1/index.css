@@ -1,0 +1,525 @@
+/***************************top-banner-开始*************************/
+.sn-top-banner {
+    background-color: #164fa6;
+    height: 100px;
+    position: relative;
+}
+
+.sn-top-banner .close-banner {
+    position: absolute;
+    top: 3px;
+    right: 56px;
+    width: 15px;
+    height: 15px;
+    background: url("../images/index.png") -241px -145px;
+}
+
+.sn-top-banner .close-banner:hover {
+    background-position: -256px -145px;
+}
+
+/***************************top-banner-结束*************************/
+
+/***************************toolbar-开始*************************/
+.sn-toolbar {
+    height: 35px;
+    line-height: 35px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #eee;
+}
+
+.sn-toolbar li {
+    float: left;
+    padding: 0 15px;
+}
+
+.sn-toolbar .down {
+    position: relative;
+    /*background-color: red;*/
+    padding: 0 25px 0 10px;
+}
+
+.sn-toolbar .down i {
+    width: 14px;
+    height: 6px;
+    /*background-color: green;*/
+
+    position: absolute;
+    top: 16px;
+    right: 11px;
+    overflow: hidden;
+
+}
+
+.sn-toolbar .down i s {
+    position: absolute;
+    font-size: 20px;
+    top: -19px;
+    color: #666;
+}
+
+.sn-toolbar .address {
+    position: relative;
+}
+
+.sn-toolbar .address .address-icon {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 20px;
+    height: 20px;
+    background: url("../images/index.png") -387px -181px;
+}
+
+.sn-toolbar .address s {
+    color: #bbbbbb;
+}
+
+.sn-toolbar .cart {
+    width: 15px;
+
+    position: absolute;
+    left: -8px;
+    top: 7px;
+}
+
+/***************************toolbar-结束*************************/
+
+/***************************搜索-开始*************************/
+.sn-top-search {
+    height: 110px;
+    /*background-color: blue;*/
+}
+
+.sn-top-search .logo-set {
+    width: 400px;
+    height: 110px;
+    /*background-color: red;*/
+    float: left;
+}
+
+.sn-top-search .logo-set .main-logo {
+    width: 190px;
+    height: 90px;
+    background: url("../images/sn-logo.png") no-repeat center;
+
+}
+
+.sn-top-search .logo-set .sub-logo {
+    width: 160px;
+    height: 100px;
+    margin-top: 5px;
+    background: url("../images/sn-sub-logo.gif") no-repeat center;
+}
+
+.sn-top-search .logo-set .main-logo, .sn-top-search .logo-set .sub-logo {
+    -webkit-background-size: contain;
+    background-size: contain;
+    float: left;
+}
+
+.sn-top-search .search-input {
+    float: left;
+    width: 538px;
+    height: 36px;
+    /*background-color: red;*/
+    padding-top: 30px;
+}
+
+.sn-top-search .search-input input {
+    padding-left: 5px;
+    float: left;
+    color: #cccccc;
+    width: 449px;
+    height: 32px;
+    border: 2px solid #F80;
+    border-right: 0;
+}
+
+.sn-top-search .search-input button {
+    border: none;
+    float: left;
+    height: 36px;
+    width: 82px;
+    background-color: #F80;
+    color: #fff;
+    font: 400 18px/36px "microsoft yahei";
+    cursor: pointer;
+}
+
+.sn-top-search .search-more-link {
+    float: left;
+    width: 520px;
+    height: 30px;
+    /*background-color: green;*/
+}
+
+.sn-top-search .search-more-link li {
+    float: left;
+    margin: 7px 10px 7px 0;
+    border-left: 1px solid #c0c0c0;
+    padding-left: 5px;
+}
+
+.sn-top-search .search-more-link li:first-child {
+    border: none;
+}
+
+/*.sn-top-search .search-more-link li + li{
+
+}*/
+
+/***************************搜索-结束*************************/
+
+/***************************导航-开始*************************/
+.sn-nav {
+    width: 100%;
+    height: 38px;
+    /*background-color: red;*/
+}
+
+.sn-nav .sn-nav-menu {
+    width: 210px;
+    height: 38px;
+    float: left;
+    z-index: 1;
+
+    /*background-color: green;*/
+}
+
+.sn-nav .sn-nav-menu .sn-nav-menu-all a {
+    display: block;
+    width: 190px;
+    height: 38px;
+    background-color: #f90;
+    color: white;
+    font: 600 14px/38px "microsoft yahei";
+    padding-left: 30px;
+    box-sizing: border-box;
+
+    position: relative;
+}
+
+.sn-nav .sn-nav-menu .sn-nav-menu-all a:before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url("../images/index.png") 0 0;
+
+    position: absolute;
+    left: 11px;
+    top: 14px;
+}
+
+.sn-nav-menu .sn-nav-menu-one {
+    width: 190px;
+    height: 440px;
+    background-color: #252221;
+}
+
+.sn-nav .sn-nav-item li {
+    float: left;
+}
+
+.sn-nav .sn-nav-item li a {
+    display: inline-block;
+    height: 38px;
+    padding: 0 12px;
+    font: 600 16px/38px "microsoft yahei";
+    color: #333333;
+}
+
+.sn-nav .sn-nav-item li a:hover {
+    color: #f60;
+}
+
+.sn-nav .sn-nav-menu-one .index-list li {
+    height: 31px;
+    padding: 0 10px 0 8px;
+    font: 400 13px/31px "microsoft yahei";
+    color: #666;
+}
+
+.sn-nav .sn-nav-menu-one .index-list li a {
+    color: #fff;
+}
+
+/***************************导航-结束*************************/
+
+/***************************轮播图-开始*************************/
+.sn-first-screen {
+    width: 100%;
+    height: 440px;
+    background-color: purple;
+    /*position: relative;*/
+}
+
+.sn-first-screen .sn-casual {
+    margin-left: 190px;
+    width: 830px;
+    height: 440px;
+
+    position: relative;
+}
+
+.sn-first-screen .sn-casual .casual-bottom {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+
+    text-align: center;
+}
+
+.sn-first-screen .sn-casual .casual-bottom img {
+    width: 96%;
+}
+
+.sn-first-screen .sn-first-right {
+    width: 170px;
+    height: 435px;
+    background-color: #fff;
+
+    position: absolute;
+    left: 1020px;
+    top: 5px;
+}
+
+.sn-first-screen .sn-first-right .user-info {
+    position: relative;
+    width: 170px;
+    height: 155px;
+    padding: 11px 0 2px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.sn-first-screen .sn-first-right .user-info .user-img {
+    text-align: center;
+}
+
+.sn-first-screen .sn-first-right .user-info .user-img a {
+    display: inline-block;
+    width: 58px;
+    height: 58px;
+    /*background-color: green;*/
+    background: url("../images/index.png ") -91px -23px;
+}
+
+.sn-first-screen .sn-first-right .user-info .info {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sn-first-screen .sn-first-right .user-info .btn {
+    display: flex;
+    justify-content: space-around;
+}
+
+.sn-first-screen .sn-first-right .user-info .btn a.register {
+    display: inline-block;
+    width: 68px;
+    height: 20px;
+    border: 1px solid #F90;
+    color: #ffa114;
+    line-height: 20px;
+    text-align: center;
+}
+
+.sn-first-screen .sn-first-right .user-info .btn a.superhy {
+    display: inline-block;
+    width: 70px;
+    height: 22px;
+    background: url("../images/index.png") -295px -251px;
+}
+
+.sn-first-screen .sn-first-right .user-info .enter {
+    /*background-color: red;*/
+    text-align: center;
+    margin: 10px 0;
+}
+
+.sn-first-screen .sn-first-right .user-info .enter a {
+    margin: 0 5px;
+}
+
+.sn-first-screen .sn-first-right .user-info .enter a em {
+    display: inline-block;
+    width: 16px;
+    height: 14px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.sn-first-screen .sn-first-right .user-info .enter a:first-child em {
+    background: url("../images/index.png") -111px 0;
+}
+
+.sn-first-screen .sn-first-right .user-info .enter a:last-child em {
+    background: url("../images/index.png") -88px 0;
+}
+
+/*头条*/
+.sn-first-screen .sn-first-right .toutiao {
+    width: 150px;
+    height: 97px;
+    margin: 11px 10px 12px;
+    /*background-color: red;*/
+    line-height: 20px;
+}
+
+.sn-first-screen .sn-first-right .toutiao li {
+    height: 48px;
+}
+
+.sn-first-screen .sn-first-right .toutiao li i {
+    color: #f90;
+    margin-right: 5px;
+}
+
+/*快捷*/
+.sn-first-screen .sn-first-right .kuaijie {
+    width: 170px;
+    height: 145px;
+    overflow: hidden;
+    border-top: 1px solid #f2f2f2;
+}
+
+.sn-first-screen .sn-first-right .kuaijie ul li {
+    float: left;
+    width: 55px;
+    height: 72px;
+
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: #f2f2f2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+.sn-first-screen .sn-first-right .kuaijie ul li:nth-child(3), .sn-first-screen .sn-first-right .kuaijie ul li:nth-child(6) {
+    border-right: 0;
+}
+
+.sn-first-screen .sn-first-right .kuaijie ul li i {
+    font-size: 40px;
+}
+
+/***************************轮播图-结束*************************/
+
+/***************************主要内容-第二块-开始*************************/
+.sn-two-screen {
+    background-color: #f2f2f2;
+    padding-bottom: 20px;
+}
+
+.sn-two-screen .two-top img {
+    width: 100%;
+    vertical-align: top;
+}
+
+.sn-two-screen .two-content .content {
+    background-color: #f90;
+    padding-bottom: 10px;
+}
+
+.sn-two-screen .two-content .content ul{
+    display: flex;
+    justify-content: space-between;
+}
+
+.sn-two-screen .two-content .content ul li img{
+    max-width: 230px !important;
+    max-height: 190px !important;
+}
+
+/***************************主要内容-第二块-结束*************************/
+
+/***************************尾部-结束*************************/
+.sn-footer{
+    background: #f5f5f5;
+    border-top: 1px solid #e7e7e7;
+    padding: 20px 0;
+}
+
+.sn-footer .footer-top .footer-top-promise{
+    width: 100%;
+    /*background-color: red;*/
+}
+
+.sn-footer .footer-top .footer-top-promise dl{
+    float: left;
+    width: 20%;
+    /*background-color: green;*/
+}
+
+.sn-footer .footer-top .footer-top-promise dl dt{
+    float: left;
+    margin-right: 8px;
+    width: 48px;
+    height: 48px;
+}
+
+.sn-footer .footer-top .footer-top-promise dl dd p{
+    line-height: 24px;
+}
+
+.sn-footer .footer-top .footer-top-shopping{
+   padding: 10px 0;
+}
+
+.sn-footer .footer-top .footer-top-shopping dl{
+    float: left;
+    width: 200px;
+}
+
+.sn-footer .footer-top .footer-top-shopping dl dt{
+    font: 600 14px/40px "microsoft yahei";
+    color: #545454;
+}
+
+.sn-footer .footer-top .footer-top-shopping dl dd{
+    height: 20px;
+}
+
+.sn-footer .footer-top .footer-top-shopping .app-down{
+    /*background-color: red;*/
+    width: 90px;
+    height: 180px;
+    float: left;
+}
+
+.sn-footer .footer-top .footer-top-shopping .app-down  p{
+    height: 40px;
+    font: 600 14px/40px "microsoft yahei";
+    color: #545454;
+}
+
+.sn-footer  .footer-bottom{
+    background-color: #fff;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.sn-footer  .footer-bottom .url-list-links{
+    line-height: 25px;
+    height: 25px;
+}
+
+.sn-footer  .footer-bottom .url-list-links a{
+    margin: 0 8px;
+}
+
+.sn-footer  .footer-bottom .footer-bottom-copyright{
+    padding: 10px 0;
+    line-height: 25px;
+}
+
+.footer-bottom-img a{
+    margin: 0 5px;
+}
+
+/***************************尾部-结束*************************/

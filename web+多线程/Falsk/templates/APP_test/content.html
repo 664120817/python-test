@@ -1,0 +1,21 @@
+<div>
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/content.css')}}">
+
+    <ol>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+
+    </ol>
+
+
+    {% macro hello(name) %}
+    <h4> 这是一个流水线:{{name}}</h4>
+    {% endmacro %}
+    {{ hello('工人')}} <!--  函数调用-->
+    {{ hello()}} <!--  函数调用-->
+
+</div>
+
+

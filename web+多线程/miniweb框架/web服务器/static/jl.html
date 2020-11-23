@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>购物套餐</title>
+</head>
+<style type="text/css">
+    .hao_nav{margin: 1rem 30% ;font-size: 1rem}
+    body{background-color: #a8fff3;}
+    /*div{padding-left: 1rem}*/
+    input{font-size: 1.1rem }
+    form{width: 100%}
+    label{margin:0.2rem 2%;font-size: 1rem}
+     label img{width: 10% }
+
+
+
+</style>
+
+<body>
+<div class="hao_nav"> <a href=http://www.hao321.co>www.hao321.co  </a></div>
+<div>
+<form action="./jl.py" target="_blank" method="get" id ="myform1">
+    <h4> 1，请填写您的收货信息！</h4>
+     房号：<input type ="text"  name="fh" placeholder="1-1-1011+姓名）" autofocus> <br>
+     电话：<input type ="tel"  name="dh" placeholder="电话必填" required="required"> <br>
+     备注：<input type="text"  name="bz" placeholder="支付联系管理员">
+     <h4>2，请选择您的套餐，多选模式！</h4>
+    <label><img src="images/cart.png"><input type="checkbox" name="dx1" value="20.5"> 套餐1</label>
+    <label><img src="images/cart.png"><input type="checkbox" name="dx2" value="59.98"> 套餐2</label>
+   <label><img src="images/cart.png"><input type="checkbox" name="dx3" value="89.9"> 套餐3</label>
+   <label><img src="images/cart.png"><input type="checkbox" name="dx4" value="163.1"> 套餐4</label>
+     <label><img src="images/cart.png"><input type="checkbox" name="dx5" value="47.7"> 套餐5</label><br><br>
+    <!--提示：<input type="text" disabled="disabled" value="提示框 仅供提示 不起任何作用">-->
+    <!--<input type="submit"> <input type="reset"> <input type="button" style="" value="自定义按钮">-->
+
+    &nbsp&nbsp&nbsp&nbsp<input type="submit" > &nbsp&nbsp&nbsp&nbsp<input type="reset">
+    </form>
+
+</div>
+</body>
+</html>

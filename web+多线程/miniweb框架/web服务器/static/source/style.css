@@ -1,0 +1,90 @@
+@font-face {
+  font-family: 'sn';
+  src:  url('fonts/sn.eot?dg1etk');
+  src:  url('fonts/sn.eot?dg1etk#iefix') format('embedded-opentype'),
+    url('fonts/sn.ttf?dg1etk') format('truetype'),
+    url('fonts/sn.woff?dg1etk') format('woff'),
+    url('fonts/sn.svg?dg1etk#sn') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="sn-"], [class*=" sn-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'sn' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sn-fun:before {
+  content: "\e900";
+  color: #fea900;
+}
+.sn-T:before {
+  content: "\e901";
+  color: #fea900;
+}
+.sn-uniE902:before {
+  content: "\e902";
+  color: #fea900;
+}
+.sn-1:before {
+  content: "\e903";
+  color: #fea900;
+}
+.sn-4:before {
+  content: "\e904";
+  color: #fea900;
+}
+.sn-5:before {
+  content: "\e905";
+  color: #fea900;
+}
+.sn-6:before {
+  content: "\e906";
+  color: #fea900;
+}
+.sn-7:before {
+  content: "\e907";
+  color: #fea900;
+}
+.sn-8:before {
+  content: "\e908";
+  color: #fea900;
+}
+.sn-13:before {
+  content: "\e909";
+  color: #fea900;
+}
+.sn-9:before {
+  content: "\e90a";
+  color: #fea900;
+}
+.sn-10:before {
+  content: "\e90b";
+  color: #fea900;
+}
+.sn-11:before {
+  content: "\e90c";
+  color: #fea900;
+}
+.sn-12:before {
+  content: "\e90d";
+  color: #fea900;
+}
+.sn-2:before {
+  content: "\e90e";
+  color: #fea900;
+}
+.sn-3:before {
+  content: "\e90f";
+  color: #fea900;
+}

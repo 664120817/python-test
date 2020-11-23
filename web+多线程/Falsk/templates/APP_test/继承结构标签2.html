@@ -1,0 +1,14 @@
+{% extends 'APP_test/继承结构标签1.html' %}
+
+{% block header %}
+{{super()}} # 如果不加super就会覆盖前面header内容
+ <link rel="stylesheet" href="{{url_for('static',filename = 'css/content.css')}}">
+ <h2>我再次继承了结构标签header</h2>
+
+{% endblock %}
+
+
+{% block content %}
+<h2>我继承了结构标签1content</h2>
+ {% include 'APP_test/content.html'  %}
+{% endblock %}

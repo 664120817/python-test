@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+现在时间是{{var}}<br>
+
+值班人员有：<br>
+{% for data in list %}<!--大括号和百分号起控制结构，还有if-->
+  {% if loop.index0 ==2 %}
+     <li style="color: red">{{ data }}:{{loop.index0}}</li>     <!-- loop.index0获取序号 data|tojosn 可使用tojosn转化为json格式 -->
+  {% else %}
+     <li style="color:green">{{ data }}:{{loop.index0}}</li>
+    {% endif %}
+
+{% endfor %}
+
+任务：<br>
+<table>
+    {% for key,value in dict.items() %}
+
+    <tr>
+        <td>{{key}}:</td>
+        <td>{{value}}</td>
+    </tr>
+
+     {% endfor %}
+</table>
+
+
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+/*初始化*/
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, input, a, img, button {
+    margin: 0;
+    padding: 0;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+form, fieldset, legend, input {
+    border: none;
+    outline: none;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #F60;
+}
+
+body, button, input, select, textarea {
+    /*
+       font-size: 12px;
+       line-height: 150%;
+       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+       */
+    font: 12px/1.5 "Microsoft Yahei", tahoma, arial, "Hiragino Sans GB";
+}
+
+.clearfix:before,
+.clearfix:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+/*隐藏*/
+.hide{
+    display: none;
+}
+
+.f60{
+    color: #FF6600;
+}
+
+/*版心*/
+.w{
+    width: 1190px;
+    margin: 0 auto;
+}
+
+.fl{
+   float: left;
+}
+
+.fr{
+    float: right;
+}
+
+.tl{
+text-align: left;
+}
+
+.tc{
+    text-align: center;
+}
+
+.tr{
+    text-align: right;
+}
+
+s, i, em{
+    font-style: normal;
+    text-decoration: none;
+}

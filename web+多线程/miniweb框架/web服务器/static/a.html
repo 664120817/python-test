@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<link rel="shortcut icon" href="img/bitbug_favicon2.ico" />
+    <meta charset="UTF-8">
+    <title>3D旋转</title>
+    <style type="text/css">
+        *{padding: 0;
+        margin: 0;}
+        body,html{height:100%;}
+        body{background-image: url("https://c-ssl.duitang.com/uploads/item/201907/04/20190704151507_wpqrb.thumb.700_0.jpg");
+		/*background-size: 100% 100%;*/
+		}
+        #box{width: 280px;
+            height: 400px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            margin: auto;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            animation: go 45s linear infinite;
+           }
+        #box img{width: 280px;
+                 height: 400px;
+                 position: absolute;
+                 left: 0;
+                 top: 0;
+        }
+        #box img:nth-child(1){
+            transform: rotateY(0deg) translateZ(650px);}
+        #box img:nth-child(2){
+            transform: rotateY(36deg) translateZ(650px);}
+        #box img:nth-child(3){
+            transform: rotateY(72deg) translateZ(650px);}
+        #box img:nth-child(4){
+            transform: rotateY(108deg) translateZ(650px);}
+        #box img:nth-child(5){
+            transform: rotateY(144deg) translateZ(650px);}
+        #box img:nth-child(6){
+            transform: rotateY(180deg) translateZ(650px);}
+        #box img:nth-child(7){
+            transform: rotateY(216deg) translateZ(650px);}
+        #box img:nth-child(8){
+            transform: rotateY(252deg) translateZ(650px);}
+        #box img:nth-child(9){
+            transform: rotateY(288deg) translateZ(650px);}
+        #box img:nth-child(10){
+            transform: rotateY(324deg) translateZ(650px);}
+		@keyframes go {
+		    0%{transform: rotateX(0deg) rotateY(0deg);}
+		    25%{transform: rotateX(20deg) rotateY(180deg);}
+		    50%{transform: rotateX(0deg) rotateY(360deg);}
+		    75%{transform: rotateX(-20deg) rotateY(540deg);}
+		    100%{transform: rotateX(0deg) rotateY(720deg);}
+		
+		}
+    </style>
+</head>
+
+    <video src="时间都去哪了.mp3" controls="controls" autoplay="autoplay"></video>
+	<body>
+		<div id="box">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201608/01/20160801211249_UnTPv.thumb.700_0.jpeg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201610/22/20161022081650_yMUXz.thumb.700_0.jpeg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201110/17/20111017122413_j2UTE.thumb.700_0.jpg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201905/26/20190526153842_rwgjn.thumb.700_0.jpg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201606/18/20160618011158_V2uAi.thumb.700_0.jpeg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201905/06/20190506094702_toeft.thumb.700_0.jpg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201610/13/20161013132221_GHveF.thumb.700_0.jpeg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201807/15/20180715201419_iyvje.thumb.700_0.jpg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201509/11/20150911120932_AFVnv.thumb.700_0.jpeg">
+		    <img src="https://c-ssl.duitang.com/uploads/item/201707/05/20170705233501_XawLM.thumb.700_0.jpeg">
+		</div>
+
+
+	</body>
+</html>

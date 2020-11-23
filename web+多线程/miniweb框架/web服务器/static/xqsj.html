@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小区数据</title>
+    <style type="text/css">
+
+		.hao_nav{width: 30%;margin: 1rem auto ;font-size: 1.5rem; }
+		.hao_nav p{font-size: 0.2rem;}
+		a{text-decoration:none}
+        table{margin-top: 1rem}
+        table th{padding-right:3rem}
+        table tr td {
+			border: 2px solid #e0e0e0 ;
+			/*margin-left:5%;*/
+            margin: 0 auto;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<div class="hao_nav" >
+	<a href=http://www.hao321.co><h1>中国加油</h1> </a>
+
+
+
+</div>
+
+<body>
+<table>
+			<th>小区名称</th>
+			<th>登记人员</th>
+			<th>联系电话</th>
+            <th>家庭住址</th>
+			<th>性别</th>
+			<th>备注信息</th>
+            <th>日期</th>
+			<tr align="middle">
+				{%content%}
+			</tr>
+
+		</table>
+
+</body>
+</html>
