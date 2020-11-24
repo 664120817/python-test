@@ -52,7 +52,7 @@ def application(current_dir,new_client_socket,ip_port):
         print(resource_path)
         try:
             if file_path =="/jj.html":
-                db = pymysql.Connect(host="localhost", port=3306, user="hao", passwd="4786874", db="spider",charset="utf8")
+                db = pymysql.Connect(host="localhost", port=3306, user="hao", passwd="", db="spider",charset="utf8")
                 cursor = db.cursor()
                 cursor.execute("select * from ttjj order by rzdf limit 30")
                 # datas =str(cursor.fetchall())

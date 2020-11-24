@@ -15,7 +15,7 @@ def route(path):
 @route("/index.py")
 def index(n):
     #处理请求 index.py 请求
-    db = pymysql.Connect(host="localhost", port=3306, user="root", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", port=3306, user="root", passwd="", db="spider", charset="utf8")
     cursor = db.cursor()
     # print(n)
     n = n.replace("=", ":")
@@ -85,7 +85,7 @@ def index(n):
     return response_body
 @route("/center.py")
 def center(n):
-    db = pymysql.Connect(host="localhost", port=3306, user="hao", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", port=3306,db="spider", charset="utf8")
     cursor = db.cursor()
     n = n.replace("=", ":")
     n = dict([item.split(":") for item in n.split("&")])
@@ -149,7 +149,7 @@ def center(n):
 def meituan(n):
     # 处理请求 index.py 请求
     # return "This is gettime show {}".format(time.ctime())
-    db = pymysql.Connect(host="localhost", port=3306, user="hao", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", port=3306, db="spider", charset="utf8")
     cursor = db.cursor()
     n = n.replace("=", ":")
     n = dict([item.split(":") for item in n.split("&")])
@@ -208,7 +208,7 @@ def xqdj(n):
     print(n["xq"])
     time =datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')
     print(n["xq"], n["user"], n["address"],n["tel"], n["sex"],n["bz"],time)
-    db = pymysql.Connect(host="localhost", port=3306, user="hao", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", port=3306, db="spider", charset="utf8")
     cursor = db.cursor()
 
     sql = "INSERT INTO person(小区名字,登记人员,联系电话,家庭住址,性别,备注信息,日期)  VALUES ('{}','{}','{}','{}','{}','{}','{}')".format(n["xq"], n["user"],n["tel"], n["address"],n["sex"],n["bz"],time)
@@ -241,7 +241,7 @@ def xqdj(n):
 @route("/xqsj.py")
 def xqdj(n):
     print(n)
-    db = pymysql.Connect(host="localhost", port=3306, user="root", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", port=3306, db="spider", charset="utf8")
     cursor = db.cursor()
     n = n.replace("=", ":")
     n = dict([item.split(":") for item in n.split("&")])
@@ -298,7 +298,7 @@ def jl(n):
     print(n["fh"],n["dh"],n["bz"], n["dx1"], n["dx2"],n["dx3"], n["dx4"],n["dx5"],time)
     n["hj"]=float(n["dx1"])+ float(n["dx2"])+ float(n["dx3"]) + float(n["dx4"])+ float(n["dx5"])
     print( n["hj"],"8797897")
-    db = pymysql.Connect(host="localhost", port=3306, user="hao", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", db="spider", charset="utf8")
     cursor = db.cursor()
     select_count_sql = "SELECT COUNT(1) from jlsj WHERE dh ='{}'".format(n['dh'])
     # 执行查询SQL
@@ -349,7 +349,7 @@ def jl(n):
 @route("/jlsj.py")
 def jlsj(n):
     print(n)
-    db = pymysql.Connect(host="localhost", port=3306, user="root", passwd="4786874", db="spider", charset="utf8")
+    db = pymysql.Connect(host="localhost", db="spider", charset="utf8")
     cursor = db.cursor()
     n = n.replace("=", ":")
     n = dict([item.split(":") for item in n.split("&")])
