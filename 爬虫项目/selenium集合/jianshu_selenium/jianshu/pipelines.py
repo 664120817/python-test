@@ -20,7 +20,7 @@ class JianshuTwistedPipeline(object):
             'host': '127.0.0.1',
             'port': 3306,
             'user':'root',
-            'password':'4786874',
+            'password':'',
             'database':'jianshu_selenium',
             'charset': 'utf8',
             'cursorclass':cursors.DictCursor, #指定游标

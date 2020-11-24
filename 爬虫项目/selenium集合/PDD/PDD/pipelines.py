@@ -28,7 +28,7 @@ class ExcelPipeline(object):
 import pymysql
 class MysqlPipeline(object):
     def __init__(self):
-        self.db = pymysql.Connect(host="localhost", port=3306, user="root", passwd="4786874", db="spider",
+        self.db = pymysql.Connect(host="localhost", db="spider",
                                   charset="utf8mb4")
         # 获取操作数据库的cursor
         self.cursor = self.db.cursor()
