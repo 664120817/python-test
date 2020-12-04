@@ -63,7 +63,7 @@ class Moments():
             pass
         self.driver.press_keycode(4)
         # self.driver.back()
-        # USERNAME='13349851825'
+        # USERNAME='133498......'
         # PASSWORD=input("请输入验证码")
         # # 登录按钮
         # login = self.wait.until(EC.presence_of_element_located((By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.view.ViewPager/android.widget.RelativeLayout/android.widget.EditText')))

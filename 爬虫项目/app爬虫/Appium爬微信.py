@@ -59,7 +59,7 @@ class Moments():
         :return:
         """
         USERNAME='250588642'
-        PASSWORD='8023hao??'
+        PASSWORD='80.......'
         # 登录按钮
         login = self.wait.until(EC.presence_of_element_located((By.ID, 'com.tencent.mm:id/cjk')))
         login.click()
