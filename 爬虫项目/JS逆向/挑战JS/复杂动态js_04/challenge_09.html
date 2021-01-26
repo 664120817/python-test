@@ -1,0 +1,2368 @@
+<html>
+
+<head>
+<script>
+
+    (function() {
+    'use strict';
+    var cookie_cache = document.cookie;
+    Object.defineProperty(document, 'cookie', {
+        get: function() {
+            console.log(cookie_cache);
+            return cookie_cache;
+        },
+        set: function(val) {
+            debugger;
+            var cookie = val.split(";")[0];
+            var ncookie = cookie.split("=");
+            var flag = false;
+            var cache = cookie_cache.split(";");
+            cache = cache.map(function(a){
+                if (a.split("=")[0] === ncookie[0]){
+                    flag = true;
+                    return cookie;
+                }
+                return a;
+            })
+            cookie_cache = cache.join(";");
+            if (!flag){
+                cookie_cache += cookie + ";";
+            }
+        },
+    });
+
+})();
+
+// ==UserScript==
+// @name         Everything-Hook
+// @namespace    https://gitee.com/HGJing/everthing-hook/
+// @updateURL    https://gitee.com/HGJing/everthing-hook/raw/master/src/everything-hook.js
+// @version      0.5.9054
+// @include      *
+// @description  it can hook everything
+// @author       Cangshi
+// @match        http://*/*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+/**
+ * ---------------------------
+ * Time: 2017/9/20 18:33.
+ * Author: Cangshi
+ * View: http://palerock.cn
+ * ---------------------------
+ */
+ 'use strict';
+/**
+ * Every-Utils
+ * version:0.0.2001
+ */
+(function (global, factory) {
+
+    "use strict";
+
+    if (typeof module === "object" && typeof module.exports === "object") {
+
+        // For CommonJS and CommonJS-like environments where a proper `window`
+        // is present, execute the factory and get jQuery.
+        // For environments that do not have a `window` with a `document`
+        // (such as Node.js), expose a factory as module.exports.
+        // This accentuates the need for the creation of a real `window`.
+        // e.g. var jQuery = require("jquery")(window);
+        // See ticket #14549 for more info.
+        module.exports = global.document ?
+            factory(global, true) :
+            function (w) {
+                if (!w.document) {
+                    throw new Error("eUtils requires a window with a document");
+                }
+                return factory(w);
+            };
+    } else {
+        factory(global);
+    }
+
+}(typeof window !== "undefined" ? window : this, function (_global, noGlobal) {
+
+    // base
+    var BaseUtils = {
+        /**
+         * 对象是否为数组
+         * @param arr
+         */
+        isArray: function (arr) {
+            return Array.isArray(arr) || Object.prototype.toString.call(arr) === "[object Array]";
+        },
+        /**
+         * 判断是否为方法
+         * @param func
+         * @return {boolean}
+         */
+        isFunction: function (func) {
+            if (!func) {
+                return false;
+            }
+            return typeof func === 'function';
+        },
+        /**
+         * 判断是否是一个有效的对象
+         * @param obj
+         * @return {*|boolean}
+         */
+        isExistObject: function (obj) {
+            return obj && (typeof obj === 'object');
+        },
+        isString: function (str) {
+            if (str === null) {
+                return false;
+            }
+            return typeof str === 'string';
+        },
+        uniqueNum: 1000,
+        /**
+         * 根据当前时间戳生产一个随机id
+         * @returns {string}
+         */
+        buildUniqueId: function () {
+            var prefix = new Date().getTime().toString();
+            var suffix = this.uniqueNum.toString();
+            this.uniqueNum++;
+            return prefix + suffix;
+        },
+        keys:function (obj) {
+            var results = [];
+            for(var key in obj){
+                results.push(key);
+            }
+            return results;
+        }
+    };
+
+    //
+    var serviceProvider = {
+        _parseDepends: function (depends) {
+            var dependsArr = [];
+            if (!BaseUtils.isArray(depends)) {
+                return;
+            }
+            depends.forEach(function (depend) {
+                if (BaseUtils.isString(depend)) {
+                    dependsArr.push(serviceProvider[depend.toLowerCase()]);
+                }
+            });
+            return dependsArr;
+        }
+    };
+
+    //
+    var factory = function (name, depends, construction) {
+        if (!BaseUtils.isFunction(construction)) {
+            return;
+        }
+        serviceProvider[name.toLowerCase()] = construction.apply(this, serviceProvider._parseDepends(depends));
+    };
+
+    var depend = function (depends, construction) {
+        if (!BaseUtils.isFunction(construction)) {
+            return;
+        }
+        construction.apply(this, serviceProvider._parseDepends(depends));
+    };
+
+    factory('BaseUtils', [], function () {
+        return BaseUtils;
+    });
+
+    // logger
+    factory('logger', [], function () {
+        return console;
+    });
+
+    // DateTimeUtils
+    factory('DateTimeUtils', ['logger'], function (logger) {
+        return {
+            /**
+             * 打印当前时间
+             */
+            printNowTime: function () {
+                var date = new Date();
+                console.log(this.pattern(date, 'hh:mm:ss:S'));
+            },
+            /**
+             * 格式化日期
+             * @param date
+             * @param fmt
+             * @returns {*}
+             */
+            pattern: function (date, fmt) {
+                var o = {
+                    "M+": date.getMonth() + 1, //月份
+                    "d+": date.getDate(), //日
+                    "h+": date.getHours() % 12 === 0 ? 12 : date.getHours() % 12, //小时
+                    "H+": date.getHours(), //小时
+                    "m+": date.getMinutes(), //分
+                    "s+": date.getSeconds(), //秒
+                    "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+                    "S": date.getMilliseconds() //毫秒
+                };
+                var week = {
+                    "0": "/u65e5",
+                    "1": "/u4e00",
+                    "2": "/u4e8c",
+                    "3": "/u4e09",
+                    "4": "/u56db",
+                    "5": "/u4e94",
+                    "6": "/u516d"
+                };
+                if (/(y+)/.test(fmt)) {
+                    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+                }
+                if (/(E+)/.test(fmt)) {
+                    fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[date.getDay() + ""]);
+                }
+                for (var k in o) {
+                    if (new RegExp("(" + k + ")").test(fmt)) {
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                    }
+                }
+                return fmt;
+            },
+            /**
+             * 以当前时间获取id
+             * @returns {number}
+             */
+            getCurrentId: function () {
+                var date = new Date();
+                return date.getTime();
+            },
+            /**
+             * 获取指定时间距离现在相差多久
+             * @param date {number|Date}
+             * @param isCeil{boolean=} 是否对结果向上取整，默认[false]
+             * @param type {string=} 单位可取值['day','month','year']默认'day'
+             * @returns {number}
+             */
+            getNowBetweenADay: function (date, isCeil, type) {
+                if (!type) {
+                    type = 'day'
+                }
+                if (typeof date === 'number') {
+                    date = new Date(date);
+                }
+                if (!(date instanceof Date)) {
+                    throw new TypeError('该参数类型必须是Date')
+                }
+                var time = date.getTime();
+                var now = new Date();
+                var nowTime = now.getTime();
+                if (nowTime - time < 0) {
+                    logger.warn('需要计算的时间必须在当前时间之前');
+                }
+                var result = 0;
+                switch (type) {
+                    default:
+                    case 'day':
+                        result = (nowTime - time) / (1000 * 60 * 60 * 24);
+                        break;
+                    case 'month':
+                        var yearDifference = now.getFullYear() - date.getFullYear();
+                        if (yearDifference > 0) {
+                            result += yearDifference * 12;
+                        }
+                        result += now.getMonth() - date.getMonth();
+                        break;
+                    case 'year':
+                        result += now.getFullYear() - date.getFullYear();
+                        break;
+                }
+                if (!isCeil) {
+                    return Math.floor(result);
+                } else {
+                    if (result === 0 && isCeil) {
+                        result = 1;
+                    }
+                    return Math.ceil(result);
+                }
+            }
+        }
+    });
+
+    // ArrayUtils
+    factory('ArrayUtils', ['BaseUtils'], function (BaseUtils) {
+        return {
+            isArrayObject: function (arr) {
+                return BaseUtils.isArray(arr);
+            },
+            /**
+             * 遍历数组
+             * @param context {Object}
+             * @param arr {Array}
+             * @param cb {Function} 回调函数
+             */
+            ergodicArrayObject: function (context, arr, cb) {
+                if (!context) {
+                    context = window;
+                }
+                if (!BaseUtils.isArray(arr) || !BaseUtils.isFunction(cb)) {
+                    return;
+                }
+                for (var i = 0; i < arr.length; i++) {
+                    var result = cb.call(context, arr[i], i);
+                    if (result && result === -1) {
+                        break;
+                    }
+                }
+            },
+            /**
+             * 获取数组对象的一个属性发起动作
+             * @param context {Object}
+             * @param arr {Array}
+             * @param propertyName {String}
+             * @param cb {Function}
+             * @param checkProperty {boolean} 是否排除不拥有该属性的对象[default:true]
+             */
+            getPropertyDo: function (context, arr, propertyName, cb, checkProperty) {
+                if (checkProperty === null) {
+                    checkProperty = true;
+                }
+                this.ergodicArrayObject(context, arr, function (ele) {
+                    if (!checkProperty || ele.hasOwnProperty(propertyName)) {
+                        cb.call(context, ele[propertyName], ele);
+                    }
+                })
+            },
+            /**
+             * [私有方法]将多个键值对对象转换为map
+             * @param arr {Array}
+             * @returns {{}}
+             */
+            parseKeyValue: function (arr) {
+                var map = {};
+                if (!(BaseUtils.isArray(arr))) {
+                    return map;
+                }
+                this.ergodicArrayObject(this, arr, function (ele) {
+                    if (ele.key === null) {
+                        return;
+                    }
+                    if (!map.hasOwnProperty(ele.key)) {
+                        map[ele.key] = ele.value;
+                    }
+                });
+                return map;
+            },
+            /**
+             * 获取数组的哈希码
+             * @param arr {Array}
+             * @returns {number}
+             */
+            getHashCode: function (arr) {
+                var str = arr.toString();
+                var hash = 31;
+                if (str.length === 0) return hash;
+                for (var i = 0; i < str.length; i++) {
+                    var char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32bit integer
+                }
+                return hash;
+            },
+            /**
+             * 通过数组中每个对象的指定属性生成一个新数组
+             * @param arr {Array}
+             * @param propertyName {String}
+             */
+            parseArrayByProperty: function (arr, propertyName) {
+                var result = [];
+                if (!this.isArrayObject(arr)) {
+                    return result;
+                }
+                this.getPropertyDo(this, arr, propertyName, function (value) {
+                    result.push(value);
+                }, true);
+                return result;
+            },
+            /**
+             * 数组对象是否包含一个对象
+             * @param arr {Array}
+             * @param obj
+             * @param cb {function=}
+             * @returns {boolean}
+             */
+            isContainsObject: function (arr, obj, cb) {
+                var isContainsObject = false;
+                this.ergodicArrayObject(this, arr, function (value, i) {
+                    if (obj === value) {
+                        isContainsObject = true;
+                        if (BaseUtils.isFunction(cb)) {
+                            cb.call(window, i);
+                        }
+                        return -1;
+                    }
+                });
+                return isContainsObject;
+            },
+            /**
+             * 获取数组中的最大值
+             * @param arr 若数组中的对象还是数组，则按里面数组的每个对象进行多级比较
+             * @param cb
+             * @returns {*}
+             */
+            getMaxInArray: function (arr, cb) {
+                var maxObject = null;
+                var maxIndex = -1;
+                while (maxObject === null && maxIndex < arr.length) {
+                    maxObject = arr[++maxIndex]
+                }
+                for (var i = maxIndex + 1; i < arr.length; i++) {
+                    // 若是比较对象都是数组，则对每个数组的第一个元素进行比较，若相同，则比较第二个元素
+                    if (maxObject !== null && this.isArrayObject(maxObject) && this.isArrayObject(arr[i])) {
+                        var classLength = maxObject.length;
+                        var classLevel = 0;
+                        // console.log(maxObject[classLevel],arr[i][classLevel]);
+                        while (maxObject[classLevel] === arr[i][classLevel] && classLevel < classLength) {
+                            classLevel++
+                        }
+                        if (maxObject[classLevel] !== null && maxObject[classLevel] < arr[i][classLevel]) {
+                            maxObject = arr[i];
+                            maxIndex = i;
+                        }
+                        continue;
+                    }
+                    if (maxObject !== null && maxObject < arr[i]) {
+                        maxObject = arr[i];
+                        maxIndex = i;
+                    }
+                }
+                if (BaseUtils.isFunction(cb)) {
+                    cb.call(this, maxObject, maxIndex);
+                }
+                return maxObject;
+            },
+            /**
+             * 获取数组中的总值
+             * @param arr{Array<number>}
+             * @param cb {function=}
+             */
+            getSumInArray: function (arr, cb) {
+                if (!this.isArrayObject(arr)) {
+                    return;
+                }
+                var sum = 0;
+                var count = 0;
+                this.ergodicArrayObject(this, arr, function (value) {
+                    if (typeof value === 'number' && !Number.isNaN(value)) {
+                        sum += value;
+                        count += 1;
+                    }
+                });
+                if (BaseUtils.isFunction(cb)) {
+                    cb.call(window, sum, count);
+                }
+                return sum;
+            },
+            /**
+             * 获取数组中的平均值
+             * @param arr{Array<number>}
+             */
+            getAverageInArray: function (arr) {
+                var average = 0;
+                this.getSumInArray(arr, function (sum, i) {
+                    i === 0 || (average = sum / i);
+                });
+                return average;
+            },
+            /**
+             * 为数组排序
+             * @param arr
+             * @param order
+             * @param sortSetting {object=}
+             */
+            sortingArrays: function (arr, order, sortSetting) {
+                if (!this.isArrayObject(arr)) {
+                    return;
+                }
+                var DESC = 0;
+                var ASC = 1;
+                var thisArr = arr.slice(0);
+                var _thisAction = null;
+                // 解析配置
+                var isSetting = sortSetting && sortSetting.getComparedProperty &&
+                    BaseUtils.isFunction(sortSetting.getComparedProperty);
+                if (isSetting) {
+                    thisArr = sortSetting.getComparedProperty(arr);
+                }
+                switch (order) {
+                    default :
+                    case DESC:
+                        _thisAction = thisArr.push;
+                        break;
+                    case ASC:
+                        _thisAction = thisArr.unshift;
+                        break;
+                }
+                var resultArr = [];
+                for (var j = 0; j < thisArr.length; j++) {
+                    this.getMaxInArray(thisArr, function (max, i) {
+                        delete thisArr[i];
+                        _thisAction.call(resultArr, arr[i]);
+                    });
+                }
+                if (sortSetting && sortSetting.createNewData) {
+                    return resultArr.slice(0);
+                }
+                return resultArr;
+            },
+            /**
+             * 将类数组转化为数组
+             * @param arrLike 类数组对象
+             */
+            toArray: function (arrLike) {
+                if (!arrLike || arrLike.length === 0) {
+                    return [];
+                }
+                // 非伪类对象，直接返回最好
+                if (!arrLike.length) {
+                    return arrLike;
+                }
+                // 针对IE8以前 DOM的COM实现
+                try {
+                    return [].slice.call(arrLike);
+                } catch (e) {
+                    var i = 0,
+                        j = arrLike.length,
+                        res = [];
+                    for (; i < j; i++) {
+                        res.push(arrLike[i]);
+                    }
+                    return res;
+                }
+            },
+            /**
+             * 判断是否为类数组
+             * @param o
+             * @returns {boolean}
+             */
+            isArrayLick: function (o) {
+                if (o &&                                // o is not null, undefined, etc.
+                    typeof o === 'object' &&            // o is an object
+                    isFinite(o.length) &&               // o.length is a finite number
+                    o.length >= 0 &&                    // o.length is non-negative
+                    o.length === Math.floor(o.length) &&  // o.length is an integer
+                    o.length < 4294967296)              // o.length < 2^32
+                    return true;                        // Then o is array-like
+                else
+                    return false;                       // Otherwise it is not
+
+            },
+            /**
+             * 判断数组是否包含对象
+             * @param arr
+             * @param obj
+             */
+            contains: function (arr, obj) {
+                var contains = false;
+                this.ergodicArrayObject(this, arr, function (a) {
+                    if (a === obj) {
+                        contains = true;
+                        return -1;
+                    }
+                });
+                return contains;
+            }
+        }
+    });
+
+    // ObjectUtils
+    factory('ObjectUtils', ['ArrayUtils', 'BaseUtils'], function (ArrayUtils, BaseUtils) {
+        return {
+            /**
+             * 获取对象属性[支持链式表达式,如获取学生所在班级所在的学校(student.class.school):'class.school']
+             * @param obj
+             * @param linkProperty {string|Array} 属性表达式，获取多个属性则用数组
+             * @param cb {function=}
+             * @return 对象属性
+             */
+            readLinkProperty: function (obj, linkProperty, cb) {
+                var callback = null;
+                if (BaseUtils.isFunction(cb)) {
+                    callback = cb;
+                }
+                if (typeof linkProperty === 'string') {
+                    // 除去所有的空格
+                    linkProperty = linkProperty.replace(/ /g, '');
+                    // 不判断为空的值
+                    if (linkProperty === '') {
+                        return null;
+                    }
+                    // 若是以','隔开的伪数组，则转化为数组再进行操作
+                    if (linkProperty.indexOf(',') !== -1) {
+                        var propertyNameArr = linkProperty.split(',');
+                        return this.readLinkProperty(obj, propertyNameArr, callback);
+                    }
+                    if (linkProperty.indexOf('.') !== -1) {
+                        var names = linkProperty.split('.');
+                        var iterationObj = obj;
+                        var result = null;
+                        ArrayUtils.ergodicArrayObject(this, names, function (name, i) {
+                            iterationObj = this.readLinkProperty(iterationObj, name);
+                            if (names[names.length - 1] === name && names.length - 1 === i) {
+                                result = iterationObj;
+                                if (callback) {
+                                    callback.call(window, result, linkProperty);
+                                }
+                            }
+                            // 终止对接下来的属性的遍历
+                            if (typeof iterationObj === 'undefined') {
+                                return -1;
+                            }
+                        });
+                        return result;
+                    }
+                    var normalResult = null;
+                    if (linkProperty.slice(linkProperty.length - 2) === '()') {
+                        var func = linkProperty.slice(0, linkProperty.length - 2);
+                        normalResult = obj[func]();
+                    } else {
+                        normalResult = obj[linkProperty];
+                    }
+                    if (normalResult === null) {
+                        console.warn(obj, '的属性[\'' + linkProperty + '\']值未找到');
+                    }
+                    if (callback) {
+                        callback.call(window, normalResult, linkProperty);
+                    }
+                    return normalResult;
+                }
+                if (BaseUtils.isArray(linkProperty)) {
+                    var results = [];
+                    ArrayUtils.ergodicArrayObject(this, linkProperty, function (name) {
+                        var value = this.readLinkProperty(obj, name);
+                        results.push(value);
+                        if (callback && name !== '') {
+                            return callback.call(window, value, name);
+                        }
+                    });
+                    results.isMultipleResults = true;
+                    return results;
+                }
+            },
+            /**
+             * 为对象属性赋值
+             * （同一个对象中不能够既有数字开头的属性名和普通属性名）
+             * @param obj
+             * @param linkProperty {string|Array} 属性表达式，多个属性则用数组
+             * @param value
+             */
+            createLinkProperty: function (obj, linkProperty, value) {
+                if (obj === null) {
+                    obj = {};
+                }
+                if (typeof linkProperty === 'string') {
+                    // 除去所有的空格
+                    linkProperty = linkProperty.replace(/ /g, '');
+                    // 不判断为空的值
+                    if (linkProperty === '') {
+                        throw new TypeError('对象属性名不能为空')
+                    }
+                    if (linkProperty.indexOf(',') !== -1) {
+                        var propertyNameArr = linkProperty.split(',');
+                        this.createLinkProperty(obj, propertyNameArr, value);
+                        return obj;
+                    }
+                    if (linkProperty.indexOf('.') !== -1) {
+                        var names = linkProperty.split('.');
+                        if (!obj.hasOwnProperty(names[0])) {
+                            obj[names[0]] = {}
+                        }
+                        // 判断属性名是否以数字开头（若是代表是一个数组）
+                        if (!Number.isNaN(parseInt(names[0]))) {
+                            if (!ArrayUtils.isArrayObject(obj)) {
+                                obj = [];
+                            }
+                        }
+                        var propertyObj = obj[names[0]];
+                        var newProperties = names.slice(1, names.length);
+                        var newLinkProperty = '';
+                        ArrayUtils.ergodicArrayObject(this, newProperties, function (property, i) {
+                            if (i < newProperties.length - 1) {
+                                newLinkProperty = newLinkProperty + property + '.'
+                            } else {
+                                newLinkProperty = newLinkProperty + property;
+                            }
+                        });
+                        obj[names[0]] = this.createLinkProperty(propertyObj, newLinkProperty, value);
+                        return obj;
+                    }
+                    // 判断属性名是否以数字开头（若是代表是一个数组）
+                    if (!Number.isNaN(parseInt(linkProperty))) {
+                        if (!ArrayUtils.isArrayObject(obj)) {
+                            obj = [];
+                        }
+                    }
+                    obj[linkProperty] = value;
+                    return obj;
+                } else if (BaseUtils.isArray(linkProperty)) {
+                    ArrayUtils.ergodicArrayObject(this, linkProperty, function (link) {
+                        obj = this.createLinkProperty(obj, link, value);
+                    });
+                    return obj;
+                }
+            },
+            /**
+             * 遍历对象属性
+             * @param context {object} 上下文
+             * @param obj {object} 遍历对象
+             * @param cb {function} 回调函数
+             * @param isReadInnerObject {boolean=} 是否遍历内部对象的属性
+             */
+            ergodicObject: function (context, obj, cb, isReadInnerObject) {
+                var keys = BaseUtils.keys(obj);
+                ArrayUtils.ergodicArrayObject(this, keys, function (propertyName) {
+                    // 若内部对象需要遍历
+                    var _propertyName = propertyName;
+                    if (isReadInnerObject && obj[propertyName] !== null && typeof obj[propertyName] === 'object') {
+                        this.ergodicObject(this, obj[propertyName], function (value, key) {
+                            return cb.call(context, value, _propertyName + '.' + key);
+                        }, true)
+                    } else {
+                        return cb.call(context, obj[propertyName], propertyName);
+                    }
+                })
+            },
+            /**
+             * 当指定属性为空或不存在时执行回到函数；
+             * @param context {object} 上下文
+             * @param obj {object} 检测对象
+             * @param propertyNames{Array|string} 需要检测的属性名
+             *                                     可以检查多级属性如:'a.b.c.e'，
+             *                                     多个属性使用数组，支持纯字符串多个属性用','隔开
+             * @param cb {function} 回调函数[参数：为空或不存在的属性名,返回值为'-1'时，跳过之后的回调函数]
+             */
+            whileEmptyObjectProperty: function (context, obj, propertyNames, cb) {
+                // 解析单个属性名
+                if (typeof propertyNames === 'string') {
+                    // 除去所有的空格
+                    propertyNames = propertyNames.replace(/ /g, '');
+                    // 不判断为空的值
+                    if (propertyNames === '') {
+                        return;
+                    }
+                    // 若是以','隔开的伪数组，则转化为数组再进行操作
+                    if (propertyNames.indexOf(',') !== -1) {
+                        var propertyNameArr = propertyNames.split(',');
+                        return this.whileEmptyObjectProperty(context, obj, propertyNameArr, cb);
+                    }
+                    // 若指定级联属性
+                    if (propertyNames.indexOf('.') !== -1) {
+                        var names = propertyNames.split('.');
+                        var iterationObj = obj;
+                        var result = null;
+                        ArrayUtils.ergodicArrayObject(this, names, function (name) {
+                            if (iterationObj && iterationObj.hasOwnProperty(name)) {
+                                iterationObj = iterationObj[name];
+                            } else {
+                                result = cb.call(window, propertyNames);
+                                // 终止对接下来的属性的遍历
+                                return -1;
+                            }
+                        });
+                        return result;
+                    }
+                    // 正常流程
+                    if (!obj.hasOwnProperty(propertyNames)) {
+                        return cb.call(context, propertyNames);
+                    }
+                    if (obj[propertyNames] === null || obj[propertyNames] === '') {
+                        return cb.call(context, propertyNames);
+                    }
+                } else if (BaseUtils.isArray(propertyNames)) {
+                    // 解析数组
+                    ArrayUtils.ergodicArrayObject(this, propertyNames, function (propertyName) {
+                        // 递归调用
+                        return this.whileEmptyObjectProperty(context, obj, propertyName, cb);
+                    })
+                }
+            },
+            whileEmptyObjectPropertyV2: function (context, obj, propertyNames, cb) {
+                this.readLinkProperty(obj, propertyNames, function (value, propertyName) {
+                    if (value === null || value === '' || parseInt(value) < 0) {
+                        return cb.call(context, propertyName);
+                    }
+                })
+            },
+            /**
+             * 克隆对象[只克隆属性，不克隆原型链]
+             * @param obj {*}
+             */
+            cloneObject: function (obj) {
+                var newObj = {};
+                // 判断是否为基本数据类型，若是则直接返回
+                if (typeof obj === 'string' ||
+                    typeof obj === 'number' ||
+                    typeof obj === 'undefined' ||
+                    typeof obj === 'function' ||
+                    typeof obj === 'boolean') {
+                    return obj;
+                }
+                // 判断是否是数组
+                if (BaseUtils.isArray(obj)) {
+                    newObj = [];
+                    // 遍历数组并递归调用该方法获取数组内部对象的克隆对象并push到新数组
+                    ArrayUtils.ergodicArrayObject(this, obj, function (arrObjValue) {
+                        newObj.push(this.cloneObject(arrObjValue));
+                    })
+                } else if (typeof obj === 'object') {
+                    // 当目标为一般对象时即 typeof 为 object
+                    if (obj === null) {
+                        // 当克隆对象为空时，返回空
+                        return null;
+                    }
+                    // 遍历对象的属性并调用递归方法获得该属性对应的对象的克隆对象并将其重新赋值到该属性
+                    this.ergodicObject(this, obj, function (value, key) {
+                        newObj[key] = this.cloneObject(value);
+                    });
+                }
+                return newObj;
+            },
+            // cloneIndeed: function (obj) {
+            //     var hash = new Map();
+            //     var result = this._cloneIndeed(obj, hash);
+            //     for (var item of hash.values()) {
+            //         ArrayUtils.ergodicArrayObject(this, item.settingArr, function (func) {
+            //             func.call(this);
+            //         })
+            //     }
+            //     return result;
+            // },
+            // _cloneIndeed: function (obj, hash) {
+            //     hash = hash || new Map();
+            //     var result = {};
+            //     // 获取数据类型
+            //     var dataType = typeof obj;
+            //     switch (dataType.toLowerCase()) {
+            //         case 'string':
+            //         case 'number':
+            //         case 'boolean':
+            //         case 'undefined':
+            //             return obj;
+            //         case 'object':
+            //         default: {
+            //             for (var key in obj) {
+            //                 var nextObj = obj[key];
+            //                 var hashObj = hash.get(nextObj);
+            //                 if (hashObj != null && hashObj.clonedObj != null) {
+            //                     obj[key] = null;
+            //                 }
+            //                 hash.set(nextObj, {
+            //                         clonedObj: result,
+            //                         settingArr: [],
+            //                         active: false
+            //                     }
+            //                 );
+            //                 result[key] = this._cloneIndeed(nextObj, hash);
+            //             }
+            //             if (obj != null) {
+            //                 result['__proto__'] = obj['__proto__'];
+            //             }
+            //         }
+            //
+            //     }
+            //     return result;
+            // },
+            /**
+             * 获取对象的哈希码
+             * @param obj {Object}
+             * @returns {number}
+             */
+            getObjHashCode: function (obj) {
+                var str = JSON.stringify(obj);
+                var hash = 0, i, chr, len;
+                console.log(str)
+                console.log(hash)
+                if (str.length === 0) return hash;
+                for (i = 0, len = str.length; i < len; i++) {
+                    chr = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + chr;
+                    hash |= 0; // Convert to 32bit integer
+                }
+                console.log(str)
+                console.log(hash)
+                return hash;
+            },
+            /**
+             * 扩展对象属性
+             * @param obj 原对象
+             * @param extendedObj 被扩展的对象
+             * @param isCover {boolean=} 扩展的属性和原来属性冲突时是否覆盖 默认[false]
+             * @param isClone {boolean=} 是否返回一个新的对象，默认[false]返回扩展后的原对象
+             */
+            expandObject: function (obj, extendedObj, isCover, isClone) {
+                var resultObj = obj;
+                if (isClone) {
+                    resultObj = this.cloneObject(obj);
+                }
+                this.ergodicObject(this, extendedObj, function (value, key) {
+                    if (isCover && this.readLinkProperty(resultObj, key) !== null) {
+                        return;
+                    }
+                    resultObj = this.createLinkProperty(resultObj, key, value);
+                }, true);
+                return resultObj;
+            },
+            /**
+             * 为数组排序，当数组中的元素为对象时，根据指定对象的属性名进行排序
+             * @param arr 数组
+             * @param propertyName 属性名（当有多个属性名时，为多级排序）
+             * @param order 升降序
+             * @returns {*}
+             */
+            sortingArrayByProperty: function (arr, propertyName, order) {
+                var _this = this;
+                var sortSetting = {
+                    // 是否创建新数据
+                    createNewData: false,
+                    // 通过该方法获取数组中每个对象中用来比较的属性
+                    getComparedProperty: function (arr) {
+                        var compareArr = [];
+                        ArrayUtils.ergodicArrayObject(_this, arr, function (obj, i) {
+                            if (typeof obj !== 'object') {
+                                compareArr.push(obj);
+                            } else {
+                                var compareValue = this.readLinkProperty(obj, propertyName);
+                                if (compareValue !== null) {
+                                    compareArr.push(compareValue);
+                                } else {
+                                    compareArr.push(obj);
+                                }
+                            }
+                        });
+                        return compareArr.slice(0);
+                    }
+                };
+                return ArrayUtils.sortingArrays(arr, order, sortSetting);
+            },
+            /**
+             * 转话为目标的实例
+             * @param constructor {function} 构造函数
+             * @param obj {object|Array}判断的对象
+             * @param defaultProperty {object=}
+             */
+            toAimObject: function (obj, constructor, defaultProperty) {
+                if (BaseUtils.isArray(obj)) {
+                    var originArr = [];
+                    ArrayUtils.ergodicArrayObject(this, obj, function (value) {
+                        originArr.push(this.toAimObject(value, constructor, defaultProperty));
+                    });
+                    return originArr;
+                } else if (typeof obj === 'object') {
+                    if (defaultProperty) {
+                        this.ergodicObject(this, defaultProperty, function (value, key) {
+                            if (obj[key] === null) {
+                                obj[key] = value;
+                            }
+                        });
+                    }
+                    if (obj instanceof constructor) {
+                        return obj;
+                    }
+                    var originObj = obj;
+                    while (originObj.__proto__ !== null && originObj.__proto__ !== Object.prototype) {
+                        originObj = originObj.__proto__;
+                    }
+                    originObj.__proto__ = constructor.prototype;
+                    return originObj;
+                }
+            },
+            /**
+             * 将数组中结构类似对象指定属性融合为一个数组
+             * @param arr {Array}
+             * @param propertyNames
+             */
+            parseTheSameObjectPropertyInArray: function (arr, propertyNames) {
+                var result = {};
+                var temp = {};
+                ArrayUtils.ergodicArrayObject(this, arr, function (obj) {
+                    // 获取想要得到的所有属性，以属性名为键值存储到temp中
+                    this.readLinkProperty(obj, propertyNames, function (value, property) {
+                        if (!temp.hasOwnProperty(property) || !(BaseUtils.isArray(temp[property]))) {
+                            temp[property] = [];
+                        }
+                        temp[property].push(value);
+                    });
+                });
+                // 遍历temp获取每个键值中的值，并单独取出
+                this.ergodicObject(this, temp, function (value, key) {
+                    result = this.createLinkProperty(result, key, value);
+                });
+                return this.cloneObject(result);
+            },
+            /**
+             * 将数组中结构类似对象指定属性融合为一个数组
+             * @param arr {Array}
+             */
+            parseTheSameObjectAllPropertyInArray: function (arr) {
+                if (!ArrayUtils.isArrayObject(arr) || arr.length < 1) {
+                    return;
+                }
+                // 获取一个对象的所有属性，包括内部对象的属性
+                var propertyNames = [];
+                this.ergodicObject(this, arr[0], function (v, k) {
+                    propertyNames.push(k);
+                }, true);
+                return this.parseTheSameObjectPropertyInArray(arr, propertyNames);
+            },
+            /**
+             * 获取对象属性，若为数组则计算其中数字的平均值或其它
+             * @param obj
+             * @param propertyNames{Array<string>|string}
+             * @param type
+             */
+            getCalculationInArrayByLinkPropertyNames: function (obj, propertyNames, type) {
+                var resultObject = {};
+                var _this = this;
+                switch (type) {
+                    default:
+                    case 'sum':
+                        this.readLinkProperty(obj, propertyNames, function (value, key) {
+                            if (ArrayUtils.isArrayObject(value)) {
+                                resultObject = _this.createLinkProperty(resultObject, key, ArrayUtils.getSumInArray(value));
+                            }
+                        });
+                        break;
+                    case 'average':
+                        this.readLinkProperty(obj, propertyNames, function (value, key) {
+                            if (ArrayUtils.isArrayObject(value)) {
+                                resultObject = _this.createLinkProperty(resultObject, key, ArrayUtils.getAverageInArray(value));
+                            }
+                        });
+                        break;
+                }
+                return resultObject;
+            }
+        }
+    });
+
+    // ColorUtils
+    factory('ColorUtils', [], function () {
+        return {
+            /**
+             * 转换颜色rgb为16进制
+             * @param r
+             * @param g
+             * @param b
+             * @return {string}
+             */
+            rgbToHex: function (r, g, b) {
+                var hex = ((r << 16) | (g << 8) | b).toString(16);
+                return "#" + new Array(Math.abs(hex.length - 7)).join("0") + hex;
+            },
+            /**
+             * 转换颜色16进制为rgb
+             * @param hex
+             * @return {Array}
+             */
+            hexToRgb: function (hex) {
+                hex = hex.replace(/ /g, '');
+                var length = hex.length;
+                var rgb = [];
+                switch (length) {
+                    case 4:
+                        rgb.push(parseInt(hex[1] + hex[1], 16));
+                        rgb.push(parseInt(hex[2] + hex[2], 16));
+                        rgb.push(parseInt(hex[3] + hex[3], 16));
+                        return rgb;
+                    case 7:
+                        for (var i = 1; i < 7; i += 2) {
+                            rgb.push(parseInt("0x" + hex.slice(i, i + 2)));
+                        }
+                        return rgb;
+                    default:
+                        break
+                }
+            },
+            /**
+             * 根据两个颜色以及之间的百分比获取渐进色
+             * @param start
+             * @param end
+             * @param percentage
+             * @return {*}
+             */
+            gradientColorsPercentage: function (start, end, percentage) {
+                var resultRgb = [];
+                var startRgb = this.hexToRgb(start);
+                if (end == null) {
+                    return start;
+                }
+                var endRgb = this.hexToRgb(end);
+                var totalR = endRgb[0] - startRgb[0];
+                var totalG = endRgb[1] - startRgb[1];
+                var totalB = endRgb[2] - startRgb[2];
+                resultRgb.push(startRgb[0] + totalR * percentage);
+                resultRgb.push(startRgb[1] + totalG * percentage);
+                resultRgb.push(startRgb[2] + totalB * percentage);
+                return this.rgbToHex(resultRgb[0], resultRgb[1], resultRgb[2])
+            }
+        }
+    });
+
+    factory('FunctionUtils', [], function () {
+        return {
+            /**
+             * 获取方法的名字
+             * @param func
+             * @returns {*}
+             */
+            getFunctionName: function (func) {
+                if (typeof func === 'function' || typeof func === 'object') {
+                    var name = ('' + func).match(/function\s*([\w\$]*)\s*\(/);
+                }
+                return func.name || name[1];
+            },
+            /**
+             * 获取方法的参数名
+             * @param func
+             * @returns {*}
+             */
+            getFunctionParams: function (func) {
+                if (typeof func === 'function' || typeof func === 'object') {
+                    var name = ('' + func).match(/function.*\(([^)]*)\)/);
+                    return name[1].replace(/( )|(\n)/g, '').split(',');
+                }
+                return;
+            },
+            /**
+             * 通过方法的arguments获取调用该方法的函数
+             * @param func_arguments
+             * @returns {string}
+             */
+            getCallerName: function (func_arguments) {
+                var caller = func_arguments.callee.caller;
+                var callerName = '';
+                if (caller) {
+                    callerName = this.getFunctionName(caller);
+                }
+                return callerName;
+            },
+            FunctionBuilder: function (func) {
+                var _this = this;
+                var fs = [];
+                fs.push(func);
+                var properties = ['push', 'unshift', 'slice', 'map', 'forEach', 'keys', 'find', 'concat', 'fill', 'shift', 'values'];
+                properties.map(function (property) {
+                    if (typeof Array.prototype[property] === 'function') {
+                        Object.defineProperty(_this, property, {
+                            get: function () {
+                                return function () {
+                                    fs[property].apply(fs, arguments);
+                                    return this;
+                                }
+                            }
+                        });
+                    }
+                });
+                this.result = function (context) {
+                    var rfs = [];
+                    fs.map(function (f, index) {
+                        if (typeof f === 'function') {
+                            rfs.push(f);
+                        }
+                    });
+                    return function () {
+                        var declareVar = {
+                            arguments: arguments,
+                            this: this
+                        };
+                        rfs.map(function (f) {
+                            var dv = f.apply(context || this, [declareVar]);
+                            if (dv) {
+                                BaseUtils.keys(dv).map(function (key) {
+                                    declareVar[key] = dv[key];
+                                });
+                            }
+                        });
+                        return declareVar.returnValue;
+                    }
+                }
+            },
+            invokeMethods: function (context, methods, args) {
+                if (!this.isArray(methods)) {
+                    return;
+                }
+                var results = [];
+                var _this = this;
+                this.ergodicArrayObject(context, methods, function (method) {
+                    if (!_this.isFunction(method)) {
+                        return;
+                    }
+                    results.push(
+                        method.apply(context, args)
+                    );
+                });
+                return results;
+            }
+        }
+    });
+
+    factory('UrlUtils', [], function () {
+        return {
+            getUrlInfo: function (url) {
+                var a = document.createElement('a');
+                a.href = url;
+                return {
+                    source: url,
+                    protocol: a.protocol.replace(':', ''),
+                    host: a.hostname,
+                    port: a.port,
+                    query: a.search,
+                    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                    hash: a.hash.replace('#', ''),
+                    path: a.pathname.replace(/^([^\/])/, '/$1'),
+                    relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                    segments: a.pathname.replace(/^\//, '').split('/'),
+                    params: (function () {
+                        var ret = {};
+                        var seg = a.search.replace(/^\?/, '').split('&').filter(function (v, i) {
+                            if (v !== '' && v.indexOf('=')) {
+                                return true;
+                            }
+                        });
+                        seg.forEach(function (element, index) {
+                            var idx = element.indexOf('=');
+                            var key = element.substring(0, idx);
+                            var val = element.substring(idx + 1);
+                            ret[key] = val;
+                        });
+                        return ret;
+                    })()
+                };
+            },
+            urlMatching: function (url, matchUrl) {
+                var pattern = new RegExp(matchUrl);
+                return pattern.test(url);
+            },
+            getUrlWithoutParam: function (url) {
+                return url.split('?')[0];
+            },
+            getParamFromUrl: function (url) {
+                var params = [];
+                var paramsObject = this.getUrlInfo(url).params;
+                BaseUtils.keys(paramsObject).forEach(function (key) {
+                    params.push({
+                        key: key,
+                        value: paramsObject[key]
+                    })
+                });
+                // var parts = url.split('?');
+                // if (parts.length < 2) {
+                //     return params;
+                // }
+                // var paramsStr = parts[1].split('&');
+                // for (var i = 0; i < paramsStr.length; i++) {
+                //     var index = paramsStr[i].indexOf('=');
+                //     var ps = new Array(2);
+                //     if (index !== -1) {
+                //         ps = [
+                //             paramsStr[i].substring(0, index),
+                //             paramsStr[i].substring(index + 1),
+                //         ];
+                //     } else {
+                //         ps[0] = paramsStr[i];
+                //     }
+                //     params.push({
+                //         key: ps[0],
+                //         value: ps[1]
+                //     });
+                // }
+                return params;
+            },
+            margeUrlAndParams: function (url, params) {
+                if (url.indexOf('?') !== -1 || !(params instanceof Array)) {
+                    return url;
+                }
+                var paramsStr = [];
+                for (var i = 0; i < params.length; i++) {
+                    if (params[i].key !== null && params[i].value !== null) {
+                        if (!params[i].key) {
+                            paramsStr.push(params[i].value);
+                        } else {
+                            paramsStr.push(params[i].key + '=' + params[i].value);
+                        }
+                    }
+                }
+                return url + '?' + paramsStr.join('&');
+            }
+        }
+    });
+
+    factory('PointUtils', [], function () {
+        var Point2D = function (x, y) {
+            this.x = x || 0;
+            this.y = y || 0;
+        };
+        Point2D.prototype = {
+            constructor: Point2D,
+            /**
+             * 获取指定距离和角度对应的平面点
+             * @param distance
+             * @param deg
+             */
+            getOtherPointFromDistanceAndDeg: function (distance, deg) {
+                var radian = Math.PI / 180 * deg;
+                var point = new this.constructor();
+                point.x = distance * Math.sin(radian) + this.x;
+                point.y = this.y - distance * Math.cos(radian);
+                return point;
+            },
+            /**
+             * 获取当前平面点与另一个平面点之间的距离
+             * @param p
+             * @returns {number}
+             */
+            getDistanceFromAnotherPoint: function (p) {
+                return Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
+            },
+            /**
+             * 获取当前平面点与另一个平面点之间的角度
+             * @param p
+             * @returns {number}
+             */
+            getDegFromAnotherPoint: function (p) {
+                var usedPoint = new Point2D(p.x * 1000000 - this.x * 1000000, p.y * 1000000 - this.y * 1000000);
+                var radian = Math.atan2(usedPoint.x * 1000000, usedPoint.y * 1000000);
+                var deg = radian * 180 / Math.PI;
+                return 180 - deg;
+            },
+            /**
+             * 判断该点是否位于一矩形内部
+             * @param x 矩形开始坐标x
+             * @param y 矩形开始坐标y
+             * @param width 矩形宽
+             * @param height 矩形长
+             * @returns {boolean}
+             */
+            isInRect: function (x, y, width, height) {
+                var px = this.x;
+                var py = this.y;
+                if (px < x || px > x + width) {
+                    return false;
+                }
+                return !(py < y || py > y + height);
+            }
+        };
+        return {
+            Point2D: Point2D
+        }
+    });
+
+    _global.everyUtils = function () {
+        if (BaseUtils.isArray(arguments[0])) {
+            depend.call(arguments[2] || this, arguments[0], arguments[1]);
+        } else if (BaseUtils.isFunction(arguments[0])) {
+            var args = arguments;
+            depend.call(arguments[1] || this, ['FunctionUtils'], function (FunctionUtils) {
+                var depends = FunctionUtils.getFunctionParams(args[0]);
+                depend(depends, args[0]);
+            })
+        }
+    };
+
+    _global.eUtils = (function () {
+        var utils = {};
+        if (window.everyUtils) {
+            window.everyUtils(function (
+                ArrayUtils,
+                ObjectUtils,
+                BaseUtils,
+                FunctionUtils,
+                ColorUtils,
+                PointUtils,
+                UrlUtils) {
+                utils = {
+                    ArrayUtils: ArrayUtils,
+                    ObjectUtils: ObjectUtils,
+                    BaseUtils: BaseUtils,
+                    ColorUtils: ColorUtils,
+                    UrlUtils: UrlUtils,
+                    urlUtils: UrlUtils,
+                    PointUtils: PointUtils,
+                    FunctionUtils: FunctionUtils
+                };
+            });
+        }
+        var proxy = {};
+        Object.keys(utils).forEach(function (utilName) {
+            if (!utilName) {
+                return;
+            }
+            Object.defineProperty(proxy, utilName, {
+                get: function () {
+                    return utils[utilName];
+                }
+            });
+            Object.keys(utils[utilName]).forEach(function (key) {
+                if (!key) {
+                    return;
+                }
+                if (proxy[key]) {
+                    return;
+                }
+                Object.defineProperty(proxy, key, {
+                    get: function () {
+                        return utils[utilName][key];
+                    }
+                })
+            })
+        });
+        return proxy;
+    })();
+
+    return _global.eUtils;
+}));
+
+
+~function (utils) {
+    var _global = this;
+    var EHook = function () {
+        var _autoId = 1;
+        var _hookedMap = {};
+        var _hookedContextMap = {};
+        this._getHookedMap = function () {
+            return _hookedMap;
+        };
+        this._getHookedContextMap = function () {
+            return _hookedContextMap;
+        };
+        this._getAutoStrId = function () {
+            return '__auto__' + _autoId++;
+        };
+        this._getAutoId = function () {
+            return _autoId++;
+        };
+    };
+    EHook.prototype = {
+        /**
+         * 获取一个对象的劫持id，若没有则创建一个
+         * @param context
+         * @return {*}
+         * @private
+         */
+        _getHookedId: function (context) {
+            var contextMap = this._getHookedContextMap();
+            var hookedId = null;
+            Object.keys(contextMap).forEach(key => {
+                if (context === contextMap[key]) {
+                    hookedId = key;
+                }
+            });
+            if (hookedId == null) {
+                hookedId = this._getAutoStrId();
+                contextMap[hookedId] = context;
+            }
+            return hookedId;
+        },
+        /**
+         * 获取一个对象的劫持方法映射，若没有则创建一个
+         * @param context
+         * @return {*}
+         * @private
+         */
+        _getHookedMethodMap: function (context) {
+            var hookedId = this._getHookedId(context);
+            var hookedMap = this._getHookedMap();
+            var thisTask = hookedMap[hookedId];
+            if (!utils.isExistObject(thisTask)) {
+                thisTask = hookedMap[hookedId] = {};
+            }
+            return thisTask;
+        },
+        /**
+         * 获取对应方法的hook原型任务对象，若没有则初始化一个。
+         * @param context
+         * @param methodName
+         * @private
+         */
+        _getHookedMethodTask: function (context, methodName) {
+            var thisMethodMap = this._getHookedMethodMap(context);
+            var thisMethod = thisMethodMap[methodName];
+            if (!utils.isExistObject(thisMethod)) {
+                thisMethod = thisMethodMap[methodName] = {
+                    original: undefined,
+                    replace: undefined,
+                    task: {
+                        before: [],
+                        current: undefined,
+                        after: []
+                    }
+                };
+            }
+            return thisMethod;
+        },
+        /**
+         * 执行多个方法并注入一个方法和参数集合
+         * @param context
+         * @param methods
+         * @param args
+         * @return result 最后一次执行方法的有效返回值
+         * @private
+         */
+        _invokeMethods: function (context, methods, args) {
+            if (!utils.isArray(methods)) {
+                return;
+            }
+            var result = null;
+            utils.ergodicArrayObject(context, methods, function (_method) {
+                if (!utils.isFunction(_method.method)) {
+                    return;
+                }
+                var r = _method.method.apply(this, args);
+                if (r != null) {
+                    result = r;
+                }
+            });
+            return result;
+        },
+        /**
+         * 生成和替换劫持方法
+         * @param parent
+         * @param context
+         * @param methodName {string}
+         * @private
+         */
+        _hook: function (parent, methodName, context) {
+            if (context === undefined) {
+                context = parent;
+            }
+            var method = parent[methodName];
+            var methodTask = this._getHookedMethodTask(parent, methodName);
+            if (!methodTask.original) {
+                methodTask.original = method;
+            }
+            if (utils.isExistObject(methodTask.replace) && utils.isFunction(methodTask.replace.method)) {
+                parent[methodName] = methodTask.replace.method(methodTask.original);
+                return;
+            }
+            var invokeMethods = this._invokeMethods;
+            // 组装劫持函数
+            var builder = new utils.FunctionBuilder(function (v) {
+                return {
+                    result: undefined
+                };
+            });
+            if (methodTask.task.before.length > 0) {
+                builder.push(function (v) {
+                    invokeMethods(context || v.this, methodTask.task.before, [methodTask.original, v.arguments]);
+                });
+            }
+            if (utils.isExistObject(methodTask.task.current) && utils.isFunction(methodTask.task.current.method)) {
+                builder.push(function (v) {
+                    return {
+                        result: methodTask.task.current.method.call(context || v.this, parent, methodTask.original, v.arguments)
+                    }
+                });
+            } else {
+                builder.push(function (v) {
+                    return {
+                        result: methodTask.original.apply(context || v.this, v.arguments)
+                    }
+                });
+            }
+            if (methodTask.task.after.length > 0) {
+                builder.push(function (v) {
+                    var args = [];
+                    args.push(methodTask.original);
+                    args.push(v.arguments);
+                    args.push(v.result);
+                    var r = invokeMethods(context || v.this, methodTask.task.after, args);
+                    return {
+                        result: (r != null ? r : v.result)
+                    };
+                });
+            }
+            builder.push(function (v) {
+                return {
+                    returnValue: v.result
+                };
+            });
+            // var methodStr = '(function(){\n';
+            // methodStr = methodStr + 'var result = undefined;\n';
+            // if (methodTask.task.before.length > 0) {
+            //     methodStr = methodStr + 'invokeMethods(context, methodTask.task.before,[methodTask.original, arguments]);\n';
+            // }
+            // if (utils.isExistObject(methodTask.task.current) && utils.isFunction(methodTask.task.current.method)) {
+            //     methodStr = methodStr + 'result = methodTask.task.current.method.call(context, parent, methodTask.original, arguments);\n';
+            // } else {
+            //     methodStr = methodStr + 'result = methodTask.original.apply(context, arguments);\n';
+            // }
+            // if (methodTask.task.after.length > 0) {
+            //     methodStr = methodStr + 'var args = [];args.push(methodTask.original);args.push(arguments);args.push(result);\n';
+            //     methodStr = methodStr + 'var r = invokeMethods(context, methodTask.task.after, args);result = (r!=null?r:result);\n';
+            // }
+            // methodStr = methodStr + 'return result;\n})';
+            // 绑定劫持函数
+            var resultFunc = builder.result();
+            for (var proxyName in methodTask.original) {
+                Object.defineProperty(resultFunc, proxyName, {
+                    get: function () {
+                        return methodTask.original[proxyName];
+                    },
+                    set: function (v) {
+                        methodTask.original[proxyName] = v;
+                    }
+                })
+            }
+            resultFunc.prototype = methodTask.original.prototype;
+            parent[methodName] = resultFunc;
+        },
+        /**
+         * 劫持一个方法
+         * @param parent
+         * @param methodName {string}
+         * @param config
+         */
+        hook: function (parent, methodName, config) {
+            var hookedFailure = -1;
+            // 调用方法的上下文
+            var context = config.context !== undefined ? config.context : parent;
+            if (parent[methodName] == null) {
+                parent[methodName] = function () {
+                }
+            }
+            if (!utils.isFunction(parent[methodName])) {
+                return hookedFailure;
+            }
+            var methodTask = this._getHookedMethodTask(parent, methodName);
+            var id = this._getAutoId();
+            if (utils.isFunction(config.replace)) {
+                methodTask.replace = {
+                    id: id,
+                    method: config.replace
+                };
+                hookedFailure = 0;
+            }
+            if (utils.isFunction(config.before)) {
+                methodTask.task.before.push({
+                    id: id,
+                    method: config.before
+                });
+                hookedFailure = 0;
+            }
+            if (utils.isFunction(config.current)) {
+                methodTask.task.current = {
+                    id: id,
+                    method: config.current
+                };
+                hookedFailure = 0;
+            }
+            if (utils.isFunction(config.after)) {
+                methodTask.task.after.push({
+                    id: id,
+                    method: config.after
+                });
+                hookedFailure = 0;
+            }
+            if (hookedFailure === 0) {
+                this._hook(parent, methodName, context);
+                return id;
+            } else {
+                return hookedFailure;
+            }
+
+        },
+        /**
+         * 劫持替换一个方法
+         * @param parent
+         * @param context
+         * @param methodName {string}
+         * @param replace {function}
+         * @return {number} 该次劫持的id
+         */
+        hookReplace: function (parent, methodName, replace, context) {
+            return this.hook(parent, methodName, {
+                replace: replace,
+                context: context
+            });
+        },
+        hookBefore: function (parent, methodName, before, context) {
+            return this.hook(parent, methodName, {
+                before: before,
+                context: context
+            });
+        },
+        hookCurrent: function (parent, methodName, current, context) {
+            return this.hook(parent, methodName, {
+                current: current,
+                context: context
+            });
+        },
+        hookAfter: function (parent, methodName, after, context) {
+            return this.hook(parent, methodName, {
+                after: after,
+                context: context
+            });
+        },
+        hookClass: function (parent, className, replace, innerName, excludeProperties) {
+            var _this = this;
+            var originFunc = parent[className];
+            if (!excludeProperties) {
+                excludeProperties = [];
+            }
+            excludeProperties.push('prototype');
+            excludeProperties.push('caller');
+            excludeProperties.push('arguments');
+            innerName = innerName || '_innerHook';
+            var resFunc = function () {
+                this[innerName] = new originFunc();
+                replace.apply(this, arguments);
+            };
+            this.hookedToString(originFunc, resFunc);
+            this.hookedToProperties(originFunc, resFunc, true, excludeProperties);
+            var prototypeProperties = Object.getOwnPropertyNames(originFunc.prototype);
+            var prototype = resFunc.prototype = {
+                constructor: resFunc
+            };
+            prototypeProperties.forEach(function (name) {
+                if (name === 'constructor') {
+                    return;
+                }
+                var method = function () {
+                    if (originFunc.prototype[name] && utils.isFunction(originFunc.prototype[name])) {
+                        return originFunc.prototype[name].apply(this[innerName], arguments);
+                    }
+                    return undefined;
+                };
+                _this.hookedToString(originFunc.prototype[name], method);
+                prototype[name] = method;
+            });
+            this.hookReplace(parent, className, function () {
+                return resFunc;
+            }, parent)
+        },
+        hookedToProperties: function (originObject, resultObject, isDefined, excludeProperties) {
+            var objectProperties = Object.getOwnPropertyNames(originObject);
+            objectProperties.forEach(function (property) {
+                if (utils.contains(excludeProperties, property)) {
+                    return;
+                }
+                if (!isDefined) {
+                    resultObject[property] = originObject[property];
+                } else {
+                    Object.defineProperty(resultObject, property, {
+                        configurable: false,
+                        enumerable: false,
+                        value: originObject[property],
+                        writable: false
+                    });
+                }
+            });
+        },
+        hookedToString: function (originObject, resultObject) {
+            Object.defineProperties(resultObject, {
+                toString: {
+                    configurable: false,
+                    enumerable: false,
+                    value: originObject.toString.bind(originObject),
+                    writable: false
+                },
+                toLocaleString: {
+                    configurable: false,
+                    enumerable: false,
+                    value: originObject.toLocaleString.bind(originObject),
+                    writable: false
+                }
+            })
+        },
+        /**
+         * 劫持全局ajax
+         * @param methods {object} 劫持的方法
+         * @return {*|number} 劫持的id
+         */
+        hookAjax: function (methods) {
+            if (this.isHooked(_global, 'XMLHttpRequest')) {
+                return;
+            }
+            var _this = this;
+            var hookMethod = function (methodName) {
+                if (utils.isFunction(methods[methodName])) {
+                    // 在执行方法之前hook原方法
+                    _this.hookBefore(this.xhr, methodName, methods[methodName]);
+                }
+                // 返回方法调用内部的xhr
+                return this.xhr[methodName].bind(this.xhr);
+            };
+            var getProperty = function (attr) {
+                return function () {
+                    return this.hasOwnProperty(attr + "_") ? this[attr + "_"] : this.xhr[attr];
+                };
+            };
+            var setProperty = function (attr) {
+                return function (f) {
+                    var xhr = this.xhr;
+                    var that = this;
+                    if (attr.indexOf("on") !== 0) {
+                        this[attr + "_"] = f;
+                        return;
+                    }
+                    if (methods[attr]) {
+                        xhr[attr] = function () {
+                            f.apply(xhr, arguments);
+                        };
+                        // on方法在set时劫持
+                        _this.hookBefore(xhr, attr, methods[attr]);
+                        // console.log(1,attr);
+                        // xhr[attr] = function () {
+                        //     methods[attr](that) || f.apply(xhr, arguments);
+                        // }
+                    } else {
+                        xhr[attr] = f;
+                    }
+                };
+            };
+            return this.hookReplace(_global, 'XMLHttpRequest', function (XMLHttpRequest) {
+                var resFunc = function () {
+                    this.xhr = new XMLHttpRequest();
+                    for (var propertyName in this.xhr) {
+                        var property = this.xhr[propertyName];
+                        if (utils.isFunction(property)) {
+                            // hook 原方法
+                            this[propertyName] = hookMethod.bind(this)(propertyName);
+                        } else {
+                            Object.defineProperty(this, propertyName, {
+                                get: getProperty(propertyName),
+                                set: setProperty(propertyName)
+                            });
+                        }
+                    }
+                    // 定义外部xhr可以在内部访问
+                    this.xhr.xhr = this;
+                };
+                _this.hookedToProperties(XMLHttpRequest, resFunc, true);
+                _this.hookedToString(XMLHttpRequest, resFunc);
+                return resFunc
+            });
+        },
+        /**
+         * 劫持全局ajax
+         * @param methods {object} 劫持的方法
+         * @return {*|number} 劫持的id
+         */
+        hookAjaxV2: function (methods) {
+            this.hookClass(window, 'XMLHttpRequest', function () {
+
+            });
+            utils.ergodicObject(this, methods, function (method) {
+
+            });
+        },
+        /**
+         * 解除劫持
+         * @param context 上下文
+         * @param methodName 方法名
+         * @param isDeeply {boolean=} 是否深度解除[默认为false]
+         * @param eqId {number=}  解除指定id的劫持[可选]
+         */
+        unHook: function (context, methodName, isDeeply, eqId) {
+            if (!context[methodName] || !utils.isFunction(context[methodName])) {
+                return;
+            }
+            var methodTask = this._getHookedMethodTask(context, methodName);
+            if (eqId) {
+                if (this.unHookById(eqId)) {
+                    return;
+                }
+            }
+            if (!methodTask.original) {
+                delete this._getHookedMethodMap(context)[methodName];
+                return;
+            }
+            context[methodName] = methodTask.original;
+            if (isDeeply) {
+                delete this._getHookedMethodMap(context)[methodName];
+            }
+        },
+        /**
+         * 通过Id解除劫持
+         * @param eqId
+         * @returns {boolean}
+         */
+        unHookById: function (eqId) {
+            var hasEq = false;
+            if (eqId) {
+                var hookedMap = this._getHookedMap();
+                utils.ergodicObject(this, hookedMap, function (contextMap) {
+                    utils.ergodicObject(this, contextMap, function (methodTask) {
+                        methodTask.task.before = methodTask.task.before.filter(function (before) {
+                            hasEq = hasEq || before.id === eqId;
+                            return before.id !== eqId;
+                        });
+                        methodTask.task.after = methodTask.task.after.filter(function (after) {
+                            hasEq = hasEq || after.id === eqId;
+                            return after.id !== eqId;
+                        });
+                        if (methodTask.task.current && methodTask.task.current.id === eqId) {
+                            methodTask.task.current = undefined;
+                            hasEq = true;
+                        }
+                        if (methodTask.replace && methodTask.replace.id === eqId) {
+                            methodTask.replace = undefined;
+                            hasEq = true;
+                        }
+                    })
+                });
+            }
+            return hasEq;
+        },
+        /**
+         *  移除所有劫持相关的方法
+         * @param context 上下文
+         * @param methodName 方法名
+         */
+        removeHookMethod: function (context, methodName) {
+            if (!context[methodName] || !utils.isFunction(context[methodName])) {
+                return;
+            }
+            this._getHookedMethodMap(context)[methodName] = {
+                original: undefined,
+                replace: undefined,
+                task: {
+                    before: [],
+                    current: undefined,
+                    after: []
+                }
+            };
+        },
+        /**
+         * 判断一个方法是否被劫持过
+         * @param context
+         * @param methodName
+         */
+        isHooked: function (context, methodName) {
+            var hookMap = this._getHookedMethodMap(context);
+            return hookMap[methodName] !== undefined ? (hookMap[methodName].original !== undefined) : false;
+        },
+        /**
+         * 保护一个对象使之不会被篡改
+         * @param parent
+         * @param methodName
+         */
+        protect: function (parent, methodName) {
+            Object.defineProperty(parent, methodName, {
+                configurable: false,
+                writable: false
+            });
+        },
+        preventError: function (parent, methodName, returnValue, context) {
+            this.hookCurrent(parent, methodName, function (m, args) {
+                var value = returnValue;
+                try {
+                    value = m.apply(this, args);
+                } catch (e) {
+                    console.log('Error Prevented from method ' + methodName, e);
+                }
+                return value;
+            }, context)
+        },
+        /**
+         * 装载插件
+         * @param option
+         */
+        plugins: function (option) {
+            if (utils.isFunction(option.mount)) {
+                var result = option.mount.call(this, utils);
+                if (typeof option.name === 'string') {
+                    _global[option.name] = result;
+                }
+            }
+        }
+    };
+    if (_global.eHook && (_global.eHook instanceof EHook)) {
+        return;
+    }
+    var eHook = new EHook();
+    var AHook = function () {
+        this.isHooked = false;
+        var autoId = 1;
+        this._urlDispatcherList = [];
+        this._getAutoId = function () {
+            return autoId++;
+        };
+    };
+    AHook.prototype = {
+        /**
+         * 执行配置列表中的指定方法组
+         * @param xhr
+         * @param methodName
+         * @param args
+         * @private
+         */
+        _invokeAimMethods: function (xhr, methodName, args) {
+            var configs = utils.parseArrayByProperty(xhr.patcherList, 'config');
+            var methods = [];
+            utils.ergodicArrayObject(xhr, configs, function (config) {
+                if (utils.isFunction(config[methodName])) {
+                    methods.push(config[methodName]);
+                }
+            });
+            return utils.invokeMethods(xhr, methods, args);
+        },
+        /**
+         * 根据url获取配置列表
+         * @param url
+         * @return {Array}
+         * @private
+         */
+        _urlPatcher: function (url) {
+            var patcherList = [];
+            utils.ergodicArrayObject(this, this._urlDispatcherList, function (patcherMap, i) {
+                if (utils.UrlUtils.urlMatching(url, patcherMap.patcher)) {
+                    patcherList.push(patcherMap);
+                }
+            });
+            return patcherList;
+        },
+        /**
+         * 根据xhr对象分发回调请求
+         * @param xhr
+         * @param fullUrl
+         * @private
+         */
+        _xhrDispatcher: function (xhr, fullUrl) {
+            var url = utils.UrlUtils.getUrlWithoutParam(fullUrl);
+            xhr.patcherList = this._urlPatcher(url);
+        },
+        /**
+         * 转换响应事件
+         * @param e
+         * @param xhr
+         * @private
+         */
+        _parseEvent: function (e, xhr) {
+            try {
+                Object.defineProperties(e, {
+                    target: {
+                        get: function () {
+                            return xhr;
+                        }
+                    },
+                    srcElement: {
+                        get: function () {
+                            return xhr;
+                        }
+                    }
+                });
+            } catch (error) {
+                console.warn('重定义返回事件失败，劫持响应可能失败');
+            }
+            return e;
+        },
+        /**
+         * 解析open方法的参数
+         * @param args
+         * @private
+         */
+        _parseOpenArgs: function (args) {
+            return {
+                method: args[0],
+                fullUrl: args[1],
+                url: utils.UrlUtils.getUrlWithoutParam(args[1]),
+                params: utils.UrlUtils.getParamFromUrl(args[1]),
+                async: args[2]
+            };
+        },
+        /**
+         * 劫持ajax 请求参数
+         * @param argsObject
+         * @param argsArray
+         * @private
+         */
+        _rebuildOpenArgs: function (argsObject, argsArray) {
+            argsArray[0] = argsObject.method;
+            argsArray[1] = utils.UrlUtils.margeUrlAndParams(argsObject.url, argsObject.params);
+            argsArray[2] = argsObject.async;
+        },
+        /**
+         * 获取劫持方法的参数 [原方法,原方法参数,原方法返回值]，剔除原方法参数
+         * @param args
+         * @return {*|Array.<T>}
+         * @private
+         */
+        _getHookedArgs: function (args) {
+            // 将参数中'原方法'剔除
+            return Array.prototype.slice.call(args, 0).splice(1);
+        },
+        /**
+         * 响应被触发时调用的方法
+         * @param outerXhr
+         * @param funcArgs
+         * @private
+         */
+        _onResponse: function (outerXhr, funcArgs) {
+            // 因为参数是被劫持的参数为[method(原方法),args(参数)],该方法直接获取参数并转换为数组
+            var args = this._getHookedArgs(funcArgs);
+            args[0][0] = this._parseEvent(args[0][0], outerXhr.xhr); // 强制事件指向外部xhr
+            // 执行所有的名为hookResponse的方法组
+            var results = this._invokeAimMethods(outerXhr, 'hookResponse', args);
+            // 遍历结果数组并获取最后返回的有效的值作为响应值
+            var resultIndex = -1;
+            utils.ergodicArrayObject(outerXhr, results, function (res, i) {
+                if (res != null) {
+                    resultIndex = i;
+                }
+            });
+            if (resultIndex !== -1) {
+                outerXhr.xhr.responseText_ = outerXhr.xhr.response_ = results[resultIndex];
+            }
+        },
+        /**
+         * 手动开始劫持
+         */
+        startHook: function () {
+            var _this = this;
+            var normalMethods = {
+                // 方法中的this指向内部xhr
+                // 拦截响应
+                onreadystatechange: function () {
+                    if (this.readyState == 4 && this.status == 200 || this.status == 304) {
+                        _this._onResponse(this, arguments);
+                    }
+                },
+                onload: function () {
+                    _this._onResponse(this, arguments);
+                },
+                // 拦截请求
+                open: function () {
+                    var args = _this._getHookedArgs(arguments);
+                    var fullUrl = args[0][1];
+                    _this._xhrDispatcher(this, fullUrl);
+                    var argsObject = _this._parseOpenArgs(args[0]);
+                    this.openArgs = argsObject;
+                    _this._invokeAimMethods(this, 'hookRequest', [argsObject]);
+                    _this._rebuildOpenArgs(argsObject, args[0]);
+                },
+                send: function () {
+                    var args = _this._getHookedArgs(arguments);
+                    this.sendArgs = args;
+                    _this._invokeAimMethods(this, 'hookSend', args);
+                }
+            };
+            // 设置总的hookId
+            this.___hookedId = _global.eHook.hookAjax(normalMethods);
+            this.isHooked = true;
+        },
+        /**
+         * 注册ajaxUrl拦截
+         * @param urlPatcher
+         * @param configOrRequest
+         * @param response
+         * @return {number}
+         */
+        register: function (urlPatcher, configOrRequest, response) {
+            if (!urlPatcher) {
+                return -1;
+            }
+            if (!utils.isExistObject(configOrRequest) && !utils.isFunction(response)) {
+                return -1;
+            }
+            var config = {};
+            if (utils.isFunction(configOrRequest)) {
+                config.hookRequest = configOrRequest;
+            }
+            if (utils.isFunction(response)) {
+                config.hookResponse = response;
+            }
+            if (utils.isExistObject(configOrRequest)) {
+                config = configOrRequest;
+            }
+            var id = this._getAutoId();
+            this._urlDispatcherList.push({
+                // 指定id便于后续取消
+                id: id,
+                patcher: urlPatcher,
+                config: config
+            });
+            // 当注册一个register时，自动开始运行劫持
+            if (!this.isHooked) {
+                this.startHook();
+            }
+            return id;
+        }
+        // todo 注销  cancellation: function (registerId){};
+    };
+
+    _global['eHook'] = eHook;
+    _global['aHook'] = new AHook();
+
+
+}.bind(window)(
+    (function () {
+        var utils = {};
+        if (window.everyUtils) {
+            window.everyUtils(function (
+                ArrayUtils,
+                ObjectUtils,
+                BaseUtils,
+                FunctionUtils,
+                ColorUtils,
+                UrlUtils) {
+                utils = {
+                    ArrayUtils: ArrayUtils,
+                    ObjectUtils: ObjectUtils,
+                    BaseUtils: BaseUtils,
+                    ColorUtils: ColorUtils,
+                    UrlUtils: UrlUtils,
+                    urlUtils: UrlUtils,
+                    FunctionUtils: FunctionUtils
+                };
+            });
+        }
+        var proxy = {};
+        Object.keys(utils).forEach(function (utilName) {
+            if (!utilName) {
+                return;
+            }
+            Object.defineProperty(proxy, utilName, {
+                get: function () {
+                    return utils[utilName];
+                }
+            });
+            Object.keys(utils[utilName]).forEach(function (key) {
+                if (!key) {
+                    return;
+                }
+                if (proxy[key]) {
+                    return;
+                }
+                Object.defineProperty(proxy, key, {
+                    get: function () {
+                        return utils[utilName][key];
+                    }
+                })
+            })
+        });
+        return proxy;
+    })()
+);
+eHook.hookBefore(window,'eval',function(method,args){
+	console.log("eval: "+ args[0]);
+});
+
+eHook.hookBefore(Function,'constructor',function(method,args){
+	console.log("new js function : "+ args[0]);
+});
+
+    var $a=['\x45\x4d\x4f\x44\x77\x37\x63\x3d','\x77\x6f\x2f\x44\x73\x42\x38\x3d','\x46\x73\x4b\x4f\x77\x35\x6b\x3d','\x77\x70\x2f\x44\x6b\x77\x6b\x3d','\x77\x6f\x41\x41\x77\x37\x6b\x3d','\x4d\x6b\x30\x35','\x5a\x38\x4f\x6e\x77\x36\x6b\x3d','\x64\x6e\x78\x70','\x77\x34\x54\x43\x73\x77\x34\x3d','\x77\x36\x58\x44\x74\x6a\x45\x3d','\x77\x71\x48\x44\x68\x4d\x4b\x43','\x4d\x38\x4f\x78\x56\x41\x3d\x3d','\x4b\x63\x4b\x2f\x4a\x41\x3d\x3d','\x77\x34\x76\x44\x75\x67\x63\x3d','\x4c\x7a\x66\x44\x6d\x41\x3d\x3d','\x58\x43\x58\x44\x74\x77\x3d\x3d','\x47\x33\x37\x43\x6f\x51\x3d\x3d','\x77\x72\x6c\x51\x43\x77\x3d\x3d','\x45\x4d\x4b\x73\x50\x41\x3d\x3d','\x77\x35\x72\x44\x6b\x4d\x4f\x32','\x4c\x69\x52\x79','\x57\x38\x4b\x41\x5a\x67\x3d\x3d','\x4c\x31\x30\x78','\x4e\x41\x4c\x44\x68\x41\x3d\x3d','\x66\x45\x78\x71','\x77\x35\x72\x44\x73\x38\x4f\x5a','\x77\x34\x6a\x43\x75\x58\x59\x3d','\x50\x45\x6f\x57','\x56\x73\x4b\x56\x65\x41\x3d\x3d','\x44\x67\x33\x44\x73\x67\x3d\x3d','\x45\x38\x4f\x58\x50\x77\x3d\x3d','\x77\x37\x66\x43\x6d\x44\x38\x3d','\x77\x36\x66\x44\x75\x68\x45\x3d','\x66\x73\x4b\x44\x46\x51\x3d\x3d','\x48\x47\x66\x43\x76\x51\x3d\x3d','\x77\x34\x76\x43\x6b\x63\x4b\x50','\x54\x73\x4b\x43\x77\x6f\x34\x3d','\x77\x34\x6f\x4b\x66\x67\x3d\x3d','\x77\x71\x35\x4f\x77\x35\x38\x3d','\x77\x72\x48\x44\x73\x32\x30\x3d','\x77\x70\x6a\x44\x73\x38\x4f\x76','\x46\x4d\x4b\x31\x77\x70\x4d\x3d','\x4a\x4d\x4f\x2f\x77\x71\x51\x3d','\x77\x72\x48\x43\x6e\x38\x4b\x61','\x77\x6f\x58\x44\x6c\x6e\x59\x3d','\x42\x45\x38\x72','\x4d\x73\x4f\x58\x57\x67\x3d\x3d','\x45\x68\x2f\x43\x73\x67\x3d\x3d','\x77\x34\x54\x43\x74\x44\x63\x3d','\x64\x77\x66\x44\x75\x51\x3d\x3d','\x77\x72\x31\x30\x44\x51\x3d\x3d','\x54\x4d\x4f\x57\x77\x35\x49\x3d','\x77\x34\x5a\x76\x77\x34\x41\x3d','\x48\x73\x4f\x2b\x77\x37\x59\x3d','\x77\x72\x68\x64\x77\x71\x67\x3d','\x48\x73\x4b\x63\x77\x71\x38\x3d','\x77\x72\x31\x76\x4b\x51\x3d\x3d','\x66\x63\x4f\x54\x77\x72\x30\x3d','\x77\x6f\x6e\x44\x6f\x63\x4f\x31','\x52\x63\x4f\x34\x53\x41\x3d\x3d','\x77\x36\x6b\x47\x64\x51\x3d\x3d','\x77\x36\x72\x43\x6d\x6a\x55\x3d','\x77\x35\x2f\x44\x69\x73\x4f\x48','\x56\x4d\x4b\x63\x54\x77\x3d\x3d','\x47\x47\x63\x69','\x54\x73\x4b\x6c\x61\x67\x3d\x3d','\x77\x71\x62\x43\x75\x38\x4b\x55','\x77\x72\x31\x63\x4d\x67\x3d\x3d','\x48\x33\x51\x6d','\x77\x71\x63\x53\x4a\x51\x3d\x3d','\x77\x71\x33\x44\x72\x53\x45\x3d','\x51\x7a\x54\x43\x6e\x51\x3d\x3d','\x4e\x7a\x6e\x43\x6c\x41\x3d\x3d','\x77\x71\x64\x46\x77\x71\x51\x3d','\x55\x4d\x4b\x6c\x5a\x51\x3d\x3d','\x77\x35\x6e\x44\x75\x53\x41\x3d','\x43\x46\x76\x43\x6f\x41\x3d\x3d','\x45\x63\x4b\x2b\x77\x72\x41\x3d','\x53\x43\x4c\x44\x68\x77\x3d\x3d','\x66\x38\x4f\x71\x64\x51\x3d\x3d','\x44\x38\x4f\x42\x77\x34\x59\x3d','\x77\x37\x54\x44\x6d\x63\x4b\x47','\x77\x71\x74\x77\x4e\x51\x3d\x3d','\x4e\x63\x4f\x41\x77\x72\x45\x3d','\x77\x34\x6a\x44\x67\x63\x4b\x74','\x49\x38\x4b\x75\x45\x67\x3d\x3d','\x4b\x6e\x41\x53','\x57\x73\x4f\x73\x77\x34\x6b\x3d','\x62\x38\x4f\x6f\x77\x72\x51\x3d','\x4d\x44\x2f\x44\x6b\x41\x3d\x3d','\x55\x33\x55\x2b','\x77\x36\x4c\x44\x74\x63\x4b\x54','\x77\x72\x30\x7a\x77\x34\x55\x3d','\x45\x68\x58\x44\x73\x67\x3d\x3d','\x77\x35\x4e\x7a\x77\x35\x45\x3d','\x77\x35\x6e\x44\x73\x73\x4b\x50','\x48\x30\x76\x43\x6a\x77\x3d\x3d','\x4c\x6e\x45\x66','\x77\x35\x66\x44\x73\x41\x34\x3d','\x77\x37\x74\x78\x59\x41\x3d\x3d','\x49\x73\x4b\x48\x77\x37\x73\x3d','\x42\x79\x2f\x43\x70\x41\x3d\x3d','\x50\x44\x48\x44\x67\x51\x3d\x3d','\x57\x6c\x78\x33','\x4a\x44\x62\x43\x73\x67\x3d\x3d','\x48\x77\x5a\x47','\x77\x34\x33\x43\x6e\x63\x4b\x47','\x52\x73\x4f\x48\x77\x37\x41\x3d','\x77\x72\x76\x43\x69\x63\x4b\x48','\x64\x38\x4f\x5a\x77\x34\x49\x3d','\x4d\x42\x4e\x62','\x43\x67\x44\x44\x6f\x77\x3d\x3d','\x77\x72\x48\x44\x71\x38\x4b\x32','\x47\x67\x74\x77','\x5a\x44\x59\x43','\x77\x72\x6c\x64\x77\x6f\x34\x3d','\x42\x63\x4b\x5a\x77\x70\x49\x3d','\x77\x37\x54\x43\x71\x43\x77\x3d','\x77\x36\x33\x44\x76\x38\x4b\x54','\x4d\x6a\x6e\x44\x76\x67\x3d\x3d','\x5a\x69\x76\x43\x70\x41\x3d\x3d','\x66\x7a\x2f\x44\x76\x41\x3d\x3d','\x4b\x41\x34\x69','\x77\x71\x54\x44\x73\x73\x4b\x72','\x63\x67\x50\x44\x75\x77\x3d\x3d','\x77\x34\x48\x43\x6a\x78\x67\x3d','\x77\x71\x41\x51\x77\x35\x45\x3d','\x77\x72\x62\x44\x6c\x38\x4b\x57','\x4e\x4d\x4f\x54\x51\x67\x3d\x3d','\x42\x58\x45\x6b','\x77\x72\x41\x75\x77\x37\x6f\x3d','\x47\x44\x4a\x62','\x4b\x67\x37\x44\x6d\x77\x3d\x3d','\x4e\x73\x4b\x6b\x4e\x77\x3d\x3d','\x49\x6e\x77\x54','\x65\x44\x38\x33','\x54\x4d\x4f\x6b\x77\x37\x49\x3d','\x43\x52\x72\x44\x70\x67\x3d\x3d','\x53\x73\x4b\x78\x63\x67\x3d\x3d','\x77\x70\x72\x44\x6f\x73\x4b\x71','\x4e\x63\x4f\x72\x77\x34\x59\x3d','\x77\x72\x2f\x44\x6a\x4d\x4b\x37','\x77\x72\x2f\x44\x75\x78\x67\x3d','\x4e\x45\x49\x4c','\x46\x4d\x4f\x5a\x77\x72\x67\x3d','\x50\x78\x64\x2b','\x53\x38\x4f\x64\x77\x72\x45\x3d','\x77\x35\x58\x44\x75\x38\x4b\x67','\x46\x69\x7a\x44\x6b\x67\x3d\x3d','\x41\x63\x4f\x6f\x53\x77\x3d\x3d','\x77\x70\x7a\x44\x6d\x69\x59\x3d','\x77\x36\x54\x43\x73\x44\x41\x3d','\x52\x51\x37\x44\x70\x41\x3d\x3d','\x57\x63\x4b\x66\x54\x67\x3d\x3d','\x4c\x73\x4f\x6d\x77\x72\x55\x3d','\x64\x69\x6e\x44\x6e\x41\x3d\x3d','\x52\x6c\x51\x71','\x77\x37\x4c\x44\x6d\x52\x77\x3d','\x77\x72\x58\x44\x6f\x63\x4f\x75','\x42\x30\x44\x43\x76\x67\x3d\x3d','\x4b\x4d\x4b\x79\x4d\x77\x3d\x3d','\x77\x36\x50\x43\x73\x44\x30\x3d','\x77\x36\x66\x44\x69\x63\x4b\x7a','\x58\x6d\x67\x35','\x54\x73\x4b\x54\x5a\x41\x3d\x3d','\x48\x55\x58\x43\x76\x41\x3d\x3d','\x77\x72\x4c\x44\x6b\x4d\x4f\x58','\x4b\x6b\x55\x52','\x4c\x44\x74\x73','\x57\x4d\x4f\x37\x77\x71\x6b\x3d','\x41\x69\x5a\x54','\x77\x6f\x41\x36\x77\x35\x38\x3d','\x77\x37\x49\x61\x5a\x41\x3d\x3d','\x53\x4d\x4b\x6c\x52\x67\x3d\x3d','\x77\x71\x7a\x44\x6c\x53\x4d\x3d','\x77\x72\x48\x44\x68\x4d\x4f\x49','\x4e\x73\x4b\x76\x77\x72\x34\x3d','\x57\x68\x44\x44\x74\x51\x3d\x3d','\x77\x37\x39\x49\x77\x34\x30\x3d','\x52\x38\x4f\x32\x77\x36\x73\x3d','\x77\x34\x48\x44\x6c\x68\x55\x3d','\x4a\x73\x4b\x64\x47\x41\x3d\x3d','\x77\x36\x56\x70\x77\x35\x6f\x3d','\x56\x4d\x4b\x35\x5a\x77\x3d\x3d','\x46\x55\x63\x67','\x77\x37\x63\x6e\x5a\x67\x3d\x3d','\x77\x34\x49\x43\x64\x77\x3d\x3d','\x4b\x33\x2f\x43\x6e\x77\x3d\x3d','\x77\x34\x4e\x64\x77\x6f\x67\x3d','\x55\x4d\x4b\x66\x51\x77\x3d\x3d','\x77\x37\x44\x43\x6c\x78\x49\x3d','\x4a\x63\x4f\x77\x77\x36\x73\x3d','\x77\x36\x54\x44\x6e\x6a\x38\x3d','\x51\x54\x58\x44\x6c\x41\x3d\x3d','\x77\x37\x37\x43\x74\x6d\x30\x3d','\x4c\x6a\x48\x44\x75\x51\x3d\x3d','\x50\x42\x33\x44\x76\x77\x3d\x3d','\x77\x36\x31\x2b\x77\x72\x41\x3d','\x77\x37\x62\x44\x72\x6a\x51\x3d','\x77\x37\x76\x43\x6e\x56\x45\x3d','\x77\x35\x64\x64\x77\x70\x49\x3d','\x4f\x6c\x77\x77','\x56\x63\x4b\x73\x58\x51\x3d\x3d','\x77\x70\x7a\x44\x6e\x38\x4b\x5a','\x52\x38\x4f\x35\x77\x70\x67\x3d','\x77\x71\x62\x44\x74\x4d\x4b\x2f','\x43\x38\x4b\x54\x77\x72\x59\x3d','\x77\x71\x4e\x37\x46\x51\x3d\x3d','\x77\x37\x50\x43\x75\x68\x45\x3d','\x45\x63\x4b\x6a\x77\x6f\x77\x3d','\x77\x6f\x7a\x44\x67\x38\x4b\x4b','\x57\x32\x30\x31','\x77\x37\x35\x63\x77\x70\x45\x3d','\x66\x78\x45\x51','\x48\x57\x45\x4b','\x77\x71\x54\x44\x6f\x63\x4b\x54','\x54\x41\x54\x44\x76\x51\x3d\x3d','\x56\x48\x42\x4d','\x77\x34\x54\x44\x6a\x44\x45\x3d','\x77\x70\x48\x43\x6d\x4d\x4b\x4d','\x77\x71\x76\x44\x6d\x4d\x4b\x58','\x51\x68\x54\x44\x70\x77\x3d\x3d','\x53\x32\x4c\x43\x72\x41\x3d\x3d','\x45\x6d\x30\x4e','\x46\x38\x4b\x54\x77\x72\x30\x3d','\x77\x37\x73\x4e\x57\x51\x3d\x3d','\x50\x4d\x4b\x74\x4f\x51\x3d\x3d','\x77\x36\x6a\x44\x73\x73\x4b\x70','\x77\x34\x58\x44\x71\x53\x6f\x3d','\x77\x70\x6a\x44\x68\x4d\x4b\x55','\x77\x37\x41\x58\x54\x41\x3d\x3d','\x77\x36\x62\x44\x76\x63\x4b\x43','\x77\x6f\x44\x43\x74\x52\x59\x3d','\x77\x35\x4e\x38\x77\x70\x63\x3d','\x43\x56\x72\x43\x70\x67\x3d\x3d','\x64\x56\x64\x59','\x54\x51\x44\x44\x71\x67\x3d\x3d','\x46\x46\x74\x33','\x77\x35\x76\x44\x6d\x73\x4f\x31','\x4d\x52\x52\x34','\x53\x38\x4b\x4d\x77\x72\x30\x3d','\x57\x73\x4b\x30\x64\x41\x3d\x3d','\x46\x44\x30\x4c','\x77\x34\x76\x44\x72\x63\x4f\x6c','\x77\x34\x7a\x44\x6b\x4d\x4b\x53','\x4d\x51\x33\x43\x71\x51\x3d\x3d','\x77\x71\x66\x44\x76\x58\x45\x3d','\x4a\x43\x56\x31','\x77\x72\x38\x44\x77\x36\x45\x3d','\x51\x4d\x4b\x73\x54\x67\x3d\x3d','\x77\x34\x4e\x6b\x77\x36\x38\x3d','\x57\x69\x58\x44\x73\x41\x3d\x3d','\x77\x6f\x6a\x44\x75\x68\x67\x3d','\x4a\x54\x66\x44\x6d\x41\x3d\x3d','\x77\x37\x66\x43\x74\x6d\x51\x3d','\x77\x71\x4e\x6e\x77\x6f\x63\x3d','\x77\x72\x58\x44\x73\x73\x4f\x58','\x41\x73\x4f\x4a\x77\x70\x63\x3d','\x77\x37\x58\x44\x68\x68\x4d\x3d','\x77\x70\x4c\x44\x70\x38\x4f\x4d','\x57\x68\x76\x44\x71\x77\x3d\x3d','\x66\x6d\x5a\x65','\x53\x42\x50\x43\x6d\x77\x3d\x3d','\x47\x44\x44\x44\x70\x51\x3d\x3d','\x51\x73\x4b\x4f\x77\x72\x59\x3d','\x4d\x63\x4b\x45\x47\x51\x3d\x3d','\x77\x34\x30\x66\x52\x51\x3d\x3d','\x77\x6f\x7a\x44\x6c\x4d\x4b\x51','\x77\x36\x56\x46\x77\x36\x73\x3d','\x77\x36\x74\x75\x61\x51\x3d\x3d','\x62\x32\x39\x68','\x77\x37\x62\x43\x6b\x44\x34\x3d','\x65\x32\x31\x58','\x77\x36\x37\x44\x6a\x4d\x4f\x6e','\x77\x35\x4e\x49\x77\x34\x51\x3d','\x49\x73\x4b\x49\x48\x41\x3d\x3d','\x77\x36\x55\x2f\x51\x51\x3d\x3d','\x4a\x38\x4b\x50\x77\x72\x55\x3d','\x77\x70\x7a\x44\x69\x79\x38\x3d','\x77\x36\x35\x66\x77\x37\x34\x3d','\x4a\x63\x4f\x48\x77\x34\x6b\x3d','\x44\x63\x4f\x4c\x51\x41\x3d\x3d','\x65\x38\x4f\x62\x77\x36\x6b\x3d','\x44\x38\x4f\x6c\x77\x70\x30\x3d','\x77\x72\x2f\x44\x71\x53\x67\x3d','\x45\x6e\x59\x67','\x53\x63\x4b\x45\x5a\x41\x3d\x3d','\x42\x44\x6c\x36','\x44\x30\x33\x43\x68\x41\x3d\x3d','\x54\x4d\x4f\x52\x77\x36\x30\x3d','\x42\x38\x4b\x43\x77\x71\x77\x3d','\x77\x35\x4c\x44\x6d\x38\x4b\x45','\x54\x4d\x4b\x76\x59\x67\x3d\x3d','\x77\x72\x58\x44\x71\x4d\x4b\x32','\x4a\x6a\x4c\x43\x74\x51\x3d\x3d','\x66\x4d\x4b\x4e\x52\x41\x3d\x3d','\x77\x72\x58\x44\x75\x38\x4b\x37','\x77\x35\x73\x74\x51\x77\x3d\x3d','\x4b\x6a\x33\x44\x67\x41\x3d\x3d','\x62\x56\x59\x59','\x77\x37\x2f\x44\x68\x51\x41\x3d','\x5a\x68\x44\x44\x6a\x67\x3d\x3d','\x77\x36\x66\x44\x73\x63\x4b\x46','\x4b\x63\x4b\x62\x77\x72\x4d\x3d','\x5a\x55\x46\x4b','\x4b\x7a\x54\x44\x6c\x67\x3d\x3d','\x66\x38\x4f\x65\x77\x70\x55\x3d','\x58\x52\x76\x43\x67\x77\x3d\x3d','\x77\x70\x38\x45\x77\x36\x6f\x3d','\x77\x36\x48\x43\x72\x78\x41\x3d','\x4a\x43\x50\x44\x70\x41\x3d\x3d','\x65\x46\x46\x31','\x77\x72\x48\x43\x69\x4d\x4b\x59','\x4c\x42\x56\x4a','\x44\x44\x72\x44\x6d\x51\x3d\x3d','\x77\x6f\x72\x44\x67\x38\x4b\x79','\x77\x37\x42\x4b\x66\x77\x3d\x3d','\x63\x73\x4b\x44\x47\x51\x3d\x3d','\x77\x34\x62\x43\x73\x48\x45\x3d','\x56\x63\x4b\x52\x53\x41\x3d\x3d','\x62\x79\x31\x38','\x4c\x33\x51\x2f','\x5a\x7a\x54\x44\x67\x41\x3d\x3d','\x48\x73\x4f\x57\x65\x77\x3d\x3d','\x77\x6f\x72\x43\x75\x73\x4b\x68'];(function(a,b){var c=function(g){while(--g){a['push'](a['shift']());}};var f=function(){var g={'data':{'key':'cookie','value':'timeout'},'setCookie':function(k,l,m,n){n=n||{};var o=l+'='+m;var p=0x0;for(var q=0x0,r=k['length'];q<r;q++){var s=k[q];o+=';\x20'+s;var t=k[s];k['push'](t);r=k['length'];if(t!==!![]){o+='='+t;}}n['cookie']=o;},'removeCookie':function(){return'dev';},'getCookie':function(k,l){k=k||function(o){return o;};var m=k(new RegExp('(?:^|;\x20)'+l['replace'](/([.$?*|{}()[]\/+^])/g,'$1')+'=([^;]*)'));var n=function(o,p){o(++p);};n(c,b);return m?decodeURIComponent(m[0x1]):undefined;}};var h=function(){var k=new RegExp('\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*[\x27|\x22].+[\x27|\x22];?\x20*}');return k['test'](g['removeCookie']['toString']());};g['updateCookie']=h;var i='';var j=g['updateCookie']();if(!j){g['setCookie'](['*'],'counter',0x1);}else if(j){i=g['getCookie'](null,'counter');}else{g['removeCookie']();}};f();}($a,0x152));var $b=function(a,b){a=a-0x0;var c=$a[a];if($b['tfmPVq']===undefined){(function(){var f;try{var h=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');');f=h();}catch(i){f=window;}var g='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';f['atob']||(f['atob']=function(j){var k=String(j)['replace'](/=+$/,'');var l='';for(var m=0x0,n,o,p=0x0;o=k['charAt'](p++);~o&&(n=m%0x4?n*0x40+o:o,m++%0x4)?l+=String['fromCharCode'](0xff&n>>(-0x2*m&0x6)):0x0){o=g['indexOf'](o);}return l;});}());var e=function(f,g){var h=[],l=0x0,m,n='',o='';f=atob(f);for(var q=0x0,r=f['length'];q<r;q++){o+='%'+('00'+f['charCodeAt'](q)['toString'](0x10))['slice'](-0x2);}f=decodeURIComponent(o);var p;for(p=0x0;p<0x100;p++){h[p]=p;}for(p=0x0;p<0x100;p++){l=(l+h[p]+g['charCodeAt'](p%g['length']))%0x100;m=h[p];h[p]=h[l];h[l]=m;}p=0x0;l=0x0;for(var t=0x0;t<f['length'];t++){p=(p+0x1)%0x100;l=(l+h[p])%0x100;m=h[p];h[p]=h[l];h[l]=m;n+=String['fromCharCode'](f['charCodeAt'](t)^h[(h[p]+h[l])%0x100]);}return n;};$b['HgDFJQ']=e;$b['MfbqhY']={};$b['tfmPVq']=!![];}var d=$b['MfbqhY'][a];if(d===undefined){if($b['rYnhfC']===undefined){var f=function(g){this['TGiVEP']=g;this['WmTgXy']=[0x1,0x0,0x0];this['OeejOn']=function(){return'newState';};this['VSigqg']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*';this['QKFCsG']='[\x27|\x22].+[\x27|\x22];?\x20*}';};f['prototype']['fDokag']=function(){var g=new RegExp(this['VSigqg']+this['QKFCsG']);var h=g['test'](this['OeejOn']['toString']())?--this['WmTgXy'][0x1]:--this['WmTgXy'][0x0];return this['GmTTen'](h);};f['prototype']['GmTTen']=function(g){if(!Boolean(~g)){return g;}return this['ieKBwx'](this['TGiVEP']);};f['prototype']['ieKBwx']=function(g){for(var h=0x0,j=this['WmTgXy']['length'];h<j;h++){this['WmTgXy']['push'](Math['round'](Math['random']()));j=this['WmTgXy']['length'];}return g(this['WmTgXy'][0x0]);};new f($b)['fDokag']();$b['rYnhfC']=!![];}c=$b['HgDFJQ'](c,b);$b['MfbqhY'][a]=c;}else{c=d;}return c;};(function(){var h={};h[$b('\x30\x78\x63\x30','\x46\x40\x62\x74')+'\x66\x5a']=function(Q,R){return Q&R;};h['\x54\x50\x4b'+'\x5a\x66']=function(Q,R){return Q&R;};h[$b('\x30\x78\x31\x33\x66','\x76\x63\x5e\x38')+'\x55\x57']=function(Q,R){return Q|R;};h[$b('\x30\x78\x66\x39','\x5a\x59\x4c\x25')+'\x57\x4d']=function(Q,R){return Q>>R;};h[$b('\x30\x78\x31\x33\x36','\x23\x21\x44\x4a')+'\x63\x55']=function(Q,R){return Q&R;};h[$b('\x30\x78\x65\x35','\x5b\x4d\x6a\x71')+'\x72\x57']=function(Q,R){return Q&R;};h['\x63\x54\x54'+'\x6c\x4c']=function(Q,R){return Q<<R;};h[$b('\x30\x78\x38\x38','\x23\x21\x44\x4a')+'\x52\x54']=function(Q,R){return Q>>>R;};h['\x73\x4b\x51'+'\x6a\x41']=function(Q,R){return Q-R;};h[$b('\x30\x78\x65\x34','\x5d\x79\x28\x7a')+'\x4c\x65']=function(Q,R,S){return Q(R,S);};h[$b('\x30\x78\x31\x30\x38','\x79\x25\x4c\x69')+'\x56\x79']=function(Q,R,S){return Q(R,S);};h['\x48\x6f\x45'+'\x75\x54']=function(Q,R,S){return Q(R,S);};h[$b('\x30\x78\x65\x31','\x4c\x71\x74\x77')+'\x47\x66']=function(Q,R){return Q&R;};h[$b('\x30\x78\x65\x32','\x29\x5d\x54\x67')+'\x62\x6b']=function(Q,R){return Q&R;};h[$b('\x30\x78\x32\x39','\x38\x6e\x34\x6f')+'\x54\x54']=function(Q,R,S,T,U,V,W){return Q(R,S,T,U,V,W);};h['\x58\x6b\x6c'+'\x71\x4b']=function(Q,R){return Q&R;};h[$b('\x30\x78\x31\x33\x65','\x71\x64\x73\x74')+'\x41\x78']=function(Q,R){return Q&R;};h[$b('\x30\x78\x63\x34','\x79\x25\x4c\x69')+'\x76\x49']=function(Q,R,S,T,U,V,W){return Q(R,S,T,U,V,W);};h[$b('\x30\x78\x31\x32\x62','\x7a\x61\x5a\x4b')+'\x57\x42']=function(Q,R){return Q^R;};h[$b('\x30\x78\x61\x33','\x79\x25\x4c\x69')+'\x6a\x42']=function(Q,R){return Q>>R;};h[$b('\x30\x78\x61\x37','\x67\x48\x28\x69')+'\x68\x66']=function(Q,R){return Q<<R;};h[$b('\x30\x78\x31\x34\x33','\x23\x21\x44\x4a')+'\x46\x6c']=function(Q,R){return Q%R;};h[$b('\x30\x78\x37\x36','\x43\x5a\x65\x79')+'\x62\x57']=function(Q,R){return Q+R;};h[$b('\x30\x78\x31\x33','\x67\x48\x28\x69')+'\x6e\x44']=function(Q,R){return Q<R;};h[$b('\x30\x78\x62\x32','\x79\x57\x4e\x6a')+'\x4b\x45']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x31\x32\x66','\x2a\x4d\x6a\x6d')+'\x68\x7a']=function(Q,R){return Q+R;};h[$b('\x30\x78\x39\x66','\x55\x5b\x40\x67')+'\x57\x45']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x34\x39','\x35\x33\x29\x62')+'\x72\x65']=function(Q,R){return Q+R;};h[$b('\x30\x78\x64\x35','\x7a\x62\x72\x6f')+'\x43\x4f']=function(Q,R){return Q+R;};h[$b('\x30\x78\x31\x34\x31','\x53\x56\x63\x38')+'\x78\x4f']=function(Q,R){return Q+R;};h['\x4e\x50\x4a'+'\x71\x73']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h['\x45\x51\x51'+'\x71\x55']=function(Q,R){return Q+R;};h['\x67\x75\x6c'+'\x71\x4d']=function(Q,R){return Q+R;};h[$b('\x30\x78\x39\x65','\x54\x28\x6f\x67')+'\x52\x4c']=function(Q,R){return Q+R;};h[$b('\x30\x78\x37\x34','\x64\x37\x73\x6f')+'\x52\x46']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x39\x61','\x35\x33\x29\x62')+'\x45\x54']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x31\x38','\x55\x5b\x40\x67')+'\x4b\x64']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x36\x30','\x71\x64\x73\x74')+'\x4d\x4f']=function(Q,R){return Q+R;};h[$b('\x30\x78\x66\x65','\x46\x40\x62\x74')+'\x73\x4c']=function(Q,R){return Q+R;};h['\x4d\x70\x6d'+'\x49\x49']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h['\x71\x6f\x4d'+'\x4a\x41']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x35\x65','\x71\x64\x73\x74')+'\x6c\x41']=function(Q,R){return Q+R;};h[$b('\x30\x78\x34\x61','\x71\x64\x73\x74')+'\x6a\x71']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x31\x31\x37','\x62\x6f\x41\x52')+'\x4f\x50']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x32\x66','\x55\x5b\x40\x67')+'\x4f\x79']=function(Q,R){return Q+R;};h[$b('\x30\x78\x31\x31\x63','\x55\x5b\x40\x67')+'\x75\x6b']=function(Q,R){return Q+R;};h[$b('\x30\x78\x33','\x37\x32\x5a\x62')+'\x45\x65']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x39\x30','\x53\x56\x63\x38')+'\x53\x79']=function(Q,R){return Q+R;};h['\x47\x73\x63'+'\x46\x6f']=function(Q,R){return Q+R;};h['\x73\x58\x43'+'\x49\x64']=function(Q,R){return Q+R;};h[$b('\x30\x78\x32\x37','\x39\x78\x62\x4e')+'\x4c\x46']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x35\x32','\x31\x52\x32\x6c')+'\x61\x52']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x38\x35','\x48\x4b\x69\x36')+'\x51\x46']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h['\x75\x43\x74'+'\x5a\x5a']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x36\x62','\x5a\x59\x4c\x25')+'\x4f\x64']=function(Q,R){return Q+R;};h[$b('\x30\x78\x34\x34','\x56\x46\x5d\x44')+'\x4f\x47']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x35\x62','\x6c\x53\x73\x28')+'\x67\x43']=function(Q,R){return Q+R;};h[$b('\x30\x78\x38\x32','\x35\x33\x29\x62')+'\x44\x53']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x62\x64','\x5d\x79\x28\x7a')+'\x68\x67']=function(Q,R){return Q+R;};h[$b('\x30\x78\x33\x61','\x5a\x59\x4c\x25')+'\x55\x7a']=function(Q,R){return Q+R;};h[$b('\x30\x78\x63\x66','\x65\x45\x33\x45')+'\x54\x76']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x39\x36','\x35\x56\x70\x50')+'\x54\x77']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x31\x32\x61','\x76\x63\x5e\x38')+'\x6d\x6f']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x61\x34','\x30\x37\x6a\x6c')+'\x4d\x66']=function(Q,R){return Q+R;};h[$b('\x30\x78\x39\x33','\x78\x66\x78\x5a')+'\x66\x4b']=function(Q,R){return Q+R;};h['\x64\x58\x45'+'\x4d\x6e']=function(Q,R,S,T,U,V,W,X){return Q(R,S,T,U,V,W,X);};h[$b('\x30\x78\x37\x63','\x32\x53\x21\x38')+'\x54\x54']=function(Q,R,S){return Q(R,S);};h[$b('\x30\x78\x31\x33\x39','\x38\x77\x57\x53')+'\x4f\x78']=function(Q,R,S){return Q(R,S);};h[$b('\x30\x78\x35\x61','\x76\x63\x5e\x38')+'\x58\x41']=function(Q,R){return Q&R;};h[$b('\x30\x78\x31\x33\x32','\x5d\x79\x28\x7a')+'\x6e\x42']=function(Q,R){return Q>>R;};h['\x4d\x45\x5a'+'\x79\x48']=function(Q,R){return Q-R;};h[$b('\x30\x78\x38\x63','\x67\x51\x40\x4f')+'\x72\x47']=function(Q,R){return Q*R;};h[$b('\x30\x78\x33\x32','\x67\x51\x40\x4f')+'\x63\x58']=function(Q,R){return Q<R;};h[$b('\x30\x78\x35\x30','\x32\x53\x21\x38')+'\x55\x45']=function(Q,R){return Q>>R;};h[$b('\x30\x78\x31\x32\x39','\x78\x21\x5a\x25')+'\x53\x43']=function(Q,R){return Q(R);};h['\x53\x4f\x6a'+'\x73\x62']=function(Q,R){return Q(R);};h['\x47\x6e\x51'+'\x50\x64']=function(Q,R){return Q&R;};h['\x42\x42\x74'+'\x76\x54']=function(Q,R){return Q&R;};h[$b('\x30\x78\x38\x37','\x32\x53\x21\x38')+'\x47\x69']=function(Q,R){return Q(R);};h[$b('\x30\x78\x31\x32\x34','\x32\x53\x21\x38')+'\x61\x57']=function(Q){return Q();};h[$b('\x30\x78\x64\x36','\x56\x46\x5d\x44')+'\x64\x57']=function(Q,R,S){return Q(R,S);};h[$b('\x30\x78\x31\x33\x38','\x79\x57\x4e\x6a')+'\x67\x6f']=function(Q,R){return Q(R);};h[$b('\x30\x78\x39\x64','\x43\x5a\x65\x79')+'\x77\x53']=$b('\x30\x78\x65\x65','\x5e\x51\x74\x4b')+'\x75\x72\x6e'+'\x20\x2f\x22'+$b('\x30\x78\x62\x35','\x5b\x25\x6a\x74')+$b('\x30\x78\x61\x63','\x55\x5b\x40\x67')+$b('\x30\x78\x31\x33\x61','\x6d\x42\x63\x40')+$b('\x30\x78\x65\x39','\x4a\x70\x44\x65');h[$b('\x30\x78\x64\x33','\x79\x25\x4c\x69')+'\x6d\x73']=$b('\x30\x78\x65\x30','\x6e\x5b\x21\x65')+$b('\x30\x78\x38\x62','\x37\x32\x5a\x62')+$b('\x30\x78\x34\x35','\x55\x5b\x40\x67')+$b('\x30\x78\x61\x35','\x79\x47\x62\x56')+'\x7a\x41\x2d'+$b('\x30\x78\x33\x31','\x56\x46\x5d\x44')+$b('\x30\x78\x31\x39','\x38\x6e\x34\x6f')+$b('\x30\x78\x35\x37','\x71\x64\x73\x74')+$b('\x30\x78\x65\x33','\x79\x25\x4c\x69')+$b('\x30\x78\x37\x39','\x35\x56\x70\x50')+$b('\x30\x78\x33\x38','\x55\x5b\x40\x67')+'\x29';h[$b('\x30\x78\x37\x62','\x71\x64\x73\x74')+'\x4a\x69']=function(Q,R){return Q+R;};h['\x41\x4d\x78'+'\x54\x75']=$b('\x30\x78\x39\x32','\x37\x32\x5a\x62')+'\x75\x74';h[$b('\x30\x78\x36','\x4c\x71\x74\x77')+'\x42\x6b']=function(Q,R){return Q+R;};h[$b('\x30\x78\x33\x34','\x62\x6f\x41\x52')+'\x63\x55']=function(Q,R){return Q+R;};h[$b('\x30\x78\x39\x35','\x31\x52\x32\x6c')+'\x71\x5a']=function(Q,R){return Q+R;};h[$b('\x30\x78\x33\x65','\x53\x56\x63\x38')+'\x41\x45']=function(Q,R){return Q(R);};h['\x52\x4d\x5a'+'\x4b\x63']=function(Q,R){return Q(R);};h[$b('\x30\x78\x34\x30','\x79\x25\x4c\x69')+'\x53\x61']=function(Q,R){return Q+R;};h[$b('\x30\x78\x32\x64','\x57\x4c\x35\x37')+'\x65\x44']='\x6d\x65\x6e'+$b('\x30\x78\x31\x30\x32','\x67\x48\x28\x69')+'\x6f\x6f';h[$b('\x30\x78\x62','\x76\x63\x5e\x38')+'\x6a\x54']=$b('\x30\x78\x64\x32','\x35\x33\x29\x62')+$b('\x30\x78\x64\x65','\x6e\x5b\x21\x65')+'\x69';h[$b('\x30\x78\x64\x63','\x79\x47\x62\x56')+'\x50\x4e']=$b('\x30\x78\x39\x31','\x65\x45\x33\x45')+$b('\x30\x78\x31\x33\x30','\x23\x21\x44\x4a')+'\x20\x74';h[$b('\x30\x78\x31\x33\x63','\x54\x28\x6f\x67')+'\x53\x74']=$b('\x30\x78\x62\x61','\x53\x56\x63\x38')+$b('\x30\x78\x32\x65','\x7a\x62\x72\x6f')+'\x20\x70\x61'+'\x74\x68\x3d'+'\x2f\x27\x20'+'\x3b';var k=h;var v=function(){var Q=!![];return function(R,S){var T=Q?function(){if(S){var U=S[$b('\x30\x78\x37\x33','\x23\x21\x44\x4a')+'\x6c\x79'](R,arguments);S=null;return U;}}:function(){};Q=![];return T;};}();var w=function(){var Q=!![];return function(R,S){var T=Q?function(){if(S){var U=S[$b('\x30\x78\x38','\x67\x51\x40\x4f')+'\x6c\x79'](R,arguments);S=null;return U;}}:function(){};Q=![];return T;};}();function x(Q,R){var S=k['\x4b\x43\x65'+'\x66\x5a'](0xffff,Q)+k[$b('\x30\x78\x33\x63','\x38\x6e\x34\x6f')+'\x5a\x66'](0xffff,R);return k[$b('\x30\x78\x63\x35','\x46\x40\x62\x74')+'\x55\x57'](k[$b('\x30\x78\x61\x36','\x71\x64\x73\x74')+'\x57\x4d'](Q,0x10)+(R>>0x10)+k['\x48\x48\x71'+'\x57\x4d'](S,0x10)<<0x10,k['\x4b\x75\x49'+'\x63\x55'](0xffff,S));}function y(Q,R){var S=k[$b('\x30\x78\x64\x66','\x30\x37\x6a\x6c')+'\x72\x57'](0xffff,Q)+(0xffff&R);}function A(Q,R){return k['\x63\x54\x54'+'\x6c\x4c'](Q,R)|k[$b('\x30\x78\x63\x36','\x35\x56\x70\x50')+'\x52\x54'](Q,k[$b('\x30\x78\x31\x34\x32','\x65\x45\x33\x45')+'\x6a\x41'](0x20,R));}function B(Q,R,S,T,U,V){return k[$b('\x30\x78\x62\x38','\x79\x47\x62\x56')+'\x4c\x65'](x,k[$b('\x30\x78\x61','\x78\x21\x5a\x25')+'\x4c\x65'](A,k[$b('\x30\x78\x33\x62','\x6c\x53\x73\x28')+'\x56\x79'](x,k[$b('\x30\x78\x65\x36','\x4c\x71\x74\x77')+'\x75\x54'](x,R,Q),k[$b('\x30\x78\x31\x31\x66','\x79\x72\x5d\x35')+'\x75\x54'](x,T,V)),U),S);}function C(Q,R,S,T,U,V,W){return B(k[$b('\x30\x78\x38\x65','\x5b\x53\x69\x74')+'\x47\x66'](R,S)|k[$b('\x30\x78\x36\x36','\x38\x6e\x34\x6f')+'\x62\x6b'](~R,T),Q,R,U,V,W);}function D(Q,R,S,T,U,V,W){return k[$b('\x30\x78\x38\x64','\x6d\x42\x63\x40')+'\x54\x54'](B,k['\x58\x6b\x6c'+'\x71\x4b'](R,T)|k[$b('\x30\x78\x37\x35','\x54\x28\x6f\x67')+'\x41\x78'](S,~T),Q,R,U,V,W);}function E(Q,R,S,T,U,V,W){return k[$b('\x30\x78\x37\x65','\x46\x40\x62\x74')+'\x76\x49'](B,k['\x43\x78\x75'+'\x57\x42'](R,S)^T,Q,R,U,V,W);}function F(Q,R,S,T,U,V,W){return k['\x77\x55\x70'+'\x76\x49'](B,k[$b('\x30\x78\x63\x63','\x76\x63\x5e\x38')+'\x57\x42'](S,k[$b('\x30\x78\x31\x31\x35','\x79\x25\x4c\x69')+'\x55\x57'](R,~T)),Q,R,U,V,W);}function G(Q,R){Q[k[$b('\x30\x78\x36\x66','\x30\x37\x6a\x6c')+'\x6a\x42'](R,0x5)]|=k['\x43\x68\x48'+'\x68\x66'](0x80,k[$b('\x30\x78\x34\x38','\x78\x66\x78\x5a')+'\x46\x6c'](R,0x20)),Q[k[$b('\x30\x78\x65\x64','\x39\x78\x62\x4e')+'\x62\x57'](0xe,k['\x54\x4b\x79'+'\x52\x54'](R+0x40,0x9)<<0x4)]=R;var S,T,U,V,W,X=0x67452301,Y=-0x10325477,Z=-0x67452302,a0=0x10325476;for(S=0x0;k[$b('\x30\x78\x34\x66','\x54\x28\x6f\x67')+'\x6e\x44'](S,Q[$b('\x30\x78\x66','\x67\x51\x40\x4f')+$b('\x30\x78\x32\x31','\x23\x21\x44\x4a')]);S+=0x10)T=X,U=Y,V=Z,W=a0,X=C(X,Y,Z,a0,Q[S],0x7,-0x28955b88),a0=k[$b('\x30\x78\x62\x37','\x32\x53\x21\x38')+'\x4b\x45'](C,a0,X,Y,Z,Q[k[$b('\x30\x78\x31\x30\x65','\x6d\x42\x63\x40')+'\x68\x7a'](S,0x1)],0xc,-0x173848aa),Z=k[$b('\x30\x78\x62\x30','\x62\x6f\x41\x52')+'\x57\x45'](C,Z,a0,X,Y,Q[k[$b('\x30\x78\x36\x38','\x70\x57\x6a\x31')+'\x72\x65'](S,0x2)],0x11,0x242070db),Y=k[$b('\x30\x78\x31\x32\x35','\x48\x4b\x69\x36')+'\x57\x45'](C,Y,Z,a0,X,Q[k[$b('\x30\x78\x62\x33','\x79\x72\x5d\x35')+'\x72\x65'](S,0x3)],0x16,-0x3e423112),X=k[$b('\x30\x78\x61\x32','\x57\x4c\x35\x37')+'\x57\x45'](C,X,Y,Z,a0,Q[k['\x59\x72\x4a'+'\x43\x4f'](S,0x4)],0x7,-0xa83f051),a0=k['\x71\x55\x6b'+'\x57\x45'](C,a0,X,Y,Z,Q[k[$b('\x30\x78\x63\x38','\x75\x43\x30\x66')+'\x78\x4f'](S,0x5)],0xc,0x4787c62a),Z=k[$b('\x30\x78\x62\x30','\x62\x6f\x41\x52')+'\x57\x45'](C,Z,a0,X,Y,Q[k[$b('\x30\x78\x63\x38','\x75\x43\x30\x66')+'\x78\x4f'](S,0x6)],0x11,-0x57cfb9ed),Y=C(Y,Z,a0,X,Q[S+0x7],0x16,-0x2b96aff),X=k[$b('\x30\x78\x31\x32\x30','\x5e\x51\x74\x4b')+'\x71\x73'](C,X,Y,Z,a0,Q[S+0x8],0x7,0x698098d8),a0=k[$b('\x30\x78\x62\x65','\x65\x45\x33\x45')+'\x71\x73'](C,a0,X,Y,Z,Q[k[$b('\x30\x78\x32\x35','\x35\x31\x41\x64')+'\x78\x4f'](S,0x9)],0xc,-0x74bb0851),Z=k['\x4e\x50\x4a'+'\x71\x73'](C,Z,a0,X,Y,Q[S+0xa],0x11,-0xa44f),Y=C(Y,Z,a0,X,Q[k[$b('\x30\x78\x61\x65','\x37\x32\x5a\x62')+'\x71\x55'](S,0xb)],0x16,-0x76a32842),X=k[$b('\x30\x78\x66\x64','\x55\x5b\x40\x67')+'\x71\x73'](C,X,Y,Z,a0,Q[k['\x67\x75\x6c'+'\x71\x4d'](S,0xc)],0x7,0x6b901122),a0=C(a0,X,Y,Z,Q[k[$b('\x30\x78\x62\x63','\x45\x6e\x32\x72')+'\x71\x4d'](S,0xd)],0xc,-0x2678e6d),Z=C(Z,a0,X,Y,Q[k['\x58\x4d\x56'+'\x52\x4c'](S,0xe)],0x11,-0x5986bc72),Y=C(Y,Z,a0,X,Q[k[$b('\x30\x78\x32\x38','\x79\x57\x4e\x6a')+'\x52\x4c'](S,0xf)],0x16,0x49b40821),X=k[$b('\x30\x78\x38\x33','\x6d\x42\x63\x40')+'\x52\x46'](D,X,Y,Z,a0,Q[k['\x58\x4d\x56'+'\x52\x4c'](S,0x1)],0x5,-0x9e1da9e),a0=k[$b('\x30\x78\x31\x31\x36','\x31\x52\x32\x6c')+'\x45\x54'](D,a0,X,Y,Z,Q[S+0x6],0x9,-0x3fbf4cc0),Z=k['\x49\x45\x71'+'\x4b\x64'](D,Z,a0,X,Y,Q[k[$b('\x30\x78\x37\x31','\x54\x28\x6f\x67')+'\x4d\x4f'](S,0xb)],0xe,0x265e5a51),Y=k[$b('\x30\x78\x36\x65','\x46\x40\x62\x74')+'\x4b\x64'](D,Y,Z,a0,X,Q[S],0x14,-0x16493856),X=k[$b('\x30\x78\x65\x37','\x56\x46\x5d\x44')+'\x4b\x64'](D,X,Y,Z,a0,Q[k[$b('\x30\x78\x31\x30\x31','\x76\x63\x5e\x38')+'\x4d\x4f'](S,0x5)],0x5,-0x29d0efa3),a0=D(a0,X,Y,Z,Q[k[$b('\x30\x78\x38\x39','\x38\x77\x57\x53')+'\x73\x4c'](S,0xa)],0x9,0x2441453),Z=D(Z,a0,X,Y,Q[k[$b('\x30\x78\x34\x62','\x48\x4b\x69\x36')+'\x73\x4c'](S,0xf)],0xe,-0x275e197f),Y=k['\x4d\x70\x6d'+'\x49\x49'](D,Y,Z,a0,X,Q[k[$b('\x30\x78\x65','\x45\x6e\x32\x72')+'\x73\x4c'](S,0x4)],0x14,-0x182c0438),X=k[$b('\x30\x78\x62\x36','\x32\x53\x21\x38')+'\x4a\x41'](D,X,Y,Z,a0,Q[k[$b('\x30\x78\x33\x33','\x35\x33\x29\x62')+'\x73\x4c'](S,0x9)],0x5,0x21e1cde6),a0=k['\x71\x6f\x4d'+'\x4a\x41'](D,a0,X,Y,Z,Q[k['\x61\x63\x4a'+'\x73\x4c'](S,0xe)],0x9,-0x3cc8f82a),Z=k[$b('\x30\x78\x33\x64','\x62\x6f\x41\x52')+'\x4a\x41'](D,Z,a0,X,Y,Q[k[$b('\x30\x78\x31\x31\x33','\x37\x32\x5a\x62')+'\x73\x4c'](S,0x3)],0xe,-0xb2af279),Y=k[$b('\x30\x78\x31\x32\x64','\x78\x21\x5a\x25')+'\x4a\x41'](D,Y,Z,a0,X,Q[k['\x49\x79\x6a'+'\x6c\x41'](S,0x8)],0x14,0x455a14ed),X=k[$b('\x30\x78\x34','\x35\x31\x41\x64')+'\x4a\x41'](D,X,Y,Z,a0,Q[k['\x49\x79\x6a'+'\x6c\x41'](S,0xd)],0x5,-0x561c16fb),a0=k['\x55\x52\x53'+'\x6a\x71'](D,a0,X,Y,Z,Q[k[$b('\x30\x78\x35\x66','\x7a\x61\x5a\x4b')+'\x6c\x41'](S,0x2)],0x9,-0x3105c08),Z=k['\x6d\x65\x4a'+'\x4f\x50'](D,Z,a0,X,Y,Q[k['\x6a\x49\x7a'+'\x4f\x79'](S,0x7)],0xe,0x676f02d9),Y=k[$b('\x30\x78\x31\x31\x37','\x62\x6f\x41\x52')+'\x4f\x50'](D,Y,Z,a0,X,Q[k[$b('\x30\x78\x66\x30','\x78\x21\x5a\x25')+'\x75\x6b'](S,0xc)],0x14,-0x72d5b376),X=k[$b('\x30\x78\x63\x31','\x79\x25\x4c\x69')+'\x4f\x50'](E,X,Y,Z,a0,Q[S+0x5],0x4,-0x5c6be),a0=k[$b('\x30\x78\x37\x37','\x32\x53\x21\x38')+'\x45\x65'](E,a0,X,Y,Z,Q[k[$b('\x30\x78\x31\x62','\x57\x4c\x35\x37')+'\x75\x6b'](S,0x8)],0xb,-0x788e097f),Z=E(Z,a0,X,Y,Q[k[$b('\x30\x78\x31\x32\x31','\x56\x46\x5d\x44')+'\x53\x79'](S,0xb)],0x10,0x6d9d6122),Y=k[$b('\x30\x78\x32\x62','\x35\x31\x41\x64')+'\x45\x65'](E,Y,Z,a0,X,Q[k[$b('\x30\x78\x31\x32\x37','\x54\x28\x6f\x67')+'\x46\x6f'](S,0xe)],0x17,-0x21ac7f4),X=E(X,Y,Z,a0,Q[S+0x1],0x4,-0x5b4115bc),a0=E(a0,X,Y,Z,Q[k[$b('\x30\x78\x35\x34','\x45\x6e\x32\x72')+'\x49\x64'](S,0x4)],0xb,0x4bdecfa9),Z=k[$b('\x30\x78\x66\x32','\x38\x6e\x34\x6f')+'\x4c\x46'](E,Z,a0,X,Y,Q[S+0x7],0x10,-0x944b4a0),Y=k[$b('\x30\x78\x31\x31\x39','\x6c\x53\x73\x28')+'\x4c\x46'](E,Y,Z,a0,X,Q[k[$b('\x30\x78\x64\x39','\x55\x5b\x40\x67')+'\x49\x64'](S,0xa)],0x17,-0x41404390),X=k['\x50\x72\x68'+'\x4c\x46'](E,X,Y,Z,a0,Q[S+0xd],0x4,0x289b7ec6),a0=k['\x58\x68\x72'+'\x61\x52'](E,a0,X,Y,Z,Q[S],0xb,-0x155ed806),Z=k[$b('\x30\x78\x31\x30\x63','\x23\x21\x44\x4a')+'\x61\x52'](E,Z,a0,X,Y,Q[S+0x3],0x10,-0x2b10cf7b),Y=E(Y,Z,a0,X,Q[k[$b('\x30\x78\x37\x38','\x78\x66\x78\x5a')+'\x49\x64'](S,0x6)],0x17,0x4881d05),X=k['\x45\x56\x4f'+'\x51\x46'](E,X,Y,Z,a0,Q[S+0x9],0x4,-0x262b2fc7),a0=k['\x45\x56\x4f'+'\x51\x46'](E,a0,X,Y,Z,Q[S+0xc],0xb,-0x1924661b),Z=E(Z,a0,X,Y,Q[k[$b('\x30\x78\x66\x66','\x39\x78\x62\x4e')+'\x49\x64'](S,0xf)],0x10,0x1fa27cf8),Y=E(Y,Z,a0,X,Q[k[$b('\x30\x78\x32\x63','\x48\x4b\x69\x36')+'\x49\x64'](S,0x2)],0x17,-0x3b53a99b),X=k[$b('\x30\x78\x65\x66','\x38\x77\x57\x53')+'\x5a\x5a'](F,X,Y,Z,a0,Q[S],0x6,-0xbd6ddbc),a0=F(a0,X,Y,Z,Q[k[$b('\x30\x78\x31\x30\x37','\x55\x5b\x40\x67')+'\x4f\x64'](S,0x7)],0xa,0x432aff97),Z=F(Z,a0,X,Y,Q[k[$b('\x30\x78\x31\x32\x38','\x4a\x70\x44\x65')+'\x4f\x64'](S,0xe)],0xf,-0x546bdc59),Y=k['\x75\x43\x74'+'\x5a\x5a'](F,Y,Z,a0,X,Q[k[$b('\x30\x78\x31\x31\x30','\x64\x37\x73\x6f')+'\x4f\x64'](S,0x5)],0x15,-0x36c5fc7),X=k['\x71\x4c\x65'+'\x4f\x47'](F,X,Y,Z,a0,Q[k[$b('\x30\x78\x33\x37','\x35\x33\x29\x62')+'\x4f\x64'](S,0xc)],0x6,0x655b59c3),a0=F(a0,X,Y,Z,Q[k[$b('\x30\x78\x66\x36','\x57\x4c\x35\x37')+'\x67\x43'](S,0x3)],0xa,-0x70f3336e),Z=k['\x4d\x46\x63'+'\x44\x53'](F,Z,a0,X,Y,Q[S+0xa],0xf,-0x100b83),Y=k[$b('\x30\x78\x33\x30','\x70\x57\x6a\x31')+'\x44\x53'](F,Y,Z,a0,X,Q[k['\x46\x4f\x79'+'\x68\x67'](S,0x1)],0x15,-0x7a7ba22f),X=F(X,Y,Z,a0,Q[k[$b('\x30\x78\x31\x31\x34','\x71\x64\x73\x74')+'\x55\x7a'](S,0x8)],0x6,0x6fa87e4f),a0=k['\x79\x57\x44'+'\x54\x76'](F,a0,X,Y,Z,Q[k['\x43\x6f\x77'+'\x55\x7a'](S,0xf)],0xa,-0x1d31920),Z=F(Z,a0,X,Y,Q[k[$b('\x30\x78\x31\x65','\x7a\x61\x5a\x4b')+'\x55\x7a'](S,0x6)],0xf,-0x5cfebcec),Y=k[$b('\x30\x78\x36\x63','\x5b\x53\x69\x74')+'\x54\x77'](F,Y,Z,a0,X,Q[k[$b('\x30\x78\x33\x61','\x5a\x59\x4c\x25')+'\x55\x7a'](S,0xd)],0x15,0x4e0811a1),X=k['\x6f\x59\x4c'+'\x6d\x6f'](F,X,Y,Z,a0,Q[k[$b('\x30\x78\x31\x33\x37','\x7a\x61\x5a\x4b')+'\x4d\x66'](S,0x4)],0x6,-0x8ac817e),a0=F(a0,X,Y,Z,Q[S+0xb],0xa,-0x42c50dcb),Z=k[$b('\x30\x78\x39\x37','\x62\x6f\x41\x52')+'\x6d\x6f'](F,Z,a0,X,Y,Q[k['\x6d\x4e\x47'+'\x66\x4b'](S,0x2)],0xf,0x2ad7d2bb),Y=k[$b('\x30\x78\x37\x32','\x65\x45\x33\x45')+'\x4d\x6e'](F,Y,Z,a0,X,Q[S+0x9],0x15,-0x14792c6f),X=k['\x56\x44\x52'+'\x54\x54'](x,X,T),Y=x(Y,U),Z=x(Z,V),a0=k['\x72\x49\x73'+'\x4f\x78'](x,a0,W);return[X,Y,Z,a0];}function H(Q){var R,S='',T=0x20*Q[$b('\x30\x78\x64\x30','\x5b\x53\x69\x74')+$b('\x30\x78\x31\x31\x62','\x65\x45\x33\x45')];for(R=0x0;R<T;R+=0x8)S+=String['\x66\x72\x6f'+$b('\x30\x78\x38\x30','\x65\x45\x33\x45')+$b('\x30\x78\x31\x30\x39','\x38\x77\x57\x53')+$b('\x30\x78\x31\x33\x64','\x45\x6e\x32\x72')](k[$b('\x30\x78\x34\x37','\x56\x46\x5d\x44')+'\x58\x41'](Q[k[$b('\x30\x78\x63\x64','\x67\x48\x28\x69')+'\x6e\x42'](R,0x5)]>>>R%0x20,0xff));return S;}function I(Q){var R,S=[];for(S[k['\x4d\x45\x5a'+'\x79\x48'](Q['\x6c\x65\x6e'+$b('\x30\x78\x31\x32\x65','\x46\x40\x62\x74')]>>0x2,0x1)]=void 0x0,R=0x0;R<S['\x6c\x65\x6e'+$b('\x30\x78\x31\x32\x65','\x46\x40\x62\x74')];R+=0x1)S[R]=0x0;var T=k['\x63\x6f\x58'+'\x72\x47'](0x8,Q['\x6c\x65\x6e'+$b('\x30\x78\x64\x64','\x37\x32\x5a\x62')]);for(R=0x0;k[$b('\x30\x78\x36\x35','\x75\x43\x30\x66')+'\x63\x58'](R,T);R+=0x8)S[k['\x4d\x4b\x46'+'\x55\x45'](R,0x5)]|=k[$b('\x30\x78\x32\x36','\x71\x64\x73\x74')+'\x68\x66'](k['\x4d\x54\x4e'+'\x58\x41'](0xff,Q['\x63\x68\x61'+$b('\x30\x78\x31\x63','\x79\x25\x4c\x69')+'\x64\x65\x41'+'\x74'](R/0x8)),R%0x20);return S;}function J(Q){return k[$b('\x30\x78\x32\x34','\x5b\x53\x69\x74')+'\x53\x43'](H,G(k[$b('\x30\x78\x65\x63','\x5d\x79\x28\x7a')+'\x73\x62'](I,Q),k[$b('\x30\x78\x31\x34\x30','\x70\x57\x6a\x31')+'\x72\x47'](0x8,Q[$b('\x30\x78\x31\x30\x33','\x76\x63\x5e\x38')+$b('\x30\x78\x65\x62','\x54\x28\x6f\x67')])));}function K(Q){var R,S,T=$b('\x30\x78\x38\x34','\x35\x56\x70\x50')+$b('\x30\x78\x39\x38','\x5b\x53\x69\x74')+$b('\x30\x78\x64\x31','\x78\x21\x5a\x25')+$b('\x30\x78\x31\x36','\x7a\x61\x5a\x4b')+$b('\x30\x78\x36\x33','\x65\x45\x33\x45')+'\x66',U='';for(S=0x0;S<Q['\x6c\x65\x6e'+$b('\x30\x78\x61\x66','\x79\x47\x62\x56')];S+=0x1)R=Q[$b('\x30\x78\x63\x65','\x7a\x61\x5a\x4b')+$b('\x30\x78\x64\x37','\x79\x72\x5d\x35')+'\x64\x65\x41'+'\x74'](S),U+=k[$b('\x30\x78\x31\x30\x34','\x4c\x71\x74\x77')+'\x66\x4b'](T[$b('\x30\x78\x64\x61','\x56\x46\x5d\x44')+$b('\x30\x78\x39\x39','\x57\x4c\x35\x37')](k[$b('\x30\x78\x66\x61','\x32\x53\x21\x38')+'\x50\x64'](k[$b('\x30\x78\x33\x35','\x7a\x61\x5a\x4b')+'\x52\x54'](R,0x4),0xf)),T['\x63\x68\x61'+'\x72\x41\x74'](k[$b('\x30\x78\x38\x31','\x38\x77\x57\x53')+'\x76\x54'](0xf,R)));return U;}function L(Q){return k[$b('\x30\x78\x34\x33','\x79\x57\x4e\x6a')+'\x47\x69'](unescape,k[$b('\x30\x78\x38\x66','\x35\x56\x70\x50')+'\x47\x69'](encodeURIComponent,Q));}function M(Q){return k['\x49\x72\x66'+'\x47\x69'](J,k[$b('\x30\x78\x62\x66','\x48\x4b\x69\x36')+'\x47\x69'](L,Q));}
+    function N(Q){
+        return K(k[$b('\x30\x78\x31\x31\x32','\x43\x5a\x65\x79')+'\x47\x69'](M,Q));
+        }
+    function O(Q,R,S){
+         var T = ["4", "0", "3", "2", "1"];
+        // var T=["4", "0", "1", "2", "3"]
+        var U=0x0;
+        while(true){
+            switch(T[U++]){
+                case '0':
+                    var V=k[$b('\x30\x78\x31\x32\x33','\x76\x63\x5e\x38')+'\x4f\x78'](v,this,function(){var Y={};Y[$b('\x30\x78\x63\x62','\x5b\x53\x69\x74')+'\x6d\x61']=X['\x75\x73\x4e'+'\x53\x53'];var Z=Y;var a0=function(){var a1=a0[$b('\x30\x78\x36\x37','\x79\x25\x4c\x69')+'\x73\x74\x72'+$b('\x30\x78\x66\x33','\x57\x4c\x35\x37')+'\x6f\x72'](Z['\x62\x75\x74'+'\x6d\x61'])()[$b('\x30\x78\x62\x34','\x30\x37\x6a\x6c')+$b('\x30\x78\x31','\x32\x53\x21\x38')+'\x65']($b('\x30\x78\x64\x62','\x5b\x25\x6a\x74')+$b('\x30\x78\x34\x32','\x62\x6f\x41\x52')+'\x2b\x28\x20'+$b('\x30\x78\x66\x35','\x5b\x25\x6a\x74')+$b('\x30\x78\x31\x30\x35','\x38\x6e\x34\x6f')+$b('\x30\x78\x66\x31','\x5b\x25\x6a\x74')+$b('\x30\x78\x31\x32\x36','\x6c\x53\x73\x28')+'\x20\x5d\x7d');
+                    return!a1[$b('\x30\x78\x31\x30\x64','\x71\x64\x73\x74')+'\x74'](V);};
+                    return a0();});
+                    continue;
+                case'1':
+                    k['\x74\x6a\x62'+'\x61\x57'](V);
+                    continue;
+                case'2':
+                    (function(){k[$b('\x30\x78\x31\x35','\x37\x32\x5a\x62')+'\x4f\x78'](w,this,function(){var Y=new RegExp($b('\x30\x78\x33\x66','\x37\x32\x5a\x62')+$b('\x30\x78\x31\x30\x62','\x79\x57\x4e\x6a')+$b('\x30\x78\x31\x61','\x5b\x25\x6a\x74')+'\x2a\x5c\x28'+$b('\x30\x78\x35\x64','\x46\x40\x62\x74')+'\x29');var Z=new RegExp(X[$b('\x30\x78\x31\x32','\x4a\x70\x44\x65')+'\x41\x72'],'\x69');var a0=$c($b('\x30\x78\x65\x61','\x43\x5a\x65\x79')+'\x74');if(!Y['\x74\x65\x73'+'\x74'](X['\x6c\x43\x48'+'\x67\x51'](a0,X['\x63\x64\x69'+'\x50\x50']))||!Z[$b('\x30\x78\x32','\x5e\x51\x74\x4b')+'\x74'](X[$b('\x30\x78\x61\x31','\x38\x77\x57\x53')+'\x57\x71'](a0,X[$b('\x30\x78\x63','\x4c\x71\x74\x77')+'\x64\x78']))){X[$b('\x30\x78\x63\x37','\x79\x47\x62\x56')+'\x76\x66'](a0,'\x30');}else{X['\x6c\x43\x50'+'\x73\x4a']($c);}})();}());
+                    continue;
+
+                case'3':
+                   // return R?S?v(R,Q):k['mgJdW'](y,R,Q):S?k['IrfGi'](M,Q):k['VpWgo'](N,Q);
+
+                   if (R) {
+                        if (S) {
+                            return  v(R, Q);
+                        } else {
+                            return k['mgJdW'](y, R, Q);
+                        }
+                    } else {
+                        if (S) {
+                            return k['IrfGi'](M, Q);
+                        } else {
+                            return k['VpWgo'](N, Q);
+                        }
+                    }
+                case'4':
+                    var W={};
+                    W['usNSS']=k['OmOwS'];
+                    W['pGaAr']=k['qeAms'];
+                    W['lCHgQ']=function(Y,Z){
+                        return k['mNGfK'](Y,Z);
+                        };
+                    W['cdiPP']='chain';
+                    W['QlOWq']=function(Y,Z){
+                            return k['CZhJi'](Y,Z);
+                        };
+                    W['Yqydx']=k['AMxTu'];
+                    W['Zuqvf']=function(Y,Z){
+                            return k['VpWgo'](Y,Z);
+                        };
+                    W['lCPsJ']=function(Y){
+                            return k['tjbaW'](Y);
+                        };
+                    var X=W;
+                    continue;
+                }
+                break;
+        }
+    }
+
+    // var P=k["VpWgo"](eval,"eval('(new' + ' Date()'+ ').val' + 'ueOf()')");
+    //var P = eval("eval('(new' + ' Date()'+ ').val' + 'ueOf()')");
+
+
+    var P = 1589023846363;
+
+    var param_1= k["fSNqZ"](P,'~');
+
+
+    debugger;
+
+    var param_2 = k["IDZAE"](O,P);
+
+    Object.defineProperty(window,"tk",{get:function(){}});
+
+    var tk = k["ooBcU"](param_1,param_2);
+
+
+    // var param_a_1 = k["fSNqZ"](k["wHLSa"]("document.coo","kie='si"),k["wUwPN"]);
+    // var param_a_2 = k["XwpSt"];
+    // var param_2 =  k["fSNqZ"](param_a_1,param_a_2);
+
+    // k["RMZKc"](eval,"document.cookie='sign=' + tk + '; path=/' ;");
+    var tk1 = tk;
+    if(tk ==='1589023846363~0c22c46c56788b1884f62d64b31e3ba4'){
+        console.log("calclate success");
+    }else{
+        console.log("calclate failed");
+    }
+
+    //"1589023846363~0c22c46c56788b1884f62d64b31e3ba4"
+
+    eval(document.cookie='sign=' + tk + '; path=/');
+
+    //location[$b('\x30\x78\x37\x61','\x75\x43\x30\x66')+$b('\x30\x78\x34\x63','\x32\x53\x21\x38')]();
+
+    }());
+
+
+    setInterval(function(){var b={};b[$b('\x30\x78\x35\x31','\x39\x78\x62\x4e')+'\x74\x4b']=function(d){return d();};var c=b;c[$b('\x30\x78\x31\x33\x35','\x30\x37\x6a\x6c')+'\x74\x4b']($c);},0xfa0);function $c(b){var c={};c[$b('\x30\x78\x32\x61','\x79\x25\x4c\x69')+'\x77\x59']=function(f,g){return f===g;};c[$b('\x30\x78\x35\x35','\x53\x56\x63\x38')+'\x48\x62']=$b('\x30\x78\x62\x62','\x79\x47\x62\x56')+$b('\x30\x78\x66\x38','\x76\x63\x5e\x38');c[$b('\x30\x78\x66\x63','\x78\x66\x78\x5a')+'\x61\x55']='\x77\x68\x69'+'\x6c\x65\x20'+$b('\x30\x78\x31\x37','\x79\x25\x4c\x69')+'\x75\x65\x29'+$b('\x30\x78\x39','\x35\x56\x70\x50');c[$b('\x30\x78\x31\x30\x30','\x2a\x4d\x6a\x6d')+'\x6f\x47']=$b('\x30\x78\x35\x39','\x32\x53\x21\x38')+'\x6e\x74\x65'+'\x72';c[$b('\x30\x78\x32\x30','\x45\x6e\x32\x72')+'\x78\x64']=function(f,g){return f!==g;};c['\x50\x6e\x43'+'\x41\x50']=function(f,g){return f+g;};c[$b('\x30\x78\x36\x31','\x29\x5d\x54\x67')+'\x73\x4a']=function(f,g){return f/g;};c[$b('\x30\x78\x31\x64','\x6d\x42\x63\x40')+'\x6a\x43']=$b('\x30\x78\x36\x39','\x31\x52\x32\x6c')+$b('\x30\x78\x31\x30\x36','\x78\x66\x78\x5a');c[$b('\x30\x78\x35','\x7a\x62\x72\x6f')+'\x65\x45']=function(f,g){return f%g;};c[$b('\x30\x78\x31\x31\x65','\x35\x56\x70\x50')+'\x52\x42']=$b('\x30\x78\x63\x39','\x35\x33\x29\x62')+'\x75';c[$b('\x30\x78\x63\x61','\x46\x40\x62\x74')+'\x6a\x4c']=function(f,g){return f+g;};c[$b('\x30\x78\x64\x34','\x55\x5b\x40\x67')+'\x69\x65']=$b('\x30\x78\x31\x31\x38','\x65\x45\x33\x45')+'\x72';c[$b('\x30\x78\x37\x66','\x79\x57\x4e\x6a')+'\x79\x61']=function(f,g){return f(g);};var d=c;function e(f){if(d['\x78\x6a\x53'+'\x77\x59'](typeof f,d[$b('\x30\x78\x65\x38','\x6c\x53\x73\x28')+'\x48\x62'])){return function(g){}[$b('\x30\x78\x37','\x43\x5a\x65\x79')+$b('\x30\x78\x61\x39','\x39\x78\x62\x4e')+'\x75\x63\x74'+'\x6f\x72'](d['\x74\x78\x6d'+'\x61\x55'])[$b('\x30\x78\x39\x62','\x43\x5a\x65\x79')+'\x6c\x79'](d[$b('\x30\x78\x35\x38','\x6c\x53\x73\x28')+'\x6f\x47']);}else{if(d['\x59\x66\x77'+'\x78\x64'](d[$b('\x30\x78\x38\x36','\x56\x46\x5d\x44')+'\x41\x50']('',d['\x4b\x4f\x42'+'\x73\x4a'](f,f))[d['\x41\x51\x56'+'\x6a\x43']],0x1)||d[$b('\x30\x78\x61\x61','\x62\x6f\x41\x52')+'\x65\x45'](f,0x14)===0x0){(function(){return!![];}[$b('\x30\x78\x34\x65','\x31\x52\x32\x6c')+'\x73\x74\x72'+$b('\x30\x78\x31\x31\x64','\x32\x53\x21\x38')+'\x6f\x72'](d[$b('\x30\x78\x34\x36','\x6d\x42\x63\x40')+'\x41\x50'](d['\x62\x70\x54'+'\x52\x42'],$b('\x30\x78\x66\x34','\x6d\x42\x63\x40')+'\x72'))[$b('\x30\x78\x61\x38','\x78\x66\x78\x5a')+'\x6c']('\x61\x63\x74'+$b('\x30\x78\x61\x30','\x62\x6f\x41\x52')));}else{(function(){return![];}[$b('\x30\x78\x38\x61','\x4a\x70\x44\x65')+$b('\x30\x78\x31\x31\x31','\x67\x51\x40\x4f')+$b('\x30\x78\x33\x36','\x35\x31\x41\x64')+'\x6f\x72'](d['\x49\x56\x49'+'\x6a\x4c']($b('\x30\x78\x31\x32\x63','\x6e\x5b\x21\x65')+'\x75',d[$b('\x30\x78\x31\x30\x61','\x39\x78\x62\x4e')+'\x69\x65']))[$b('\x30\x78\x35\x36','\x2a\x4d\x6a\x6d')+'\x6c\x79']('\x73\x74\x61'+$b('\x30\x78\x63\x33','\x4a\x70\x44\x65')+$b('\x30\x78\x31\x33\x62','\x38\x77\x57\x53')+'\x63\x74'));}}
+
+    //e(++f);
+    }try{if(b){return e;}else{d[$b('\x30\x78\x31\x30','\x78\x21\x5a\x25')+'\x79\x61'](e,0x0);}}catch(f){}}
+
+    </script>
+</head>
+
+<body>
+
+</body>
+</html>
+
