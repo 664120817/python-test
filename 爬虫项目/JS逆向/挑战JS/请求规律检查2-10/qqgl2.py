@@ -1,0 +1,45 @@
+import requests,json
+
+url="http://www.python-spider.com/api/challenge10"
+
+headers={
+
+"Accept":"application/json, text/javascript, */*; q=0.01",
+# "Accept-Encoding":"gzip, deflate",
+"Accept-Language":"zh-CN,zh;q=0.9",
+# "Cache-Control":"no-cache",
+"Connection":"keep-alive",
+# "Content-Length":"6",
+"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
+"Cookie":"sessionid=pbrdl1kdf2siu16m6dho4avzfxbng7l3; sign=1612790744178~1ccdb96a1a5638a5aef2fc97050f65be; Hm_lvt_337e99a01a907a08d00bed4a1a52e35d=1612693138,1612707458,1612788514,1612790745; Hm_lpvt_337e99a01a907a08d00bed4a1a52e35d=1612790950",
+# "Host":"www.python-spider.com",
+"Origin":"http://www.python-spider.com",
+# "Pragma":"no-cache",
+"Referer":"http://www.python-spider.com/challenge/10",
+"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
+# "X-Requested-With":"XMLHttpRequest",
+
+}
+
+
+total=0
+for page in range(1,101):
+    for j in range(1, 9):
+        print("第:" + str(page) + "页\n")
+        data = {
+            "page": page,
+        }
+
+        response =requests.post(url=url,data=data,headers=headers)
+        print(response.text,response.url)
+        if response.status_code != 200:
+            continue
+        arrays = response.json()['data']
+        print(arrays)
+        for item in arrays:
+            num = item['value']
+            total = total + int(num)
+        print("total:",total)
+        break
+
+print("total: " + str(total))
