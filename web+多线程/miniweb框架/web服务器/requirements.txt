@@ -78,7 +78,7 @@ parsel==1.5.1
 patsy==0.5.1
 pefile==2018.8.8
 Pillow==6.0.0
-pipenv==2018.11.26
+pipenv==2022.1.8
 pnumpy==1.4.0
 prettytable==0.7.2
 protobuf==3.8.0
