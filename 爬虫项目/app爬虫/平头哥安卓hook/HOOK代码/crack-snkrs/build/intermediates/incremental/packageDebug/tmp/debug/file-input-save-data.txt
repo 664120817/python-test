@@ -1,0 +1,19 @@
+#Internal package file, do not edit.
+#Wed Jan 19 23:06:40 CST 2022
+3.set=ASSET
+3.path=ratel_scheduler.json
+2.base=C\:\\Users\\Administrator\\Desktop\\rat1\\ratel-demo\\crack-snkrs\\build\\intermediates\\merged_assets\\debug\\out
+0.path=classes.dex
+count=4
+1.set=DEX
+2.path=xposed_init
+2.baseType=DIRECTORY
+0.base=C\:\\Users\\Administrator\\Desktop\\rat1\\ratel-demo\\crack-snkrs\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out
+2.set=ASSET
+3.base=C\:\\Users\\Administrator\\Desktop\\rat1\\ratel-demo\\crack-snkrs\\build\\intermediates\\merged_assets\\debug\\out
+1.baseType=DIRECTORY
+3.baseType=DIRECTORY
+1.path=classes.dex
+0.baseType=DIRECTORY
+1.base=C\:\\Users\\Administrator\\Desktop\\rat1\\ratel-demo\\crack-snkrs\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
+0.set=DEX

@@ -1,0 +1,182 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\f3fc407d8683606b638ca09c08071f67\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\4e4b257e25c56f87fd5ff7754b4a8b77\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\a51b76973cbffb4f65433b419207fa2a\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\77e866c69c249fc2b988c490d2823552\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b4d8a49ea6f88d0ff4a7140189006631\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\ab7b6e792166e32e5cc18fc19e87bd25\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\02ce51f235c749813f15feea6851332c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e2df15cb7ac0bb876fa3d219dbdd9da9\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\9cc233ad6cb9445af918bbd3c5da3045\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\323a1125e4c6a12ba458d76a48038ac2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\6a7bbe7aea034ad57939a9bd29b0b612\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5b63a815825731b0503cca230455f3e7\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\08a5bb17f02cb9e71d8dd7557417d7e3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e3f79d084661568060b6cd53b2cf7b19\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\27a59da7b5a54dfd671023c3c0e42b60\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\8be0275cbfe3f7c4429363c9743293c7\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b3fbb48a0ff32475d27cba7637525376\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\401e2a44ad3372b4db7d526a5f160436\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\c335edf9d348bf1ad7295c3472ed327c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\ebba0849b2430bae48a21a0d7ac96370\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\323869c1865a7e30d128afba31b38d2e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\16ae8cb7dd47e95f29c26dd8ef9b4161\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\af2f3d209f20edc6e959e6966ef3ac06\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\7c0745dd6b5a8a12a7ed46600d292d1b\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\941565c82060d204718d0fe94ba7dd33\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\86d074753227a41df45ac32a9fac4975\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\da74dc6c8192f41661dd2424691eb1d8\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+	package
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:4:5-43
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:1-38:12
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:6:5-36:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\4e4b257e25c56f87fd5ff7754b4a8b77\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\4e4b257e25c56f87fd5ff7754b4a8b77\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\8be0275cbfe3f7c4429363c9743293c7\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\8be0275cbfe3f7c4429363c9743293c7\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b3fbb48a0ff32475d27cba7637525376\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b3fbb48a0ff32475d27cba7637525376\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\8be0275cbfe3f7c4429363c9743293c7\AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:11:9-35
+	android:label
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:9:9-41
+	tools:ignore
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:13:9-48
+	android:roundIcon
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:10:9-54
+	android:icon
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:8:9-43
+	android:allowBackup
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:7:9-35
+	android:theme
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:12:9-40
+meta-data#xposedmodule
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:14:9-16:36
+	android:value
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:16:13-33
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:15:13-40
+meta-data#xposeddescription
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:17:9-19:48
+	android:value
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:19:13-45
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:18:13-45
+meta-data#virtualEnvModel
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:21:9-23:37
+	android:value
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:23:13-34
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:22:13-43
+meta-data#for_ratel_apps
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:25:9-27:46
+	android:value
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:27:13-43
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:26:13-42
+activity#com.virjar.ratel.snkrs.MainActivity
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:29:9-35:20
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:29:19-69
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:30:13-34:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:31:17-69
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:31:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:33:17-77
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml:33:27-74
+uses-sdk
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\f3fc407d8683606b638ca09c08071f67\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\f3fc407d8683606b638ca09c08071f67\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\4e4b257e25c56f87fd5ff7754b4a8b77\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\4e4b257e25c56f87fd5ff7754b4a8b77\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\a51b76973cbffb4f65433b419207fa2a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\a51b76973cbffb4f65433b419207fa2a\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\77e866c69c249fc2b988c490d2823552\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\77e866c69c249fc2b988c490d2823552\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b4d8a49ea6f88d0ff4a7140189006631\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b4d8a49ea6f88d0ff4a7140189006631\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\ab7b6e792166e32e5cc18fc19e87bd25\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\ab7b6e792166e32e5cc18fc19e87bd25\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\02ce51f235c749813f15feea6851332c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\02ce51f235c749813f15feea6851332c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e2df15cb7ac0bb876fa3d219dbdd9da9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e2df15cb7ac0bb876fa3d219dbdd9da9\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\9cc233ad6cb9445af918bbd3c5da3045\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\9cc233ad6cb9445af918bbd3c5da3045\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\323a1125e4c6a12ba458d76a48038ac2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\323a1125e4c6a12ba458d76a48038ac2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\6a7bbe7aea034ad57939a9bd29b0b612\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\6a7bbe7aea034ad57939a9bd29b0b612\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5b63a815825731b0503cca230455f3e7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5b63a815825731b0503cca230455f3e7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\08a5bb17f02cb9e71d8dd7557417d7e3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\08a5bb17f02cb9e71d8dd7557417d7e3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e3f79d084661568060b6cd53b2cf7b19\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e3f79d084661568060b6cd53b2cf7b19\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\27a59da7b5a54dfd671023c3c0e42b60\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\27a59da7b5a54dfd671023c3c0e42b60\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\8be0275cbfe3f7c4429363c9743293c7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\8be0275cbfe3f7c4429363c9743293c7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b3fbb48a0ff32475d27cba7637525376\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\b3fbb48a0ff32475d27cba7637525376\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\401e2a44ad3372b4db7d526a5f160436\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\401e2a44ad3372b4db7d526a5f160436\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\c335edf9d348bf1ad7295c3472ed327c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\c335edf9d348bf1ad7295c3472ed327c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\ebba0849b2430bae48a21a0d7ac96370\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\ebba0849b2430bae48a21a0d7ac96370\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\323869c1865a7e30d128afba31b38d2e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\323869c1865a7e30d128afba31b38d2e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\16ae8cb7dd47e95f29c26dd8ef9b4161\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\16ae8cb7dd47e95f29c26dd8ef9b4161\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\af2f3d209f20edc6e959e6966ef3ac06\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\af2f3d209f20edc6e959e6966ef3ac06\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\7c0745dd6b5a8a12a7ed46600d292d1b\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\7c0745dd6b5a8a12a7ed46600d292d1b\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\941565c82060d204718d0fe94ba7dd33\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\941565c82060d204718d0fe94ba7dd33\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\86d074753227a41df45ac32a9fac4975\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\86d074753227a41df45ac32a9fac4975\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\da74dc6c8192f41661dd2424691eb1d8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\da74dc6c8192f41661dd2424691eb1d8\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Administrator\Desktop\rat1\ratel-demo\crack-snkrs\src\main\AndroidManifest.xml

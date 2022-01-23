@@ -1,0 +1,6 @@
+{
+  "taskImplementationClassName": "com.virjar.ratel.snkrs.SnkrsTaskScheduler",
+  "cronExpression": "* * 0 * * ?",
+  "maxDuration": 600,
+  "restartApp": true
+}
