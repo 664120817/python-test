@@ -137,7 +137,7 @@ termcolor==1.1.0
 tesserocr==2.4.0
 tornado==4.5.3
 tushare==1.2.35
-Twisted==19.2.0
+Twisted==22.2.0
 tzlocal==2.0.0
 u-msgpack-python==2.5.1
 urllib3==1.24.1
