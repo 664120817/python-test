@@ -1,0 +1,13 @@
+# Spawn 模式，直接抓包用法：python r0capture.py -U -f com.dianping.v1                       python r0capture.py -U com.dianping.v1 -p 123.pcap
+
+#frida-Dexdump 脱壳  https://github.com/hluwa/FRIDA-DEXDump          指定脱壳：frida-dexdump -U -f com.app.pkgname          前台脱壳：frida-dexdump -FU
+
+
+objection hook 基础
+# objection -g packageName explore
+#
+# Hook Java方法
+# android hooking watch class_method com.xxx.xxx.methodName --dump-args --dump-backtrace --dump-return
+#
+# Hook Java类
+# android hooking watch class com.xxx.xxx
