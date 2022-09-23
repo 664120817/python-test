@@ -81,7 +81,7 @@ Pillow==6.0.0
 pipenv==2018.11.26
 pnumpy==1.4.0
 prettytable==0.7.2
-protobuf==3.8.0
+protobuf==3.18.3
 proxypool==0.0.0.dev0
 pyasn1==0.4.5
 pyasn1-modules==0.2.5
