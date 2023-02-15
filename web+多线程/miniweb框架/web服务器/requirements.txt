@@ -146,7 +146,7 @@ virtualenv-clone==0.4.0
 virtualenvwrapper-win==1.2.5
 w3lib==1.20.0
 webencodings==0.5.1
-Werkzeug==0.11.15
+Werkzeug==2.2.3
 wrapt==1.11.2
 WsgiDAV==3.0.0
 xlrd==1.2.0
