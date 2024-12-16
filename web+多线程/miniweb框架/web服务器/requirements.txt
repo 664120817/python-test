@@ -39,7 +39,7 @@ fonttools==4.0.0
 future==0.17.1
 gast==0.2.2
 gensim==3.7.3
-gerapy==0.8.5
+gerapy==0.9.9
 gevent==1.4.0
 google-pasta==0.1.7
 greenlet==0.4.15
